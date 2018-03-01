@@ -1,16 +1,20 @@
 package com.docusign.hackathon.controller;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -29,9 +33,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.docusign.hackathon.connect.model.DocuSignEnvelopeInformation;
 import com.docusign.hackathon.connect.model.RecipientStatus;
 import com.docusign.hackathon.connect.model.RecipientStatusCode;
+import com.docusign.hackathon.db.model.GoogleCredential;
+import com.docusign.hackathon.db.model.GoogleCredentialPK;
+import com.docusign.hackathon.db.model.NotificationDetail;
+import com.docusign.hackathon.db.model.NotificationDetailPK;
 import com.docusign.hackathon.model.EstimateInfo;
 import com.docusign.hackathon.model.EstimateRequest;
 import com.docusign.hackathon.model.EstimateResponse;
+import com.docusign.hackathon.repository.GoogleCredentialRepository;
+import com.docusign.hackathon.repository.NotificationDetailRepository;
 import com.docusign.hackathon.service.GoogleMailService;
 import com.docusign.hackathon.service.POCService;
 import com.docusign.hackathon.transformer.EstimateRequestTransformer;
@@ -39,7 +49,6 @@ import com.docusign.hackathon.util.HackathonUtil;
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.services.gmail.Gmail;
 
 @Controller
 public class POCController {
@@ -56,8 +65,11 @@ public class POCController {
 	@Autowired
 	GoogleMailService googleMailService;
 
-	@Value("${heroku.poc.oauth.redirecturi}")
-	private String herokuOAuthRedirectUri;
+	@Autowired
+	GoogleCredentialRepository googleCredentialRepository;
+
+	@Autowired
+	NotificationDetailRepository notificationDetailRepository;
 
 	@Value("${heroku.gmail.sender.username}")
 	private String gmailSenderUsername;
@@ -68,23 +80,34 @@ public class POCController {
 	@Value("${heroku.gmail.notification.email.body}")
 	private String gmailNotificationEmailBody;
 
-	@RequestMapping(value = "/estimates", method = RequestMethod.GET)
-	public String estimates(ModelMap model) {
+	@Value("${heroku.gmail.notification.autoresponded.email.title}")
+	private String gmailDeliveryFailEmailTitle;
 
-		System.out.println("POCController.estimates()");
+	@Value("${heroku.gmail.notification.autoresponded.email.body}")
+	private String gmailDeliveryFailEmailBody;
+
+	@Value("${heroku.gmail.application.name}")
+	private String gmailApplicationName;
+
+	private static final Logger logger = LogManager.getLogger(POCController.class);
+
+	@RequestMapping(value = "/estimates", method = RequestMethod.GET)
+	public String estimates(ModelMap model, HttpServletRequest request) {
+
+		logger.debug("POCController.estimates()");
 
 		return "estimates";
 	}
 
 	@RequestMapping(value = "/gmailauth", method = RequestMethod.GET)
-	public String gmailauth(ModelMap model) {
+	public String gmailauth(ModelMap model, HttpServletRequest request) {
 
-		System.out.println("POCController.gmailauth()");
+		logger.debug("POCController.gmailauth()");
 
 		GoogleAuthorizationCodeFlow flow = hackathonUtil.getGoogleAuthFlow();
 
 		AuthorizationCodeRequestUrl authorizationUrl = flow.newAuthorizationUrl()
-				.setRedirectUri(herokuOAuthRedirectUri);
+				.setRedirectUri(hackathonUtil.createRedirectUri(request));
 
 		String googleOAuthUrl = authorizationUrl.build();
 		model.put("googleOAuthUrl", googleOAuthUrl);
@@ -95,7 +118,7 @@ public class POCController {
 	@RequestMapping(value = "/successcallback", method = RequestMethod.GET)
 	public String successcallback(ModelMap model) {
 
-		System.out.println("POCController.successcallback()");
+		logger.debug("POCController.successcallback()");
 
 		return "successcallback";
 	}
@@ -103,16 +126,17 @@ public class POCController {
 	@RequestMapping(value = "/failcallback", method = RequestMethod.GET)
 	public String failcallback(ModelMap model) {
 
-		System.out.println("POCController.failcallback()");
+		logger.debug("POCController.failcallback()");
 
 		return "failcallback";
 	}
 
 	@RequestMapping(value = "/fetchGoogleToken", method = RequestMethod.GET)
+	@ResponseBody
 	public String fetchGoogleToken(@RequestParam("authCode") String authCode, HttpServletRequest request,
 			ModelMap model) {
 
-		System.out.println("POCController.fetchGoogleToken()");
+		logger.debug("POCController.fetchGoogleToken()");
 
 		String accessToken = null;
 
@@ -120,13 +144,24 @@ public class POCController {
 
 			GoogleAuthorizationCodeFlow flow = hackathonUtil.getGoogleAuthFlow();
 
-			TokenResponse response = flow.newTokenRequest(authCode).setRedirectUri(herokuOAuthRedirectUri).execute();
+			TokenResponse response = flow.newTokenRequest(authCode)
+					.setRedirectUri(hackathonUtil.createRedirectUri(request)).execute();
 
-			System.out.println("TokenType- " + response.getTokenType() + " AccessToken- " + response.getAccessToken()
-					+ " RefreshToken- " + response.getRefreshToken());
+			logger.debug("TokenType in POCController.fetchGoogleToken()- " + response.getTokenType());
 			accessToken = response.getAccessToken();
 
-			flow.createAndStoreCredential(response, gmailSenderUsername);
+			GoogleCredentialPK googleCredentialPK = new GoogleCredentialPK();
+			googleCredentialPK.setApplicationName(gmailApplicationName);
+			googleCredentialPK.setGoogleEmail(gmailSenderUsername);
+
+			GoogleCredential googleCredential = new GoogleCredential();
+			googleCredential.setGoogleCredentialPK(googleCredentialPK);
+			googleCredential.setAccessToken(response.getAccessToken());
+			googleCredential.setExpiresIn(new BigInteger(response.getExpiresInSeconds().toString()));
+			googleCredential.setRefreshToken(response.getRefreshToken());
+			googleCredential.setTokenType(response.getTokenType());
+
+			googleCredentialRepository.save(googleCredential);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -150,7 +185,7 @@ public class POCController {
 			authHeaderMap.put("Authorization", request.getHeader("Authorization"));
 		}
 
-		System.out.println("POCController.createEstimates() " + files + " RecipientInfoList size "
+		logger.debug("POCController.createEstimates() " + files + " RecipientInfoList size "
 				+ estimateInfo.getRecipientInfoList().size() + " estimateInfo- " + estimateInfo + " authHeaderMap- "
 				+ authHeaderMap);
 
@@ -160,7 +195,7 @@ public class POCController {
 		String envelopeId = pocService.createPOCService(estimateRequestList, estimateInfo.getEmailBlurb(),
 				estimateInfo.getEmailSubject(), authHeaderMap);
 
-		System.out.println("envelopeId in POCController.createEstimates()- " + envelopeId);
+		logger.info("envelopeId in POCController.createEstimates()- " + envelopeId);
 
 		EstimateResponse estimateResponse = new EstimateResponse();
 		estimateResponse.setEnvelopeId(envelopeId);
@@ -175,7 +210,7 @@ public class POCController {
 		if (null != docuSignEnvelopeInformation && null != docuSignEnvelopeInformation.getEnvelopeStatus()) {
 
 			String envelopeId = docuSignEnvelopeInformation.getEnvelopeStatus().getEnvelopeID();
-			System.out.println("EnvelopeId in POCController.notifySender()- " + envelopeId);
+			logger.info("EnvelopeId in POCController.notifySender()- " + envelopeId);
 
 			String senderEmail = docuSignEnvelopeInformation.getEnvelopeStatus().getEmail();
 
@@ -184,11 +219,28 @@ public class POCController {
 
 			for (RecipientStatus recipient : recipientStatusList) {
 
-				if (RecipientStatusCode.DELIVERED == recipient.getStatus()) {
+				String recipientEmail = recipient.getEmail();
+
+				NotificationDetailPK notificationDetailPK = new NotificationDetailPK();
+				notificationDetailPK.setEnvelopeId(envelopeId);
+				notificationDetailPK.setRecipientEmail(recipientEmail);
+
+				NotificationDetail notificationDetailAvailable = notificationDetailRepository
+						.findOne(notificationDetailPK);
+
+				logger.debug("Recipient Status in POCController.notifySender()" + recipient.getStatus());
+				if ((RecipientStatusCode.DELIVERED == recipient.getStatus()
+						|| RecipientStatusCode.COMPLETED == recipient.getStatus())
+						&& (null == notificationDetailAvailable
+								|| null == notificationDetailAvailable.getNotificationStatus())) {
 
 					String recipientName = recipient.getUserName();
-					String recipientEmail = recipient.getEmail();
 					XMLGregorianCalendar viewedTimeCalendar = recipient.getDelivered();
+
+					TimeZone timeZone = viewedTimeCalendar.getTimeZone(viewedTimeCalendar.getTimezone());
+					String timeZoneName = timeZone.getDisplayName();
+
+					logger.debug("TimeZone displayName " + timeZoneName);
 
 					Date viewedDateTime = viewedTimeCalendar.toGregorianCalendar().getTime();
 
@@ -196,25 +248,109 @@ public class POCController {
 					String viewedTime = hackathonUtil.convertXMLGregStrToTimestamp(viewedDateTime);
 
 					try {
-						Gmail service = hackathonUtil.createGmailService();
-
 						String emailSubject = MessageFormat.format(gmailNotificationEmailTitle, recipientName,
 								envelopeId);
 
 						String emailBody = MessageFormat.format(gmailNotificationEmailBody, recipientName,
-								recipientEmail, envelopeId, viewedDate, viewedTime);
-						googleMailService.Send(service, senderEmail, "", gmailSenderUsername, emailSubject, emailBody);
+								recipientEmail, envelopeId, viewedDate, viewedTime + " " + timeZoneName);
+
+						GoogleCredential googleCredential = fetchGoogleAccessToken();
+						googleMailService.Send(senderEmail, "", gmailSenderUsername, emailSubject, emailBody,
+								googleCredential.getTokenType(), googleCredential.getAccessToken());
+
+						NotificationDetail notificationDetailSave = new NotificationDetail();
+						notificationDetailSave.setNotificationDetailPK(notificationDetailPK);
+						notificationDetailSave.setNotificationStatus("sent");
+						notificationDetailSave.setSenderEmail(gmailSenderUsername);
+
+						notificationDetailRepository.save(notificationDetailSave);
 
 					} catch (IOException e) {
 						e.printStackTrace();
+
+						return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 					} catch (MessagingException e) {
 						e.printStackTrace();
+
+						return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+					} catch (Exception e) {
+
+						e.printStackTrace();
+
+						return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 					}
 				}
 			}
 		}
 
 		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/notifyDeliveryFailSender", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> notifyDeliveryFailSender(HttpServletRequest request,
+			@RequestBody DocuSignEnvelopeInformation docuSignEnvelopeInformation) {
+
+		if (null != docuSignEnvelopeInformation && null != docuSignEnvelopeInformation.getEnvelopeStatus()) {
+
+			String envelopeId = docuSignEnvelopeInformation.getEnvelopeStatus().getEnvelopeID();
+			logger.info("EnvelopeId in POCController.notifyDeliveryFailSender()- " + envelopeId);
+
+			String senderEmail = docuSignEnvelopeInformation.getEnvelopeStatus().getEmail();
+
+			List<RecipientStatus> recipientStatusList = docuSignEnvelopeInformation.getEnvelopeStatus()
+					.getRecipientStatuses().getRecipientStatus();
+
+			for (RecipientStatus recipient : recipientStatusList) {
+
+				if (RecipientStatusCode.AUTO_RESPONDED == recipient.getStatus()
+						|| !StringUtils.isEmpty(recipient.getAutoRespondedReason())) {
+
+					String recipientEmail = recipient.getEmail();
+
+					String emailSubject = MessageFormat.format(gmailDeliveryFailEmailTitle, recipientEmail);
+
+					String emailBody = MessageFormat.format(gmailDeliveryFailEmailBody, recipientEmail, envelopeId);
+
+					GoogleCredential googleCredential = fetchGoogleAccessToken();
+					try {
+						googleMailService.Send(senderEmail, "", gmailSenderUsername, emailSubject, emailBody,
+								googleCredential.getTokenType(), googleCredential.getAccessToken());
+					} catch (IOException e) {
+						e.printStackTrace();
+
+						return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+					} catch (MessagingException e) {
+						e.printStackTrace();
+
+						return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+					}
+				}
+			}
+		}
+		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+
+	private GoogleCredential fetchGoogleAccessToken() {
+
+		GoogleCredentialPK id = new GoogleCredentialPK();
+		id.setApplicationName(gmailApplicationName);
+		id.setGoogleEmail(gmailSenderUsername);
+
+		GoogleCredential googleCredential = googleCredentialRepository.findOne(id);
+
+		String accessToken = googleCredential.getAccessToken();
+		boolean accessTokenValid = googleMailService.validateAccessToken(accessToken);
+
+		if (!accessTokenValid) {
+
+			accessToken = googleMailService.refreshGoogleToken(googleCredential.getRefreshToken());
+			googleCredential.setAccessToken(accessToken);
+
+			googleCredentialRepository.save(googleCredential);
+		}
+
+		return googleCredential;
+
 	}
 
 }

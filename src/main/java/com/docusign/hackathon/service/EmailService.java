@@ -17,8 +17,8 @@ public class EmailService {
 
 	 public static void main(String[] args) {
 
-	        final String username = "docusign.sso@gmail.com";
-	        final String password = "docusign1";
+	        final String username = "user@gmail.com";
+	        final String password = "userpassword";
 
 	        Properties props = new Properties();
 	        props.put("mail.smtp.starttls.enable", "true");

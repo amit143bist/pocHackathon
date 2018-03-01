@@ -3,6 +3,8 @@ package com.docusign.hackathon.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -41,13 +43,12 @@ public class EnvelopeService {
 
 	@Value("${heroku.server.url}")
 	private String herokuServerUrl;
+	
+	private static final Logger logger = LogManager.getLogger(EnvelopeService.class);
 
 	public String createEnvelope(TwitterEnvelope twitterEnvelope) {
 
-		/*
-		 * String postMessage, String submitterName, String accessCode, String
-		 * approverName, String approverEmail
-		 */
+		logger.debug("EnvelopeService.createEnvelope()");
 		Recipients recipients = createRecipient(twitterEnvelope.getPostMessage(), twitterEnvelope.getSubmitterName(),
 				twitterEnvelope.getAccessCode(), twitterEnvelope.getApproverName(), twitterEnvelope.getApproverEmail());
 
@@ -79,7 +80,6 @@ public class EnvelopeService {
 		HttpHeaders httpHeaders = getHttpHeaders();
 
 		objectMapper.setSerializationInclusion(Include.NON_NULL);
-		objectMapper.configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, false);
 		objectMapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
 
 		String envelopeId = null;
@@ -88,14 +88,14 @@ public class EnvelopeService {
 			String msgBody = objectMapper.writeValueAsString(request);
 			HttpEntity<String> requestEntity = new HttpEntity<String>(msgBody, httpHeaders);
 
-			System.out.println("EnvelopeService.createEnvelope() " + requestEntity);
+			logger.debug("EnvelopeService.createEnvelope() " + requestEntity);
 
 			ResponseEntity<EnvelopeResponse> envelopeResponseEntity = restTemplate.exchange(
 					"https://demo.docusign.net/restapi/v2/accounts/1764240/envelopes", HttpMethod.POST, requestEntity,
 					EnvelopeResponse.class);
 
 			EnvelopeResponse envelopeResponse = envelopeResponseEntity.getBody();
-			System.out.println("EnvelopeService.createEnvelope() " + envelopeResponse.getEnvelopeId());
+			logger.info("EnvelopeService.createEnvelope() " + envelopeResponse.getEnvelopeId());
 
 			envelopeId = envelopeResponse.getEnvelopeId();
 
@@ -105,8 +105,8 @@ public class EnvelopeService {
 			if (e instanceof HttpClientErrorException) {
 
 				HttpClientErrorException exp = (HttpClientErrorException) e;
-				System.out.println(exp.getResponseBodyAsString());
-				System.out.println(exp.getMostSpecificCause());
+				logger.debug(exp.getResponseBodyAsString());
+				logger.debug(exp.getMostSpecificCause());
 			}
 		}
 
@@ -126,7 +126,6 @@ public class EnvelopeService {
 		recipientTokenRequest.setReturnUrl("https://polar-earth-93130.herokuapp.com/images/complete.png");
 
 		objectMapper.setSerializationInclusion(Include.NON_NULL);
-		objectMapper.configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, false);
 		objectMapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
 
 		try {
@@ -134,13 +133,13 @@ public class EnvelopeService {
 			String msgBody = objectMapper.writeValueAsString(recipientTokenRequest);
 			HttpEntity<String> requestEntity = new HttpEntity<String>(msgBody, httpHeaders);
 
-			System.out.println("EnvelopeService.recipientUrl() " + requestEntity);
+			logger.debug("EnvelopeService.recipientUrl() " + requestEntity);
 
 			ResponseEntity<EmbeddedUrlResponse> recipientUrlEntity = restTemplate
 					.exchange("https://demo.docusign.net/restapi/v2/accounts/1764240/envelopes/" + envelopeId
 							+ "/views/recipient", HttpMethod.POST, requestEntity, EmbeddedUrlResponse.class);
 
-			System.out.println("EnvelopeService.createEnvelope() " + recipientUrlEntity);
+			logger.debug("EnvelopeService.createEnvelope() " + recipientUrlEntity);
 
 			EmbeddedUrlResponse response = recipientUrlEntity.getBody();
 			recipientUrl = response.getUrl();
@@ -151,8 +150,8 @@ public class EnvelopeService {
 			if (e instanceof HttpClientErrorException) {
 
 				HttpClientErrorException exp = (HttpClientErrorException) e;
-				System.out.println(exp.getResponseBodyAsString());
-				System.out.println(exp.getMostSpecificCause());
+				logger.debug(exp.getResponseBodyAsString());
+				logger.debug(exp.getMostSpecificCause());
 			}
 		}
 
@@ -165,7 +164,7 @@ public class EnvelopeService {
 
 		HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
 
-		System.out.println("EnvelopeService.fetchRecipients() " + requestEntity);
+		logger.debug("EnvelopeService.fetchRecipients() " + requestEntity);
 
 		ResponseEntity<Recipients> recipientEntity = restTemplate.exchange(
 				"https://demo.docusign.net/restapi/v2/accounts/1764240/envelopes/" + envelopeId + "/recipients",
@@ -196,7 +195,6 @@ public class EnvelopeService {
 		}
 
 		objectMapper.setSerializationInclusion(Include.NON_NULL);
-		objectMapper.configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, false);
 		objectMapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
 
 		try {
@@ -207,15 +205,15 @@ public class EnvelopeService {
 					"https://demo.docusign.net/restapi/v2/accounts/1764240/envelopes/" + envelopeId + "/recipients",
 					HttpMethod.PUT, requestEntity, String.class);
 
-			System.out.println("EnvelopeService.updateRecipient() " + updateEntity);
+			logger.debug("EnvelopeService.updateRecipient() " + updateEntity);
 		} catch (Exception e) {
 			e.printStackTrace();
 
 			if (e instanceof HttpClientErrorException) {
 
 				HttpClientErrorException exp = (HttpClientErrorException) e;
-				System.out.println(exp.getResponseBodyAsString());
-				System.out.println(exp.getMostSpecificCause());
+				logger.debug(exp.getResponseBodyAsString());
+				logger.debug(exp.getMostSpecificCause());
 			}
 		}
 

@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -44,6 +46,8 @@ public class POCService {
 
 	@Autowired
 	ObjectMapper objectMapper;
+
+	private static final Logger logger = LogManager.getLogger(POCService.class);
 
 	public String createPOCService(List<EstimateRequest> estimateRequestList, String emailBlurb, String emailSubject,
 			Map<String, String> authHeaderMap) {
@@ -131,14 +135,14 @@ public class POCService {
 			String msgBody = objectMapper.writeValueAsString(request);
 			HttpEntity<String> requestEntity = new HttpEntity<String>(msgBody, httpHeaders);
 
-			System.out.println("POCService.createPOCService() " + requestEntity);
+			logger.debug("POCService.createPOCService() " + requestEntity);
 
 			ResponseEntity<EnvelopeResponse> envelopeResponseEntity = restTemplate.exchange(
 					"https://demo.docusign.net/restapi/v2/accounts/4465715/envelopes", HttpMethod.POST, requestEntity,
 					EnvelopeResponse.class);
 
 			EnvelopeResponse envelopeResponse = envelopeResponseEntity.getBody();
-			System.out.println("POCService.createEnvelope() " + envelopeResponse.getEnvelopeId());
+			logger.info("POCService.createEnvelope() " + envelopeResponse.getEnvelopeId());
 
 			envelopeId = envelopeResponse.getEnvelopeId();
 
@@ -148,8 +152,8 @@ public class POCService {
 			if (e instanceof HttpClientErrorException) {
 
 				HttpClientErrorException exp = (HttpClientErrorException) e;
-				System.out.println(exp.getResponseBodyAsString());
-				System.out.println(exp.getMostSpecificCause());
+				logger.error(exp.getResponseBodyAsString());
+				logger.error(exp.getMostSpecificCause());
 			}
 		}
 
@@ -160,19 +164,11 @@ public class POCService {
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 
-		/*
-		 * String auth = "{" + '"' + "Username" + '"' + ":" +
-		 * '"' + "docusign.sso+mockup@gmail.com" + '"' + "," + '"' + "Password"
-		 * + '"' + ":" + '"' + "testing1" + '"' + "," + '"' + "IntegratorKey" +
-		 * '"' + ":" + '"' + "b2de7918-917c-41cf-82b4-cb1d381eff3a" + '"' + "}";
-		 */
-
 		for (Entry<String, String> mapEntry : authHeaderMap.entrySet()) {
 
 			httpHeaders.add(mapEntry.getKey(), mapEntry.getValue());
 		}
 
-		// httpHeaders.add("X-DocuSign-Authentication", auth);
 		httpHeaders.add("Accept", MediaType.APPLICATION_JSON_VALUE);
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 

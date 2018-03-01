@@ -34,14 +34,15 @@
 			        data: ({authCode : authCode}),
 			        complete: function(data) {
 				          
-			        	  var retURL = data.returnURL.toString();
-				          console.log('AccessToken complete- ' + retURL);
+			        	  var accessToken = data.toString();
+				          console.log('AccessToken complete- ' + accessToken);
+				          window.location = "/estimates";
 				          
 				        },
 			        success: function(data) {
 			        	
-			        	  var retURL = data.returnURL.toString();
-			        	  console.log('AccessToken success- ' + retURL);
+			        	  var accessToken = data.toString();
+			        	  console.log('AccessToken success- ' + accessToken);
 			        	  window.location = "/estimates";
 			          
 			        }

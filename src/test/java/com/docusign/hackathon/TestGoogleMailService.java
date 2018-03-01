@@ -9,6 +9,9 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+
 import com.docusign.hackathon.service.GoogleMailService;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.StoredCredential;
@@ -66,15 +69,13 @@ public class TestGoogleMailService {
 					.setApplicationName("Hackathon2018").build();
 
 			GoogleMailService googleMailService = new GoogleMailService();
-			googleMailService.Send(service, "docusign.sso+partner1@gmail.com", "", "docusign.sso@gmail.com",
-					"Test API from GMAIL Service", "Test API Notification Body from GMAIL Service");
+			/*googleMailService.Send(null, "docusign.sso+partner1@gmail.com", "", "docusign.sso@gmail.com",
+					"Test API from GMAIL Service22", "Test API Notification Body from GMAIL Service using Rest API22");*/
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		} catch (MessagingException e) {
-			e.printStackTrace();
 		}
 	}
-
+	
 	private static DataStore<StoredCredential> getStoredCredentialDataStore() throws IOException {
 		File mailimporter = new File("C:\\Softwares\\gmail", ".mailimporter");
 		FileDataStoreFactory dataStoreFactory = new FileDataStoreFactory(mailimporter);

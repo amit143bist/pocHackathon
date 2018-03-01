@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,19 +36,21 @@ public class PortalController {
 
 	@Autowired
 	EnvelopeService envelopeService;
+	
+	private static final Logger logger = LogManager.getLogger(PortalController.class);
 
 	@RequestMapping(value = "/createEnvelope", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<String> createEnvelope(@RequestBody TwitterEnvelope twitterEnvelope) {
 
-		System.out.println("PortalController.createEnvelope() " + envelopeService);
+		logger.debug("PortalController.createEnvelope() " + envelopeService);
 
 		Status lastTweet = readPrivateTwitterMessage();
 		twitterEnvelope.setPostMessage(lastTweet.getText());
 		twitterEnvelope.setSubmitterName(lastTweet.getUser().getName());
 
 		String envelopeId = envelopeService.createEnvelope(twitterEnvelope);
-		System.out.println("PortalController.createEnvelope() " + twitterEnvelope);
+		logger.debug("PortalController.createEnvelope() " + twitterEnvelope);
 
 		return new ResponseEntity<String>(envelopeId, HttpStatus.OK);
 	}
@@ -59,7 +63,6 @@ public class PortalController {
 		twitter.setOAuthConsumer("uI0rvuvB2LOV2qHD5GcyEhwJN", "jIyGfMyaiBjvF3VdC8eTNmAOW2S8R7Tvx6wSlpuvh9efjJtK0r");
 		twitter.setOAuthAccessToken(accessToken);
 
-		System.out.println("TestTwitter.main()");
 		Paging paging = new Paging();
 		paging.setCount(1);
 		ResponseList<Status> userTimeLineList = null;
@@ -88,7 +91,7 @@ public class PortalController {
 
 		model.addAttribute("envelopeId", envelopeId);
 
-		System.out.println("PortalController.portalHome()");
+		logger.debug("PortalController.portalHome()");
 
 		return "home";
 	}
@@ -96,7 +99,7 @@ public class PortalController {
 	@RequestMapping(value = "/redirectSuccess", method = RequestMethod.GET)
 	public String portalRedirect() {
 
-		System.out.println("PortalController.portalRedirect()");
+		logger.debug("PortalController.portalRedirect()");
 
 		return "redirectSuccess";
 	}
@@ -106,6 +109,7 @@ public class PortalController {
 	public String validateAccessCode(@RequestParam(value = "accessCode") String accessCode,
 			@RequestParam(value = "envelopeId") String envelopeId, HttpServletRequest request) {
 
+		logger.debug("PortalController.validateAccessCode()");
 		Recipients recipients = envelopeService.fetchRecipients(envelopeId);
 
 		boolean accessCodeValid = false;
@@ -115,21 +119,14 @@ public class PortalController {
 
 			Signer signerRecipient = signers.get(0);
 
-			System.out.println("PortalController.validateAccessCode()- " + accessCode.replaceAll("\\W", ""));
-
-			System.out.println("PortalController.validateAccessCode()signerRecipient.getAccessCode() "
-					+ signerRecipient.getAccessCode());
-			System.out.println(
-					"PortalController.validateAccessCode()signerRecipient.getEmail() " + signerRecipient.getEmail());
 			if ((accessCode.replaceAll("\\W", "")).equalsIgnoreCase(signerRecipient.getAccessCode())) {
 
 				accessCodeValid = true;
-				// request.getSession().setAttribute("envelopeId", envelopeId);
 			}
 
 		}
 
-		System.out.println("PortalController.validateAccessCode() " + accessCodeValid);
+		logger.debug("PortalController.validateAccessCode() " + accessCodeValid);
 
 		return String.valueOf(accessCodeValid);
 	}
@@ -138,14 +135,7 @@ public class PortalController {
 	public String getRecipientViewUrl(HttpServletRequest request,
 			@RequestParam(value = "envelopeId") String envelopeId) {
 
-		System.out.println("PortalController.getRecipientViewUrl() " + envelopeId);
-
-		/*
-		 * if (null == envelopeId) {
-		 * 
-		 * envelopeId = (String)
-		 * request.getSession().getAttribute("envelopeId"); }
-		 */
+		logger.debug("PortalController.getRecipientViewUrl() " + envelopeId);
 
 		Recipients recipients = envelopeService.fetchRecipients(envelopeId);
 

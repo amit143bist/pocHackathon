@@ -91,7 +91,7 @@
 					
 					$.ajax({
 					    headers: {
-			                'X-DocuSign-Authentication': '{"Username": "docusign.sso+mockup@gmail.com", "Password":"testing1", "IntegratorKey":"16f81d9e-e9ee-408d-bc60-d6e1aecd9756"}'
+			                'X-DocuSign-Authentication': '{"Username": "email@gmail.com", "Password":"pwd", "IntegratorKey":"26f81d9e-e9ee-408d-bc60-d6e1aecd9757"}'
 			            },
 						type : "POST",
 						processData: false,
