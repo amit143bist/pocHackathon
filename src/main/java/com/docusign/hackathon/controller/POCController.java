@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -258,16 +257,12 @@ public class POCController {
 						if ("requestorEmail".equalsIgnoreCase(customField.getName())) {
 
 							requestorEmail = customField.getValue();
+							break;
 						}
 					}
 
 					String recipientName = recipient.getUserName();
 					XMLGregorianCalendar viewedTimeCalendar = recipient.getDelivered();
-
-					TimeZone timeZone = viewedTimeCalendar.getTimeZone(viewedTimeCalendar.getTimezone());
-					String timeZoneName = timeZone.getDisplayName();
-
-					logger.debug("TimeZone displayName " + timeZoneName);
 
 					Date viewedDateTime = viewedTimeCalendar.toGregorianCalendar().getTime();
 
@@ -279,9 +274,11 @@ public class POCController {
 								envelopeId);
 
 						String emailBody = MessageFormat.format(gmailNotificationEmailBody, recipientName,
-								recipientEmail, envelopeId, viewedDate, viewedTime + " " + timeZoneName);
+								recipientEmail, envelopeId, viewedDate, viewedTime);
 
 						GoogleCredential googleCredential = fetchGoogleAccessToken();
+						
+						logger.debug("requestorEmail in POCController.notifySender()" + requestorEmail + " gmailSenderUsername- " + gmailSenderUsername);
 						googleMailService.Send(requestorEmail, "", gmailSenderUsername, emailSubject, emailBody,
 								googleCredential.getTokenType(), googleCredential.getAccessToken());
 
@@ -291,6 +288,8 @@ public class POCController {
 						notificationDetailSave.setSenderEmail(gmailSenderUsername);
 
 						notificationDetailRepository.save(notificationDetailSave);
+						
+						logger.info("Notification sent in POCController.notifySender()");
 
 					} catch (IOException e) {
 						e.printStackTrace();
