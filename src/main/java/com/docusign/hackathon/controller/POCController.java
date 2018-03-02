@@ -242,7 +242,7 @@ public class POCController {
 				NotificationDetail notificationDetailAvailable = notificationDetailRepository
 						.findOne(notificationDetailPK);
 
-				logger.debug("Recipient Status in POCController.notifySender()" + recipient.getStatus());
+				logger.info("Recipient Status in POCController.notifySender()" + recipient.getStatus() + " for email " + recipientEmail);
 				if ((RecipientStatusCode.DELIVERED == recipient.getStatus()
 						|| RecipientStatusCode.COMPLETED == recipient.getStatus())
 						&& (null == notificationDetailAvailable
@@ -278,7 +278,7 @@ public class POCController {
 
 						GoogleCredential googleCredential = fetchGoogleAccessToken();
 						
-						logger.debug("requestorEmail in POCController.notifySender()" + requestorEmail + " gmailSenderUsername- " + gmailSenderUsername);
+						logger.info("requestorEmail in POCController.notifySender()" + requestorEmail + " gmailSenderUsername- " + gmailSenderUsername);
 						googleMailService.Send(requestorEmail, "", gmailSenderUsername, emailSubject, emailBody,
 								googleCredential.getTokenType(), googleCredential.getAccessToken());
 
