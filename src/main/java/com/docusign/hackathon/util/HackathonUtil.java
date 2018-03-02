@@ -1,8 +1,6 @@
 package com.docusign.hackathon.util;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -17,10 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.docusign.hackathon.GoogleAuthQuickstartApplication;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.gmail.Gmail;
@@ -37,6 +33,12 @@ public class HackathonUtil {
 
 	@Value("${heroku.client.secret.json.path}")
 	private String herokuClientSecretPath;
+	
+	@Value("${heroku.gmail.oauth.clientid}")
+	private String herokuGmailClientId;
+	
+	@Value("${heroku.gmail.oauth.clientsecret}")
+	private String herokuGmailClientSecret;
 
 	@Value("${heroku.gmail.sender.username}")
 	private String gmailSenderUsername;
@@ -52,19 +54,22 @@ public class HackathonUtil {
 
 		GoogleAuthorizationCodeFlow flow = null;
 		// Build flow and trigger user authorization request.
-		InputStream in = GoogleAuthQuickstartApplication.class.getResourceAsStream(herokuClientSecretPath);
-		GoogleClientSecrets clientSecrets;
-		try {
+//		InputStream in = GoogleAuthQuickstartApplication.class.getResourceAsStream(herokuClientSecretPath);
+//		GoogleClientSecrets clientSecrets = null;
+		
+//		try {
 
-			clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+//			clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+		
+		logger.debug("herokuGmailClientId in getGoogleAuthFlow()- " + herokuGmailClientId);
 
-			flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+			flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, herokuGmailClientId, herokuGmailClientSecret, SCOPES)
 					.setAccessType("offline").build();
 
-		} catch (IOException e) {
+/*		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+*/
 		return flow;
 	}
 

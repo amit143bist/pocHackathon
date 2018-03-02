@@ -89,12 +89,27 @@ public class POCController {
 	@Value("${heroku.gmail.application.name}")
 	private String gmailApplicationName;
 
+	@Value("${heroku.docusign.api.clientid}")
+	private String docuSignAPIClientId;
+
+	@Value("${heroku.docusign.api.username}")
+	private String docuSignAPIUserName;
+
+	@Value("${heroku.docusign.api.password}")
+	private String docuSignAPIPassword;
+
 	private static final Logger logger = LogManager.getLogger(POCController.class);
 
 	@RequestMapping(value = "/estimates", method = RequestMethod.GET)
 	public String estimates(ModelMap model, HttpServletRequest request) {
 
 		logger.debug("POCController.estimates()");
+
+		String authHeaderValue = "{" + '"' + "Username" + '"' + ":" + '"' + docuSignAPIUserName + '"' + "," + '"'
+				+ "Password" + '"' + ":" + '"' + docuSignAPIPassword + '"' + "," + '"' + "IntegratorKey" + '"' + ":"
+				+ '"' + docuSignAPIClientId + '"' + "}";
+
+		logger.info("authHeaderValue in estimates" + authHeaderValue);
 
 		return "estimates";
 	}
@@ -177,12 +192,18 @@ public class POCController {
 
 		Map<String, String> authHeaderMap = new HashMap<String, String>();
 
+		String authHeaderValue = "{" + '"' + "Username" + '"' + ":" + '"' + docuSignAPIUserName + '"' + "," + '"'
+				+ "Password" + '"' + ":" + '"' + docuSignAPIPassword + '"' + "," + '"' + "IntegratorKey" + '"' + ":"
+				+ '"' + docuSignAPIClientId + '"' + "}";
+
 		String authHeader = request.getHeader("X-DocuSign-Authentication");
 
-		if (!StringUtils.isEmpty(authHeader)) {
+		if (!StringUtils.isEmpty(request.getHeader("Authorization"))) {
+			authHeaderMap.put("Authorization", request.getHeader("Authorization"));
+		} else if (!StringUtils.isEmpty(authHeader)) {
 			authHeaderMap.put("X-DocuSign-Authentication", authHeader);
 		} else {
-			authHeaderMap.put("Authorization", request.getHeader("Authorization"));
+			authHeaderMap.put("X-DocuSign-Authentication", authHeaderValue);
 		}
 
 		logger.debug("POCController.createEstimates() " + files + " RecipientInfoList size "
