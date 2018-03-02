@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.docusign.hackathon.model.CompositeTemplate;
 import com.docusign.hackathon.model.CompositeTemplateRequest;
+import com.docusign.hackathon.model.CustomFields;
 import com.docusign.hackathon.model.Document;
 import com.docusign.hackathon.model.EnvelopeResponse;
 import com.docusign.hackathon.model.EstimateRequest;
@@ -33,6 +34,7 @@ import com.docusign.hackathon.model.Recipients;
 import com.docusign.hackathon.model.ServerTemplate;
 import com.docusign.hackathon.model.Signer;
 import com.docusign.hackathon.model.Tabs;
+import com.docusign.hackathon.model.TextCustomField;
 import com.docusign.hackathon.model.UsecaseName;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,6 +63,9 @@ public class POCService {
 				InlineTemplate inlineTemplate = new InlineTemplate();
 				inlineTemplate.setRecipients(recipients);
 				inlineTemplate.setSequence(estimateRequest.getInlineTemplateSequenceNumber());
+
+				CustomFields customFields = createCustomFields(estimateRequest);
+				inlineTemplate.setCustomFields(customFields);
 
 				List<InlineTemplate> inlineTemplateList = new ArrayList<InlineTemplate>();
 				inlineTemplateList.add(inlineTemplate);
@@ -173,6 +178,24 @@ public class POCService {
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
 		return httpHeaders;
+	}
+
+	private CustomFields createCustomFields(EstimateRequest estimateRequest) {
+
+		CustomFields customFields = new CustomFields();
+
+		TextCustomField textCustomField = new TextCustomField();
+		textCustomField.setName("requestorEmail");
+		textCustomField.setValue(estimateRequest.getRequestorEmail());
+		textCustomField.setRequired("false");
+		textCustomField.setShow("false");
+
+		List<TextCustomField> textCustomFieldList = new ArrayList<TextCustomField>();
+		textCustomFieldList.add(textCustomField);
+
+		customFields.setTextCustomFields(textCustomFieldList);
+
+		return customFields;
 	}
 
 	/**

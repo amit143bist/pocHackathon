@@ -31,12 +31,9 @@ public class HackathonUtil {
 	@Autowired
 	JsonFactory JSON_FACTORY;
 
-	@Value("${heroku.client.secret.json.path}")
-	private String herokuClientSecretPath;
-	
 	@Value("${heroku.gmail.oauth.clientid}")
 	private String herokuGmailClientId;
-	
+
 	@Value("${heroku.gmail.oauth.clientsecret}")
 	private String herokuGmailClientSecret;
 
@@ -45,31 +42,18 @@ public class HackathonUtil {
 
 	@Value("${heroku.gmail.application.name}")
 	private String gmailApplicationName;
-	
+
 	private static final Logger logger = LogManager.getLogger(HackathonUtil.class);
 
 	private static final List<String> SCOPES = Arrays.asList(GmailScopes.GMAIL_COMPOSE);
 
 	public GoogleAuthorizationCodeFlow getGoogleAuthFlow() {
 
-		GoogleAuthorizationCodeFlow flow = null;
-		// Build flow and trigger user authorization request.
-//		InputStream in = GoogleAuthQuickstartApplication.class.getResourceAsStream(herokuClientSecretPath);
-//		GoogleClientSecrets clientSecrets = null;
-		
-//		try {
-
-//			clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-		
 		logger.debug("herokuGmailClientId in getGoogleAuthFlow()- " + herokuGmailClientId);
 
-			flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, herokuGmailClientId, herokuGmailClientSecret, SCOPES)
-					.setAccessType("offline").build();
+		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY,
+				herokuGmailClientId, herokuGmailClientSecret, SCOPES).setAccessType("offline").build();
 
-/*		} catch (IOException e) {
-			e.printStackTrace();
-		}
-*/
 		return flow;
 	}
 
@@ -106,9 +90,9 @@ public class HackathonUtil {
 		redirectUriBuilder.append("/successcallback");
 
 		String redirectUri = redirectUriBuilder.toString();
-		
+
 		logger.info("RedirectUri in HackathonUtil.createRedirectUri()" + redirectUri);
-		
+
 		return redirectUri;
 	}
 

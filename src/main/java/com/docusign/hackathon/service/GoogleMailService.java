@@ -2,8 +2,6 @@ package com.docusign.hackathon.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Properties;
 
 import javax.mail.MessagingException;
@@ -24,10 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import com.docusign.hackathon.GoogleAuthQuickstartApplication;
 import com.docusign.hackathon.model.GoogleAccessToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Base64;
@@ -48,8 +44,11 @@ public class GoogleMailService {
 	@Autowired
 	JsonFactory JSON_FACTORY;
 
-	@Value("${heroku.client.secret.json.path}")
-	private String herokuClientSecretPath;
+	@Value("${heroku.gmail.oauth.clientid}")
+	private String herokuGmailClientId;
+	
+	@Value("${heroku.gmail.oauth.clientsecret}")
+	private String herokuGmailClientSecret;
 
 	private static final Logger logger = LogManager.getLogger(GoogleMailService.class);
 
@@ -130,20 +129,13 @@ public class GoogleMailService {
 	public String refreshGoogleToken(String refreshToken) {
 
 		String accessToken = null;
-		InputStream in = GoogleAuthQuickstartApplication.class.getResourceAsStream(herokuClientSecretPath);
-		GoogleClientSecrets clientSecrets;
 		try {
-
-			clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-
-			String clientSecret = clientSecrets.getDetails().getClientSecret();
-			String clientId = clientSecrets.getDetails().getClientId();
 
 			HttpHeaders httpHeaders = new HttpHeaders();
 			httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-			String msgBody = "client_secret=" + clientSecret + "&grant_type=refresh_token&refresh_token=" + refreshToken
-					+ "&client_id=" + clientId;
+			String msgBody = "client_secret=" + herokuGmailClientSecret + "&grant_type=refresh_token&refresh_token=" + refreshToken
+					+ "&client_id=" + herokuGmailClientId;
 			HttpEntity<String> requestEntity = new HttpEntity<String>(msgBody, httpHeaders);
 
 			ResponseEntity<GoogleAccessToken> googleResponseEntity = restTemplate.exchange(

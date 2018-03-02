@@ -21,6 +21,9 @@ public class EstimateInfo {
 
 	@JsonProperty("useCaseName")
 	private String useCaseName;
+	
+	@JsonProperty("requestorEmail")
+	private String requestorEmail;
 
 	@JsonProperty("inlineTemplateSequenceNumber")
 	private String inlineTemplateSequenceNumber;
@@ -63,6 +66,16 @@ public class EstimateInfo {
 	@JsonProperty("useCaseName")
 	public void setUseCaseName(String useCaseName) {
 		this.useCaseName = useCaseName;
+	}
+	
+	@JsonProperty("requestorEmail")
+	public String getRequestorEmail() {
+		return requestorEmail;
+	}
+
+	@JsonProperty("requestorEmail")
+	public void setRequestorEmail(String requestorEmail) {
+		this.requestorEmail = requestorEmail;
 	}
 
 	@JsonProperty("inlineTemplateSequenceNumber")

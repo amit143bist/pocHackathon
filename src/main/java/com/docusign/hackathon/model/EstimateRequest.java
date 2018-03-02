@@ -8,6 +8,7 @@ public class EstimateRequest {
 
 	private String templateId;
 	private String useCaseName;
+	private String requestorEmail;
 	private String serverTemplateSequenceNumber;
 	private String inlineTemplateSequenceNumber;
 	private List<MultipartFile> multiPartFileList;
@@ -27,6 +28,14 @@ public class EstimateRequest {
 
 	public void setUseCaseName(String useCaseName) {
 		this.useCaseName = useCaseName;
+	}
+	
+	public String getRequestorEmail() {
+		return requestorEmail;
+	}
+
+	public void setRequestorEmail(String requestorEmail) {
+		this.requestorEmail = requestorEmail;
 	}
 
 	public String getServerTemplateSequenceNumber() {

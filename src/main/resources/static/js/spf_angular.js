@@ -31,6 +31,7 @@
 				   	
 				   	var emailSubject = $('input[name="emailSubject"]').val();
 				   	var emailBlurb = $('input[name="emailBlurb"]').val();
+				   	var requestorEmail = $('input[name="requestorEmail"]').val();
 				   	
 				   	console.log('emailSubject ' + emailSubject + ' emailBlurb ' + emailBlurb);
 				   	
@@ -65,6 +66,7 @@
                     var json = '{';
                     
                     json = json + '"useCaseName":"Estimates",';
+                    json = json + '"requestorEmail":"' + requestorEmail + '",';
                     json = json + '"emailSubject":"' + emailSubject + '",';
                     json = json + '"emailBlurb":"' + emailBlurb + '",';
                     json = json + '"inlineTemplateSequenceNumber":"1",';

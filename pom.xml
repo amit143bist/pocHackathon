@@ -19,6 +19,7 @@
 	</parent>
 
 	<properties>
+		<full-artifact-name>target/${project.artifactId}-${project.version}.jar</full-artifact-name>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
@@ -180,11 +181,30 @@
 		</pluginManagement>
 		<plugins>
 			<plugin>
+				<groupId>com.heroku.sdk</groupId>
+				<artifactId>heroku-maven-plugin</artifactId>
+				<version>2.0.3</version>
+				<configuration>
+					<appName>agile-sands-24492</appName>
+					<includeTarget>false</includeTarget>
+					<includes>
+						<include>${basedir}/${full-artifact-name}</include>
+					</includes>
+					<jdkVersion>1.8</jdkVersion>
+					<buildpacks>https://github.com/heroku/heroku-buildpack-java.git</buildpacks>
+					<processTypes>
+						<web>java -Dserver.port=$PORT $JAVA_OPTS -jar proServHackathon2018/target\proServHackathon2018-0.0.1-SNAPSHOT.jar</web>
+					</processTypes>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.docusign.hackathon.ProServHackathon2018Application</mainClass>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>

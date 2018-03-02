@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.docusign.hackathon.connect.model.ArrayOfCustomField;
+import com.docusign.hackathon.connect.model.CustomField;
 import com.docusign.hackathon.connect.model.DocuSignEnvelopeInformation;
 import com.docusign.hackathon.connect.model.RecipientStatus;
 import com.docusign.hackathon.connect.model.RecipientStatusCode;
@@ -104,12 +106,6 @@ public class POCController {
 	public String estimates(ModelMap model, HttpServletRequest request) {
 
 		logger.debug("POCController.estimates()");
-
-		String authHeaderValue = "{" + '"' + "Username" + '"' + ":" + '"' + docuSignAPIUserName + '"' + "," + '"'
-				+ "Password" + '"' + ":" + '"' + docuSignAPIPassword + '"' + "," + '"' + "IntegratorKey" + '"' + ":"
-				+ '"' + docuSignAPIClientId + '"' + "}";
-
-		logger.info("authHeaderValue in estimates" + authHeaderValue);
 
 		return "estimates";
 	}
@@ -233,8 +229,6 @@ public class POCController {
 			String envelopeId = docuSignEnvelopeInformation.getEnvelopeStatus().getEnvelopeID();
 			logger.info("EnvelopeId in POCController.notifySender()- " + envelopeId);
 
-			String senderEmail = docuSignEnvelopeInformation.getEnvelopeStatus().getEmail();
-
 			List<RecipientStatus> recipientStatusList = docuSignEnvelopeInformation.getEnvelopeStatus()
 					.getRecipientStatuses().getRecipientStatus();
 
@@ -254,6 +248,18 @@ public class POCController {
 						|| RecipientStatusCode.COMPLETED == recipient.getStatus())
 						&& (null == notificationDetailAvailable
 								|| null == notificationDetailAvailable.getNotificationStatus())) {
+
+					String requestorEmail = null;
+					ArrayOfCustomField arrayOfCustomField = docuSignEnvelopeInformation.getEnvelopeStatus()
+							.getCustomFields();
+					List<CustomField> customFieldList = arrayOfCustomField.getCustomField();
+
+					for (CustomField customField : customFieldList) {
+						if ("requestorEmail".equalsIgnoreCase(customField.getName())) {
+
+							requestorEmail = customField.getValue();
+						}
+					}
 
 					String recipientName = recipient.getUserName();
 					XMLGregorianCalendar viewedTimeCalendar = recipient.getDelivered();
@@ -276,7 +282,7 @@ public class POCController {
 								recipientEmail, envelopeId, viewedDate, viewedTime + " " + timeZoneName);
 
 						GoogleCredential googleCredential = fetchGoogleAccessToken();
-						googleMailService.Send(senderEmail, "", gmailSenderUsername, emailSubject, emailBody,
+						googleMailService.Send(requestorEmail, "", gmailSenderUsername, emailSubject, emailBody,
 								googleCredential.getTokenType(), googleCredential.getAccessToken());
 
 						NotificationDetail notificationDetailSave = new NotificationDetail();

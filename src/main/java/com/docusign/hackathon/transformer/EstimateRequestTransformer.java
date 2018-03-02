@@ -21,6 +21,7 @@ public class EstimateRequestTransformer {
 		estimateRequest.setRecipientInfoList(estimateInfo.getRecipientInfoList());
 		estimateRequest.setInlineTemplateSequenceNumber(estimateInfo.getInlineTemplateSequenceNumber());
 		estimateRequest.setUseCaseName(estimateInfo.getUseCaseName());
+		estimateRequest.setRequestorEmail(estimateInfo.getRequestorEmail());
 
 		List<EstimateRequest> estimateRequestList = new ArrayList<EstimateRequest>();
 		estimateRequestList.add(estimateRequest);

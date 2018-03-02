@@ -98,6 +98,8 @@
 									
 									<div class="row clearfix">
 										<div class="col-md-12">
+											<input type="text" name='requestorEmail'
+															placeholder='Requestor Email' required="required" class="form-control" />
 											<input type="text" name='emailSubject'
 															placeholder='Email Subject' required="required" class="form-control" />
 											<input type="text" name='emailBlurb'
