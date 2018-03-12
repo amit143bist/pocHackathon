@@ -140,7 +140,7 @@ public class POCService {
 			String msgBody = objectMapper.writeValueAsString(request);
 			HttpEntity<String> requestEntity = new HttpEntity<String>(msgBody, httpHeaders);
 
-			logger.debug("POCService.createPOCService() " + requestEntity);
+			logger.info("POCService.createPOCService() " + requestEntity);
 
 			ResponseEntity<EnvelopeResponse> envelopeResponseEntity = restTemplate.exchange(
 					"https://demo.docusign.net/restapi/v2/accounts/4465715/envelopes", HttpMethod.POST, requestEntity,
