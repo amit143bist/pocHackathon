@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class HackathonUtil {
 		return service;
 	}
 
-	public String createRedirectUri(HttpServletRequest request) {
+	public String createRedirectUri(HttpServletRequest request, String callbackUri) {
 		logger.debug("ServerName- " + request.getServerName() + " Port- " + request.getServerPort() + " Path- "
 				+ request.getServletPath() + " isSecure " + request.isSecure() + " ContextPath "
 				+ request.getContextPath() + " ServletPath " + request.getServletPath() + " RequestUrl "
@@ -87,7 +88,7 @@ public class HackathonUtil {
 			redirectUriBuilder.append(":" + request.getServerPort());
 		}
 
-		redirectUriBuilder.append("/successcallback");
+		redirectUriBuilder.append(callbackUri);
 
 		String redirectUri = redirectUriBuilder.toString();
 
@@ -110,5 +111,16 @@ public class HackathonUtil {
 		String dateStr = df.format(date);
 
 		return dateStr;
+	}
+	
+	/**
+	 * @param plainCreds
+	 * @return string
+	 */
+	public String getEncodedBase64Data(String plainCreds) {
+
+		byte[] plainCredsBytes = plainCreds.getBytes();
+		byte[] base64CredsBytes = Base64.getEncoder().encode(plainCredsBytes);
+		return new String(base64CredsBytes);
 	}
 }

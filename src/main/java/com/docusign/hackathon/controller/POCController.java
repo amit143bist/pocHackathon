@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -41,8 +42,10 @@ import com.docusign.hackathon.db.model.NotificationDetailPK;
 import com.docusign.hackathon.model.EstimateInfo;
 import com.docusign.hackathon.model.EstimateRequest;
 import com.docusign.hackathon.model.EstimateResponse;
+import com.docusign.hackathon.model.OAuthTokenData;
 import com.docusign.hackathon.repository.GoogleCredentialRepository;
 import com.docusign.hackathon.repository.NotificationDetailRepository;
+import com.docusign.hackathon.service.DSAuthService;
 import com.docusign.hackathon.service.GoogleMailService;
 import com.docusign.hackathon.service.POCService;
 import com.docusign.hackathon.transformer.EstimateRequestTransformer;
@@ -65,6 +68,9 @@ public class POCController {
 
 	@Autowired
 	GoogleMailService googleMailService;
+
+	@Autowired
+	DSAuthService dsAuthService;
 
 	@Autowired
 	GoogleCredentialRepository googleCredentialRepository;
@@ -117,12 +123,27 @@ public class POCController {
 		GoogleAuthorizationCodeFlow flow = hackathonUtil.getGoogleAuthFlow();
 
 		AuthorizationCodeRequestUrl authorizationUrl = flow.newAuthorizationUrl()
-				.setRedirectUri(hackathonUtil.createRedirectUri(request));
+				.setRedirectUri(hackathonUtil.createRedirectUri(request, "/successcallback"));
 
 		String googleOAuthUrl = authorizationUrl.build();
 		model.put("googleOAuthUrl", googleOAuthUrl);
 
 		return "gmailauth";
+	}
+
+	@RequestMapping(value = "/dsauth", method = RequestMethod.GET)
+	public String dsauth(ModelMap model, HttpServletRequest request) {
+
+		logger.debug("POCController.dsauth()");
+
+		UUID state = UUID.randomUUID();
+		String[] scopes = { "signature" };
+		String redirecUri = hackathonUtil.createRedirectUri(request, "dssuccesscallback");
+
+		String dsOAuthUrl = dsAuthService.getAuthCodeGrantUrl(scopes, state.toString(), redirecUri, false);
+		model.put("dsOAuthUrl", dsOAuthUrl);
+
+		return "dsauth";
 	}
 
 	@RequestMapping(value = "/successcallback", method = RequestMethod.GET)
@@ -140,6 +161,22 @@ public class POCController {
 
 		return "failcallback";
 	}
+	
+	@RequestMapping(value = "/fetchDSToken", method = RequestMethod.GET)
+	@ResponseBody
+	public String fetchDSToken(@RequestParam("authCode") String authCode, HttpServletRequest request,
+			ModelMap model) {
+		
+		logger.debug("POCController.fetchDSToken()");
+		
+		OAuthTokenData oAuthTokenData = dsAuthService.getASAccessTokenUsingAuthCode(authCode);
+
+		String accessToken = oAuthTokenData.getAccessToken();
+		
+		logger.debug("DSToken in POCController.fetchDSToken() " + accessToken);
+		
+		return accessToken;
+	}
 
 	@RequestMapping(value = "/fetchGoogleToken", method = RequestMethod.GET)
 	@ResponseBody
@@ -155,7 +192,7 @@ public class POCController {
 			GoogleAuthorizationCodeFlow flow = hackathonUtil.getGoogleAuthFlow();
 
 			TokenResponse response = flow.newTokenRequest(authCode)
-					.setRedirectUri(hackathonUtil.createRedirectUri(request)).execute();
+					.setRedirectUri(hackathonUtil.createRedirectUri(request, "/successcallback")).execute();
 
 			logger.debug("TokenType in POCController.fetchGoogleToken()- " + response.getTokenType());
 			accessToken = response.getAccessToken();
@@ -231,6 +268,18 @@ public class POCController {
 			List<RecipientStatus> recipientStatusList = docuSignEnvelopeInformation.getEnvelopeStatus()
 					.getRecipientStatuses().getRecipientStatus();
 
+			String requestorEmail = null;
+			ArrayOfCustomField arrayOfCustomField = docuSignEnvelopeInformation.getEnvelopeStatus().getCustomFields();
+			List<CustomField> customFieldList = arrayOfCustomField.getCustomField();
+
+			for (CustomField customField : customFieldList) {
+				if ("requestorEmail".equalsIgnoreCase(customField.getName())) {
+
+					requestorEmail = customField.getValue();
+					break;
+				}
+			}
+
 			for (RecipientStatus recipient : recipientStatusList) {
 
 				String recipientEmail = recipient.getEmail();
@@ -242,24 +291,12 @@ public class POCController {
 				NotificationDetail notificationDetailAvailable = notificationDetailRepository
 						.findOne(notificationDetailPK);
 
-				logger.info("Recipient Status in POCController.notifySender()" + recipient.getStatus() + " for email " + recipientEmail);
+				logger.info("Recipient Status in POCController.notifySender()" + recipient.getStatus() + " for email "
+						+ recipientEmail);
 				if ((RecipientStatusCode.DELIVERED == recipient.getStatus()
 						|| RecipientStatusCode.COMPLETED == recipient.getStatus())
 						&& (null == notificationDetailAvailable
 								|| null == notificationDetailAvailable.getNotificationStatus())) {
-
-					String requestorEmail = null;
-					ArrayOfCustomField arrayOfCustomField = docuSignEnvelopeInformation.getEnvelopeStatus()
-							.getCustomFields();
-					List<CustomField> customFieldList = arrayOfCustomField.getCustomField();
-
-					for (CustomField customField : customFieldList) {
-						if ("requestorEmail".equalsIgnoreCase(customField.getName())) {
-
-							requestorEmail = customField.getValue();
-							break;
-						}
-					}
 
 					String recipientName = recipient.getUserName();
 					XMLGregorianCalendar viewedTimeCalendar = recipient.getDelivered();
@@ -277,8 +314,9 @@ public class POCController {
 								recipientEmail, envelopeId, viewedDate, viewedTime);
 
 						GoogleCredential googleCredential = fetchGoogleAccessToken();
-						
-						logger.info("requestorEmail in POCController.notifySender()" + requestorEmail + " gmailSenderUsername- " + gmailSenderUsername);
+
+						logger.info("requestorEmail in POCController.notifySender()" + requestorEmail
+								+ " gmailSenderUsername- " + gmailSenderUsername);
 						googleMailService.Send(requestorEmail, "", gmailSenderUsername, emailSubject, emailBody,
 								googleCredential.getTokenType(), googleCredential.getAccessToken());
 
@@ -287,8 +325,15 @@ public class POCController {
 						notificationDetailSave.setNotificationStatus("sent");
 						notificationDetailSave.setSenderEmail(gmailSenderUsername);
 
+						if (!StringUtils.isEmpty(requestorEmail)) {
+
+							notificationDetailSave.setRequestorEmail(requestorEmail);
+						} else {
+							notificationDetailSave.setRequestorEmail(gmailSenderUsername);
+						}
+
 						notificationDetailRepository.save(notificationDetailSave);
-						
+
 						logger.info("Notification sent in POCController.notifySender()");
 
 					} catch (IOException e) {

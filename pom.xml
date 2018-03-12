@@ -23,6 +23,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<jwt.version>3.2.0</jwt.version>
 	</properties>
 
 	<dependencies>
@@ -139,7 +140,7 @@
 			<artifactId>google-api-services-oauth2</artifactId>
 			<version>v1-rev139-1.23.0</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -200,9 +201,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<mainClass>com.docusign.hackathon.ProServHackathon2018Application</mainClass>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

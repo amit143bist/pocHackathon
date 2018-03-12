@@ -18,6 +18,9 @@ public class NotificationDetail {
 	@Column(name="senderemail")
 	private String senderEmail;
 	
+	@Column(name="requestoremail")
+	private String requestorEmail;
+	
 	public NotificationDetail() {
 		super();
 	}
@@ -44,5 +47,13 @@ public class NotificationDetail {
 
 	public void setSenderEmail(String senderEmail) {
 		this.senderEmail = senderEmail;
+	}
+	
+	public String getRequestorEmail() {
+		return requestorEmail;
+	}
+
+	public void setRequestorEmail(String requestorEmail) {
+		this.requestorEmail = requestorEmail;
 	}
 }
