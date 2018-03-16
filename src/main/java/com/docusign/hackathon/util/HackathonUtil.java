@@ -1,5 +1,6 @@
 package com.docusign.hackathon.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -112,7 +113,7 @@ public class HackathonUtil {
 
 		return dateStr;
 	}
-	
+
 	/**
 	 * @param plainCreds
 	 * @return string
@@ -122,5 +123,20 @@ public class HackathonUtil {
 		byte[] plainCredsBytes = plainCreds.getBytes();
 		byte[] base64CredsBytes = Base64.getEncoder().encode(plainCredsBytes);
 		return new String(base64CredsBytes);
+	}
+
+	public String getFileExtension(File file) {
+		String fileName = file.getName();
+		if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+			return fileName.substring(fileName.lastIndexOf(".") + 1);
+		else
+			return "";
+	}
+
+	public String getFileExtension(String fileName) {
+		if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+			return fileName.substring(fileName.lastIndexOf(".") + 1);
+		else
+			return "";
 	}
 }

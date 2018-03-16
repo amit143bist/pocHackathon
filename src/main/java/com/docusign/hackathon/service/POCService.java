@@ -36,6 +36,7 @@ import com.docusign.hackathon.model.Signer;
 import com.docusign.hackathon.model.Tabs;
 import com.docusign.hackathon.model.TextCustomField;
 import com.docusign.hackathon.model.UsecaseName;
+import com.docusign.hackathon.util.HackathonUtil;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -48,6 +49,9 @@ public class POCService {
 
 	@Autowired
 	ObjectMapper objectMapper;
+
+	@Autowired
+	HackathonUtil hackathonUtil;
 
 	private static final Logger logger = LogManager.getLogger(POCService.class);
 
@@ -81,12 +85,6 @@ public class POCService {
 					serverTemplateList.add(serverTemplate);
 				}
 
-				CompositeTemplate compositeTemplate = new CompositeTemplate();
-
-				if (null != serverTemplateList && !serverTemplateList.isEmpty()) {
-					compositeTemplate.setServerTemplates(serverTemplateList);
-				}
-
 				List<MultipartFile> multiPartFiles = estimateRequest.getMultiPartFileList();
 				if (null != multiPartFiles && !multiPartFiles.isEmpty()) {
 
@@ -106,8 +104,19 @@ public class POCService {
 							}
 							document.setDocumentId(String.valueOf(i));
 							document.setName(multipartFile.getOriginalFilename());
+							document.setFileExtension(
+									hackathonUtil.getFileExtension(multipartFile.getOriginalFilename()));
 
+							CompositeTemplate compositeTemplate = new CompositeTemplate();
+
+							if (null != serverTemplateList && !serverTemplateList.isEmpty()) {
+								compositeTemplate.setServerTemplates(serverTemplateList);
+							}
 							compositeTemplate.setDocument(document);
+
+							compositeTemplate.setInlineTemplates(inlineTemplateList);
+
+							compositeTemplateList.add(compositeTemplate);
 
 							i++;
 						} catch (IOException e) {
@@ -116,9 +125,6 @@ public class POCService {
 					}
 				}
 
-				compositeTemplate.setInlineTemplates(inlineTemplateList);
-
-				compositeTemplateList.add(compositeTemplate);
 			}
 		}
 
@@ -270,4 +276,5 @@ public class POCService {
 
 		return recipients;
 	}
+
 }
