@@ -132,7 +132,8 @@ public class EnvelopeService {
 		recipientTokenRequest.setClientUserId(clientUserId);
 		recipientTokenRequest.setEmail(email);
 		recipientTokenRequest.setUserName(userName);
-		recipientTokenRequest.setReturnUrl("https://polar-earth-93130.herokuapp.com/images/complete.png");
+//		recipientTokenRequest.setReturnUrl("https://polar-earth-93130.herokuapp.com/images/complete.png");
+		recipientTokenRequest.setReturnUrl("https://twitter.com/Acme_Connect");
 
 		objectMapper.setSerializationInclusion(Include.NON_NULL);
 		objectMapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
