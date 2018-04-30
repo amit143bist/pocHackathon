@@ -44,6 +44,15 @@ public class EnvelopeService {
 	@Value("${heroku.server.url}")
 	private String herokuServerUrl;
 	
+	@Value("${heroku.docusign.api.accountid}")
+	private String herokuDSAccountId;
+	
+	@Value("${heroku.docusign.api.templateid}")
+	private String herokuDStemplateId;
+	
+	@Value("${heroku.docusign.api.accesstoken}")
+	private String herokuDSAccessToken;
+	
 	private static final Logger logger = LogManager.getLogger(EnvelopeService.class);
 
 	public String createEnvelope(TwitterEnvelope twitterEnvelope) {
@@ -57,7 +66,7 @@ public class EnvelopeService {
 		inlineTemplate.setSequence("2");
 
 		ServerTemplate serverTemplate = new ServerTemplate();
-		serverTemplate.setTemplateId("0be9ba40-e43a-487e-8cb2-30efd2a67bc1");
+		serverTemplate.setTemplateId(herokuDStemplateId);
 		serverTemplate.setSequence("1");
 
 		List<ServerTemplate> serverTemplateList = new ArrayList<ServerTemplate>();
@@ -91,7 +100,7 @@ public class EnvelopeService {
 			logger.debug("EnvelopeService.createEnvelope() " + requestEntity);
 
 			ResponseEntity<EnvelopeResponse> envelopeResponseEntity = restTemplate.exchange(
-					"https://demo.docusign.net/restapi/v2/accounts/1764240/envelopes", HttpMethod.POST, requestEntity,
+					"https://demo.docusign.net/restapi/v2/accounts/" + herokuDSAccountId + "/envelopes", HttpMethod.POST, requestEntity,
 					EnvelopeResponse.class);
 
 			EnvelopeResponse envelopeResponse = envelopeResponseEntity.getBody();
@@ -136,7 +145,7 @@ public class EnvelopeService {
 			logger.debug("EnvelopeService.recipientUrl() " + requestEntity);
 
 			ResponseEntity<EmbeddedUrlResponse> recipientUrlEntity = restTemplate
-					.exchange("https://demo.docusign.net/restapi/v2/accounts/1764240/envelopes/" + envelopeId
+					.exchange("https://demo.docusign.net/restapi/v2/accounts/" + herokuDSAccountId + "/envelopes/" + envelopeId
 							+ "/views/recipient", HttpMethod.POST, requestEntity, EmbeddedUrlResponse.class);
 
 			logger.debug("EnvelopeService.createEnvelope() " + recipientUrlEntity);
@@ -167,7 +176,7 @@ public class EnvelopeService {
 		logger.debug("EnvelopeService.fetchRecipients() " + requestEntity);
 
 		ResponseEntity<Recipients> recipientEntity = restTemplate.exchange(
-				"https://demo.docusign.net/restapi/v2/accounts/1764240/envelopes/" + envelopeId + "/recipients",
+				"https://demo.docusign.net/restapi/v2/accounts/" + herokuDSAccountId + "/envelopes/" + envelopeId + "/recipients",
 				HttpMethod.GET, requestEntity, Recipients.class);
 
 		Recipients recipients = recipientEntity.getBody();
@@ -182,7 +191,7 @@ public class EnvelopeService {
 		HttpEntity<String> requestEntity = new HttpEntity<String>(httpHeaders);
 
 		ResponseEntity<Recipients> recipientEntity = restTemplate.exchange(
-				"https://demo.docusign.net/restapi/v2/accounts/1764240/envelopes/" + envelopeId + "/recipients",
+				"https://demo.docusign.net/restapi/v2/accounts/" + herokuDSAccountId + "/envelopes/" + envelopeId + "/recipients",
 				HttpMethod.GET, requestEntity, Recipients.class);
 
 		Recipients recipients = recipientEntity.getBody();
@@ -202,7 +211,7 @@ public class EnvelopeService {
 			requestEntity = new HttpEntity<String>(msgBody, httpHeaders);
 
 			ResponseEntity<String> updateEntity = restTemplate.exchange(
-					"https://demo.docusign.net/restapi/v2/accounts/1764240/envelopes/" + envelopeId + "/recipients",
+					"https://demo.docusign.net/restapi/v2/accounts/" + herokuDSAccountId + "/envelopes/" + envelopeId + "/recipients",
 					HttpMethod.PUT, requestEntity, String.class);
 
 			logger.debug("EnvelopeService.updateRecipient() " + updateEntity);
@@ -223,7 +232,7 @@ public class EnvelopeService {
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 
-		httpHeaders.add("Authorization", "Bearer pvcqJmlK6Kbucx4TyVm4NT5OcUA=");
+		httpHeaders.add("Authorization", "Bearer " + herokuDSAccessToken);
 		httpHeaders.add("Accept", MediaType.APPLICATION_JSON_VALUE);
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 

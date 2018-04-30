@@ -11,12 +11,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.docusign.hackathon.connect.model.ArrayOfTabStatus;
+import com.docusign.hackathon.connect.model.DocuSignEnvelopeInformation;
+import com.docusign.hackathon.connect.model.RecipientStatus;
+import com.docusign.hackathon.connect.model.RecipientStatusCode;
+import com.docusign.hackathon.connect.model.TabStatus;
 import com.docusign.hackathon.model.Recipients;
 import com.docusign.hackathon.model.Signer;
 import com.docusign.hackathon.model.TwitterEnvelope;
@@ -36,7 +42,7 @@ public class PortalController {
 
 	@Autowired
 	EnvelopeService envelopeService;
-	
+
 	private static final Logger logger = LogManager.getLogger(PortalController.class);
 
 	@RequestMapping(value = "/createEnvelope", method = RequestMethod.POST)
@@ -149,6 +155,62 @@ public class PortalController {
 
 		return "redirect:" + recipientUrl;
 
+	}
+
+	@RequestMapping(value = "/postAcmeConnect", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> postAcmeConnect(HttpServletRequest request,
+			@RequestBody DocuSignEnvelopeInformation docuSignEnvelopeInformation) {
+
+		String twitterPostMessage = null;
+
+		if (null != docuSignEnvelopeInformation && null != docuSignEnvelopeInformation.getEnvelopeStatus()) {
+
+			List<RecipientStatus> recipientStatusList = docuSignEnvelopeInformation.getEnvelopeStatus()
+					.getRecipientStatuses().getRecipientStatus();
+
+			for (RecipientStatus recipient : recipientStatusList) {
+
+				if (RecipientStatusCode.COMPLETED == recipient.getStatus()) {
+
+					ArrayOfTabStatus arrayOfTabStatus = recipient.getTabStatuses();
+
+					List<TabStatus> tabStatusList = arrayOfTabStatus.getTabStatus();
+					for (TabStatus tabStatus : tabStatusList) {
+
+						if ("postMessage".equalsIgnoreCase(tabStatus.getTabLabel())) {
+
+							twitterPostMessage = tabStatus.getTabValue();
+							break;
+						}
+					}
+
+				}
+			}
+
+		}
+
+		if (!StringUtils.isEmpty(twitterPostMessage)) {
+
+			TwitterFactory factory = new TwitterFactory();
+			AccessToken accessToken = loadAccessTokenForCorp(1);
+			Twitter twitter = factory.getInstance();
+			twitter.setOAuthConsumer("hJHza0hloY3YDY7YexAK48C7t", "yrjmpFaySNS2nooUULdKmhOnhBmr8ivJWNXY2Munr65gu85lCV");
+			twitter.setOAuthAccessToken(accessToken);
+
+			try {
+				twitter.updateStatus(twitterPostMessage);
+			} catch (TwitterException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+
+	private static AccessToken loadAccessTokenForCorp(int useId) {
+		String token = "961423566720782336-fl7Hv6XOoEzSGbjdecGeGNCMuQV5lsY";
+		String tokenSecret = "cv8byVXpQ56WkJDwEPDOBnX8PHj89coqH33gj3xKprD6I";
+		return new AccessToken(token, tokenSecret);
 	}
 
 }
