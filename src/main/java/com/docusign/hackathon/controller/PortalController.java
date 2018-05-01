@@ -1,5 +1,6 @@
 package com.docusign.hackathon.controller;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -115,7 +116,7 @@ public class PortalController {
 	public String validateAccessCode(@RequestParam(value = "accessCode") String accessCode,
 			@RequestParam(value = "envelopeId") String envelopeId, HttpServletRequest request) {
 
-		logger.debug("PortalController.validateAccessCode()");
+		logger.info("AccessCode in PortalController.validateAccessCode() " + accessCode);
 		Recipients recipients = envelopeService.fetchRecipients(envelopeId);
 
 		boolean accessCodeValid = false;
@@ -132,7 +133,7 @@ public class PortalController {
 
 		}
 
-		logger.debug("PortalController.validateAccessCode() " + accessCodeValid);
+		logger.info("PortalController.validateAccessCode() " + accessCodeValid);
 
 		return String.valueOf(accessCodeValid);
 	}
@@ -153,6 +154,9 @@ public class PortalController {
 		String recipientUrl = envelopeService.recipientUrl(envelopeId, signerRecipient.getClientUserId(),
 				signerRecipient.getEmail(), signerRecipient.getName());
 
+		logger.info("Current time in PortalController.getRecipientViewUrl() before redirect is "
+				+ Calendar.getInstance().getTime());
+
 		return "redirect:" + recipientUrl;
 
 	}
@@ -160,6 +164,8 @@ public class PortalController {
 	@RequestMapping(value = "/postAcmeConnect", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> postAcmeConnect(HttpServletRequest request,
 			@RequestBody DocuSignEnvelopeInformation docuSignEnvelopeInformation) {
+
+		logger.info("Current time in PortalController.postAcmeConnect() is " + Calendar.getInstance().getTime());
 
 		String twitterPostMessage = null;
 
@@ -203,6 +209,8 @@ public class PortalController {
 				e.printStackTrace();
 			}
 		}
+
+		logger.info("Current time after posting twitter message is " + Calendar.getInstance().getTime());
 
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
