@@ -28,14 +28,9 @@ import com.docusign.hackathon.model.Recipients;
 import com.docusign.hackathon.model.Signer;
 import com.docusign.hackathon.model.TwitterEnvelope;
 import com.docusign.hackathon.service.EnvelopeService;
+import com.docusign.hackathon.service.TwitterService;
 
-import twitter4j.Paging;
-import twitter4j.ResponseList;
 import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.auth.AccessToken;
 
 @Controller
 @RequestMapping("hackathon")
@@ -43,6 +38,9 @@ public class PortalController {
 
 	@Autowired
 	EnvelopeService envelopeService;
+
+	@Autowired
+	TwitterService twitterService;
 
 	private static final Logger logger = LogManager.getLogger(PortalController.class);
 
@@ -52,7 +50,7 @@ public class PortalController {
 
 		logger.debug("PortalController.createEnvelope() " + envelopeService);
 
-		Status lastTweet = readPrivateTwitterMessage();
+		Status lastTweet = twitterService.fetchTwitterMessage();
 		twitterEnvelope.setPostMessage(lastTweet.getText());
 		twitterEnvelope.setSubmitterName(lastTweet.getUser().getName());
 
@@ -60,35 +58,6 @@ public class PortalController {
 		logger.debug("PortalController.createEnvelope() " + twitterEnvelope);
 
 		return new ResponseEntity<String>(envelopeId, HttpStatus.OK);
-	}
-
-	private Status readPrivateTwitterMessage() {
-
-		TwitterFactory factory = new TwitterFactory();
-		AccessToken accessToken = loadAccessToken(1);
-		Twitter twitter = factory.getInstance();
-		twitter.setOAuthConsumer("uI0rvuvB2LOV2qHD5GcyEhwJN", "jIyGfMyaiBjvF3VdC8eTNmAOW2S8R7Tvx6wSlpuvh9efjJtK0r");
-		twitter.setOAuthAccessToken(accessToken);
-
-		Paging paging = new Paging();
-		paging.setCount(1);
-		ResponseList<Status> userTimeLineList = null;
-
-		Status stat = null;
-		try {
-			userTimeLineList = twitter.getUserTimeline(paging);
-			stat = userTimeLineList.get(0);
-		} catch (TwitterException e) {
-			e.printStackTrace();
-		}
-
-		return stat;
-	}
-
-	private static AccessToken loadAccessToken(int useId) {
-		String token = "961256536759676928-uIxDD2eJmJxsGANCquw8BbsLhOcwEn2";
-		String tokenSecret = "ueFOQjrbsp4oylhIGp4WfNFTp5Pg5cvy1Nu8NsgUd1F6h";
-		return new AccessToken(token, tokenSecret);
 	}
 
 	@RequestMapping(value = "/portal", method = RequestMethod.GET)
@@ -197,28 +166,12 @@ public class PortalController {
 
 		if (!StringUtils.isEmpty(twitterPostMessage)) {
 
-			TwitterFactory factory = new TwitterFactory();
-			AccessToken accessToken = loadAccessTokenForCorp(1);
-			Twitter twitter = factory.getInstance();
-			twitter.setOAuthConsumer("hJHza0hloY3YDY7YexAK48C7t", "yrjmpFaySNS2nooUULdKmhOnhBmr8ivJWNXY2Munr65gu85lCV");
-			twitter.setOAuthAccessToken(accessToken);
-
-			try {
-				twitter.updateStatus(twitterPostMessage);
-			} catch (TwitterException e) {
-				e.printStackTrace();
-			}
+			twitterService.postTwitterMessage(twitterPostMessage);
 		}
 
 		logger.info("Current time after posting twitter message is " + Calendar.getInstance().getTime());
 
 		return new ResponseEntity<String>(HttpStatus.OK);
-	}
-
-	private static AccessToken loadAccessTokenForCorp(int useId) {
-		String token = "961423566720782336-fl7Hv6XOoEzSGbjdecGeGNCMuQV5lsY";
-		String tokenSecret = "cv8byVXpQ56WkJDwEPDOBnX8PHj89coqH33gj3xKprD6I";
-		return new AccessToken(token, tokenSecret);
 	}
 
 }
