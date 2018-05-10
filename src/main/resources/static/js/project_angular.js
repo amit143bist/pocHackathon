@@ -24,41 +24,6 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 			
 			console.log('url-' + url);
 			$window.location.href = url;
-			/*$.ajax({
-				type : 'POST',
-				crossOrigin : true,
-				url : 'createRecipientViewUrl',
-				data : ({
-					envelopeId : envelopeId,
-					recipientEmail : recipientEmail
-				}),
-				success : function(data) {
-					console.log('success redirect- ' + data);
-					console.log('success redirect- ' + data.redirect);
-				},
-				complete : function(data) {
-					console.log('complete redirect- ' + data);
-					console.log('complete redirect- ' + data.redirect);
-				},
-				error: function(xhr, textStatus, errorThrown) { 
-		            console.log('Error!  Status = ' + xhr.status); 
-		         }
-			});*/
-			
-			/*var dataObj = {
-				envelopeId : 'b84ef791-6d05-40fb-b645-5b4a4edcbd05',
-				recipientEmail : 'docusign.sso@gmail.com'
-			};
-			
-			var res = $http.post('/createRecipientViewUrl', dataObj);
-			res.success(function(data, status, headers, config) {
-				console.log('success ' + data + ' status- ' + status + ' headers- ' + headers + ' config ' + config );
-				
-				$location.path('/redirectToRecipientViewUrl');
-			});
-			res.error(function(data, status, headers, config) {
-				console.log( "failure message: " + data + ' status- ' + status + ' headers- ' + headers + ' config ' + config);
-			});*/
 			
 		}
 

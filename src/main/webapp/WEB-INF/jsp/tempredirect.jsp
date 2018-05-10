@@ -11,28 +11,6 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 
-<script>
-	/*function openRecipientView(envelopeId, recipientEmail){
-
-		console.log('openRecipientView envelopeId- '
-				+ envelopeId + ' recipientEmail- '
-				+ recipientEmail);
-		$.ajax({
-			type : 'POST',
-			crossOrigin : true,
-			dataType : "json",
-			url : 'createRecipientViewUrl',
-			data : ({
-				envelopeId : envelopeId,
-				recipientEmail : recipientEmail
-			}),
-			success : function(data) {
-				console.log('success login- ' + data);
-				$('#envelopeId').html(data);
-			}
-		});
-	}*/
-</script>
 </head>
 <body onload="document.forms['redirectToDSURLForm'].submit()">
 
@@ -43,7 +21,7 @@
 
 		<input id="recipientEmail" name="recipientEmail" type="hidden" value="${recipientEmail}"/>
 
-		<input type="submit" value="Submit" id="loginBtn" name="loginBtn" />
+		<input type="submit" value="Submit" id="loginBtn" name="loginBtn" style="display: none;"/>
 	</form:form>
 
 </body>

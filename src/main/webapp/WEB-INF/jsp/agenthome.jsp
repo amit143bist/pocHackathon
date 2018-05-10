@@ -21,13 +21,16 @@
 	    	
 			  var recipientName = $('#recipientName').val();
 			  var recipientEmail = $('#recipientEmail').val();
-			  
+
 			  console.log('login initiate recipientName- ' + recipientName + ' recipientEmail- ' + recipientEmail);
 		      $.ajax({
 		    	  type: 'POST',
 				  dataType: "json",
 				  url: 'createWorkspaceRemoteEnvelope',
 				  data: ({recipientName: recipientName, recipientEmail: recipientEmail}),
+				  data: JSON.stringify(
+			            {recipientName: recipientName, recipientEmail: recipientEmail}
+			        )
 		          success: function(data) {
 		            console.log('success login- ' + data);
 

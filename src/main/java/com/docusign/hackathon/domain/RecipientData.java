@@ -2,16 +2,16 @@ package com.docusign.hackathon.domain;
 
 public class RecipientData {
 
-	private String envelopeId;
+	private String recipientName;
 	
 	private String recipientEmail;
 
-	public String getEnvelopeId() {
-		return envelopeId;
+	public String getRecipientName() {
+		return recipientName;
 	}
 
-	public void setEnvelopeId(String envelopeId) {
-		this.envelopeId = envelopeId;
+	public void setRecipientName(String recipientName) {
+		this.recipientName = recipientName;
 	}
 
 	public String getRecipientEmail() {

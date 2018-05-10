@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.docusign.hackathon.connect.model.DocuSignEnvelopeInformation;
 import com.docusign.hackathon.connect.model.EnvelopeStatusCode;
@@ -90,8 +89,10 @@ public class EnvelopeController {
 	}
 
 	@RequestMapping(value = "/createWorkspaceRemoteEnvelope", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> createEnvelope(@RequestParam String recipientName,
-			@RequestParam String recipientEmail) {
+	public @ResponseBody ResponseEntity<String> createEnvelope(@RequestBody RecipientData recipientData) {
+
+		String recipientName = recipientData.getRecipientName();
+		String recipientEmail = recipientData.getRecipientEmail();
 
 		logger.info("In EnvelopeController.createEnvelope() recipientName- " + recipientName + " recipientEmail- "
 				+ recipientEmail);
@@ -180,19 +181,6 @@ public class EnvelopeController {
 		model.addAttribute("recipientEmail", recipientEmail);
 
 		return "tempredirect";
-	}
-
-	@RequestMapping(value = "/createRecipientViewUrl", method = RequestMethod.POST)
-	public String createRecipientViewUrl(@RequestBody RecipientData recipientData,
-			RedirectAttributes redirectAttributes, HttpServletRequest request, HttpServletResponse response) {
-
-		logger.info("In EnvelopeController.createRecipientViewUrl() recipientEmail- "
-				+ recipientData.getRecipientEmail() + " envelopeId- " + recipientData.getEnvelopeId());
-
-		redirectAttributes.addAttribute("envelopeId", recipientData.getEnvelopeId());
-		redirectAttributes.addAttribute("recipientEmail", recipientData.getRecipientEmail());
-
-		return "redirect:/redirectToRecipientViewUrl";
 	}
 
 	@RequestMapping(value = "/postConnect", method = RequestMethod.POST)

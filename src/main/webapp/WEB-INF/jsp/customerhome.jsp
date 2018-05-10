@@ -43,30 +43,6 @@
 		rel="stylesheet"
 		href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" />
 	
-	<script>
-
-	    /*function openRecipientView(envelopeId, recipientEmail){
-
-	    	console.log('openRecipientView envelopeId- '
-					+ envelopeId + ' recipientEmail- '
-					+ recipientEmail);
-			$.ajax({
-				type : 'POST',
-				crossOrigin : true,
-				dataType : "json",
-				url : 'createRecipientViewUrl',
-				data : ({
-					envelopeId : envelopeId,
-					recipientEmail : recipientEmail
-				}),
-				success : function(data) {
-					console.log('success login- ' + data);
-					$('#envelopeId').html(data);
-				}
-			});
-		}*/
-		
-	</script>
 </head>
 <body ng-app="angularSPF" ng-controller="ModalCtrl as spfController"
 	ng-init="fetchAllEnvelopesJSON('${recipientEmail}')">
