@@ -44,16 +44,36 @@
 		href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" />
 	
 	<script>
-		$(document).ready(
-				function() {
+
+	    function openRecipientView(envelopeId, recipientEmail){
+
+	    	console.log('openRecipientView envelopeId- '
+					+ envelopeId + ' recipientEmail- '
+					+ recipientEmail);
+			$.ajax({
+				type : 'POST',
+				crossOrigin : true,
+				dataType : "json",
+				url : 'createRecipientViewUrl',
+				data : ({
+					envelopeId : envelopeId,
+					recipientEmail : recipientEmail
+				}),
+				success : function(data) {
+					console.log('success login- ' + data);
+					$('#envelopeId').html(data);
+				}
+			});
+		}
+		
+		$(document).ready(function() {
 	
-					$("#loginBtn").click(
-							function() {
+					$('input[type=button]').click(function() {
 	
 								var envelopeId = $(this).data('envelopeId');
 							    var recipientEmail = $(this).data('recipientEmail');
 	
-								console.log('login initiate envelopeId- '
+								console.log('jquery login initiate envelopeId- '
 										+ envelopeId + ' recipientEmail- '
 										+ recipientEmail);
 								$.ajax({
@@ -122,10 +142,10 @@
 													ng-repeat="envelopeData in spfController.custEnvelopes track by $index">
 													<td>{{envelopeData.envelopeId}}</td>
 													<td>{{envelopeData.envelopeSubject}}</td>
-													<td><input type="button" value="Login" id="loginBtn"
+													<td><input type="button" value="Sign" id="loginBtn"
 														name="loginBtn"
 														data-envelopeId="{{envelopeData.envelopeId}}"
-														data-recipientEmail="{{envelopeData.recipientEmail}}" /></td>
+														data-recipientEmail="{{envelopeData.recipientEmail}}" onclick="openRecipientView('{{envelopeData.envelopeId}}', '{{envelopeData.recipientEmail}}')"/></td>
 												</tr>
 											</tbody>
 										</table>

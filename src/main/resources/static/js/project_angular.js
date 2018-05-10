@@ -28,19 +28,10 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, DTOptionsBuilder) 
 
 				$.each(respData, function(index, element) {
 
-					console.log('dashBoardData- ' + index + ' elementName- '
-							+ element);
 							console.log('dashBoardData- ' + index + ' elementName- '
 							+ JSON.stringify(element));
 
 						container.custEnvelopes.push(element);
-						/*$.each(element, function(a, b) {
-
-							console.log('inner each ' + b);
-							console.log('inner each ' + b.envelopeDetailsPK.envelopeId);
-							container.custEnvelopes.push(b);
-							
-						});*/
 				});
 				
 				$scope.$broadcast('dataloaded');
