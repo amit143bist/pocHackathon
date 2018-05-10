@@ -45,7 +45,7 @@
 	
 	<script>
 
-	    function openRecipientView(envelopeId, recipientEmail){
+	    /*function openRecipientView(envelopeId, recipientEmail){
 
 	    	console.log('openRecipientView envelopeId- '
 					+ envelopeId + ' recipientEmail- '
@@ -64,7 +64,7 @@
 					$('#envelopeId').html(data);
 				}
 			});
-		}
+		}*/
 		
 	</script>
 </head>
