@@ -89,7 +89,7 @@ public class EnvelopeController {
 	}
 
 	@RequestMapping(value = "/createWorkspaceRemoteEnvelope", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> createEnvelope(@RequestBody RecipientData recipientData) {
+	public @ResponseBody String createEnvelope(@RequestBody RecipientData recipientData) {
 
 		String recipientName = recipientData.getRecipientName();
 		String recipientEmail = recipientData.getRecipientEmail();
@@ -108,7 +108,7 @@ public class EnvelopeController {
 
 		envelopeBuilder.append(envelopeId);
 
-		return ResponseEntity.ok(envelopeBuilder.toString());
+		return envelopeBuilder.toString();
 	}
 
 	@RequestMapping(value = "/fetchRecipientEnvelopes", method = RequestMethod.GET)

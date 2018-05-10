@@ -27,8 +27,8 @@
 	<link href="/css/dashboard.css" rel="stylesheet" />
 	
 	<script
-			src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-			
+		src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	
 	<link rel="stylesheet"
 		href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	
@@ -43,6 +43,47 @@
 		rel="stylesheet"
 		href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" />
 	
+	<style type="text/css">
+		.btn {
+			background: #111;
+			border: 1px solid #111;
+			border-radius: 2px;
+			cursor: pointer;
+			color: #fff;
+			display: inline-block;
+			font-family: "Maven Pro", "Helvetica Neue", HelveticaNeue, Helvetica,
+				Arial, sans-serif;
+			font-size: 12px;
+			font-weight: 700;
+			letter-spacing: .6px;
+			line-height: 1;
+			min-width: 55px;
+			margin: 0;
+			padding: 7px 14px;
+			position: relative;
+			text-align: center;
+			text-decoration: none !important;
+			text-transform: uppercase;
+		}
+		
+		.btn.btn-primary {
+			background: #ffc820;
+			border-color: #ffc820;
+		}
+		
+		.btn.btn-primary {
+			
+		}
+		
+		.btn.btn-primary:hover {
+			background: #F7C11F;
+		}
+		
+		.btn.btn-primary:active {
+			background: #EAB71D;
+		}
+</style>
+
 </head>
 <body ng-app="angularSPF" ng-controller="ModalCtrl as spfController"
 	ng-init="fetchAllEnvelopesJSON('${recipientEmail}')">
@@ -93,7 +134,9 @@
 													<td>{{envelopeData.envelopeId}}</td>
 													<td>{{envelopeData.envelopeSubject}}</td>
 													<td><input type="button" value="Sign" id="loginBtn"
-														name="loginBtn" ng-click="openRecipientView(envelopeData.envelopeId, envelopeData.recipientEmail)"/></td>
+														name="loginBtn"
+														ng-click="openRecipientView(envelopeData.envelopeId, envelopeData.recipientEmail)"
+														class="btn btn-primary" /></td>
 												</tr>
 											</tbody>
 										</table>

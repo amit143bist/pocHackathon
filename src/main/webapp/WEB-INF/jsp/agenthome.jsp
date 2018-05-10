@@ -71,9 +71,14 @@
 								required="required" type="text"
 								placeholder="myusername or mymail@mail.com" />
 						</p>
+						
 						<p class="login button">
-							<input type="button" value="Send Envelope" id="loginBtn"
+							<input type="button" value="Send Envelopes" id="loginBtn"
 								name="loginBtn" />
+						</p>
+						
+						<p class="change_link">
+							Home Page ? <a href="/portalLanding" class="to_register">Home Page</a>
 						</p>
 						
 					</form:form>
