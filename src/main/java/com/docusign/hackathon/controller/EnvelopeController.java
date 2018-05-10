@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -135,9 +136,9 @@ public class EnvelopeController {
 	public String redirectToDSURL(@RequestParam("envelopeId") String envelopeId,
 			@RequestParam("recipientEmail") String recipientEmail) {
 
-		logger.info("In EnvelopeController.redirectToDSURL() recipientEmail- " + recipientEmail
-				+ " envelopeId- " + envelopeId);
-		
+		logger.info("In EnvelopeController.redirectToDSURL() recipientEmail- " + recipientEmail + " envelopeId- "
+				+ envelopeId);
+
 		EnvelopeDetailsPK envelopeDetailsPK = new EnvelopeDetailsPK();
 		envelopeDetailsPK.setEnvelopeId(UUID.fromString(envelopeId));
 		envelopeDetailsPK.setRecipientEmail(recipientEmail);
@@ -145,13 +146,20 @@ public class EnvelopeController {
 
 		EnvelopeDetails envelopeDetails = envelopeDetailsRepository.findOne(envelopeDetailsPK);
 
-		UUID clientUUID = UUID.randomUUID();
-		String clientUserId = UUID.randomUUID().toString();
+		String clientUserId = null;
+		UUID clientUserUUID = envelopeDetails.getClientUserId();
+		if (StringUtils.isEmpty(clientUserUUID)) {
 
-		envelopeDetails.setClientUserId(clientUUID);
+			clientUserUUID = UUID.randomUUID();
 
-		hybridService.changeToEmbeddedRecipient(envelopeId, recipientEmail, clientUserId);
-		envelopeDetailsRepository.save(envelopeDetails);
+			envelopeDetails.setClientUserId(clientUserUUID);
+
+			clientUserId = clientUserUUID.toString();
+			hybridService.changeToEmbeddedRecipient(envelopeId, recipientEmail, clientUserId);
+			envelopeDetailsRepository.save(envelopeDetails);
+		} else {
+			clientUserId = clientUserUUID.toString();
+		}
 
 		String recipientViewUrl = hybridService.recipientViewUrl(envelopeId, envelopeDetails.getRecipientName(),
 				recipientEmail, clientUserId);
