@@ -2,6 +2,7 @@ package com.docusign.hackathon.db.model;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -15,7 +16,7 @@ public class EnvelopeDetailsPK implements Serializable {
 	private static final long serialVersionUID = -5199180225199736287L;
 	
 	@Column(name = "envelopeid")
-	private String envelopeId;
+	private UUID envelopeId;
 	
 	@Column(name = "recipientemail")
 	private String recipientEmail;
@@ -23,11 +24,11 @@ public class EnvelopeDetailsPK implements Serializable {
 	@Column(name = "recipientid")
 	private BigInteger recipientId;
 
-	public String getEnvelopeId() {
+	public UUID getEnvelopeId() {
 		return envelopeId;
 	}
 
-	public void setEnvelopeId(String envelopeId) {
+	public void setEnvelopeId(UUID envelopeId) {
 		this.envelopeId = envelopeId;
 	}
 

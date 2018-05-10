@@ -1,5 +1,7 @@
 package com.docusign.hackathon.db.model;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -16,13 +18,13 @@ public class EnvelopeDetails {
 	private String envelopeStatus;
 
 	@Column(name = "workspaceid")
-	private String workspaceId;
+	private UUID workspaceId;
 
 	@Column(name = "recipientname")
 	private String recipientName;
 
 	@Column(name = "clientuserid")
-	private String clientUserId;
+	private UUID clientUserId;
 	
 	@Column(name = "envelopesubject")
 	private String envelopeSubject;
@@ -43,11 +45,11 @@ public class EnvelopeDetails {
 		this.envelopeStatus = envelopeStatus;
 	}
 
-	public String getWorkspaceId() {
+	public UUID getWorkspaceId() {
 		return workspaceId;
 	}
 
-	public void setWorkspaceId(String workspaceId) {
+	public void setWorkspaceId(UUID workspaceId) {
 		this.workspaceId = workspaceId;
 	}
 
@@ -59,11 +61,11 @@ public class EnvelopeDetails {
 		this.recipientName = recipientName;
 	}
 
-	public String getClientUserId() {
+	public UUID getClientUserId() {
 		return clientUserId;
 	}
 
-	public void setClientUserId(String clientUserId) {
+	public void setClientUserId(UUID clientUserId) {
 		this.clientUserId = clientUserId;
 	}
 	

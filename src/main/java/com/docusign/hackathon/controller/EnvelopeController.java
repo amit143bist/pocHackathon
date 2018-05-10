@@ -55,8 +55,8 @@ public class EnvelopeController {
 
 	@RequestMapping(value = "/customerLogin", method = RequestMethod.POST)
 	public String customerLogin(@RequestParam(value = "username") String username,
-			@RequestParam(value = "password") String password, HttpServletRequest request,
-			HttpServletResponse response, Model model) {
+			@RequestParam(value = "password") String password, HttpServletRequest request, HttpServletResponse response,
+			Model model) {
 
 		model.addAttribute("recipientEmail", username);
 		return "customerhome";
@@ -69,7 +69,7 @@ public class EnvelopeController {
 		if ("signing_complete".equalsIgnoreCase(event)) {
 
 			EnvelopeDetailsPK envelopeDetailsPK = new EnvelopeDetailsPK();
-			envelopeDetailsPK.setEnvelopeId(envelopeId);
+			envelopeDetailsPK.setEnvelopeId(UUID.fromString(envelopeId));
 			envelopeDetailsPK.setRecipientEmail(recipientEmail);
 			envelopeDetailsPK.setRecipientId(BigInteger.ONE);
 
@@ -121,15 +121,16 @@ public class EnvelopeController {
 				+ envelopeId);
 
 		EnvelopeDetailsPK envelopeDetailsPK = new EnvelopeDetailsPK();
-		envelopeDetailsPK.setEnvelopeId(envelopeId);
+		envelopeDetailsPK.setEnvelopeId(UUID.fromString(envelopeId));
 		envelopeDetailsPK.setRecipientEmail(recipientEmail);
 		envelopeDetailsPK.setRecipientId(BigInteger.ONE);
 
 		EnvelopeDetails envelopeDetails = envelopeDetailsRepository.findOne(envelopeDetailsPK);
 
+		UUID clientUUID = UUID.randomUUID();
 		String clientUserId = UUID.randomUUID().toString();
 
-		envelopeDetails.setClientUserId(clientUserId);
+		envelopeDetails.setClientUserId(clientUUID);
 
 		hybridService.changeToEmbeddedRecipient(envelopeId, recipientEmail, clientUserId);
 		envelopeDetailsRepository.save(envelopeDetails);
@@ -158,7 +159,7 @@ public class EnvelopeController {
 				String envelopeId = docuSignEnvelopeInformation.getEnvelopeStatus().getEnvelopeID();
 
 				EnvelopeDetailsPK envelopeDetailsPK = new EnvelopeDetailsPK();
-				envelopeDetailsPK.setEnvelopeId(envelopeId);
+				envelopeDetailsPK.setEnvelopeId(UUID.fromString(envelopeId));
 				envelopeDetailsPK.setRecipientEmail(recipientEmail);
 				envelopeDetailsPK.setRecipientId(BigInteger.ONE);
 
@@ -179,7 +180,7 @@ public class EnvelopeController {
 			boolean isUploadEnvelope) {
 
 		EnvelopeDetailsPK envelopeDetailsPK = new EnvelopeDetailsPK();
-		envelopeDetailsPK.setEnvelopeId(envelopeId);
+		envelopeDetailsPK.setEnvelopeId(UUID.fromString(envelopeId));
 		envelopeDetailsPK.setRecipientEmail(recipientEmail);
 		envelopeDetailsPK.setRecipientId(BigInteger.ONE);
 
@@ -187,7 +188,7 @@ public class EnvelopeController {
 		envelopeDetails.setEnvelopeDetailsPK(envelopeDetailsPK);
 		envelopeDetails.setEnvelopeStatus("sent");
 		envelopeDetails.setRecipientName(recipientName);
-		envelopeDetails.setWorkspaceId(workspaceId);
+		envelopeDetails.setWorkspaceId(UUID.fromString(workspaceId));
 
 		if (isUploadEnvelope) {
 

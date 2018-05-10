@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
@@ -95,20 +96,7 @@ public class HybridService {
 	}
 	
 	public static void main(String[] args) {
-		
-		HybridService service = new HybridService();
-		ClassLoader classLoader = service.getClass().getClassLoader();
-		InputStream inputStream = classLoader.getResourceAsStream("doc/Policy.pdf");
-		
-		try {
-			System.out.println("HybridService.main() " + inputStream.available());
-			byte[] buffer = new byte[inputStream.available()];
-			inputStream.read(buffer);
-			
-			System.out.println("HybridService.main() " + Base64.encodeBase64String(buffer));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		System.out.println("HybridService.main() " + UUID.fromString("3317bc9e-f607-4a5d-acc9-d42422df9386"));
 	}
 
 	public String createRecipientEnvelopes(String signerName, String signerEmail, String workspaceId,
@@ -123,17 +111,6 @@ public class HybridService {
 			document.setName("Upload Document");
 			document.setFileExtension("txt");
 		} else {
-
-			/*ClassLoader classLoader = getClass().getClassLoader();
-			InputStream inputStream = classLoader.getResourceAsStream("doc/Policy.pdf");
-
-			try {
-				byte[] buffer = new byte[443823];
-				inputStream.read(buffer);
-				document.setDocumentBase64(Base64.encodeBase64String(buffer));
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}*/
 
 			document.setRemoteUrl("333603:1imx5YiMS3Jm4pWRhlindZo7OpHi3p7ow");
 			document.setName("Signature Document");
@@ -202,8 +179,8 @@ public class HybridService {
 
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
-		} catch(org.springframework.web.client.HttpClientErrorException ex){
-			
+		} catch (org.springframework.web.client.HttpClientErrorException ex) {
+
 			logger.info(ex.getMessage());
 			logger.info(ex.getResponseBodyAsString());
 			ex.printStackTrace();
