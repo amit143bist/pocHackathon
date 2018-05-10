@@ -13,7 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/styledemo.css" />
 	<link rel="stylesheet" type="text/css" href="/css/animate-custom.css" />
 	
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 	<script>
 	$(document).ready(function(){
 

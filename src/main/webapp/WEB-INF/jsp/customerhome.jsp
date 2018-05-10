@@ -31,7 +31,7 @@
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
 <link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
 <link data-require="bootstrap-css@2.3.2" data-semver="2.3.2"
 	rel="stylesheet"
@@ -142,7 +142,7 @@
 	</div>
 
 	<script
-		src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+		src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 
 	<script data-require="jquery.js@1.11.3" data-semver="1.11.3"
 		src="//code.jquery.com/jquery-1.11.3.min.js"></script>
