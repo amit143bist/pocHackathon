@@ -27,10 +27,9 @@
 		    	  type: 'POST',
 				  dataType: "json",
 				  url: 'createWorkspaceRemoteEnvelope',
-				  data: ({recipientName: recipientName, recipientEmail: recipientEmail}),
 				  data: JSON.stringify(
 			            {recipientName: recipientName, recipientEmail: recipientEmail}
-			        )
+			        ),
 		          success: function(data) {
 		            console.log('success login- ' + data);
 
