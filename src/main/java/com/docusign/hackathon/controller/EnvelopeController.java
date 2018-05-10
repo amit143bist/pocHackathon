@@ -169,19 +169,22 @@ public class EnvelopeController {
 
 	@RequestMapping(value = "/redirectToRecipientViewUrl", method = RequestMethod.GET)
 	public String redirectToRecipientViewUrl(@RequestParam("envelopeId") String envelopeId,
-			@RequestParam("recipientEmail") String recipientEmail, Model model) {
+			@RequestParam("recipientEmail") String recipientEmail, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
 
 		logger.info("In EnvelopeController.redirectToRecipientViewUrl() recipientEmail- " + recipientEmail
 				+ " envelopeId- " + envelopeId);
 
 		model.addAttribute("envelopeId", envelopeId);
 		model.addAttribute("recipientEmail", recipientEmail);
+
+		response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 		return "tempredirect";
 	}
 
 	@RequestMapping(value = "/createRecipientViewUrl", method = RequestMethod.POST)
 	public String createRecipientViewUrl(@RequestParam String envelopeId, @RequestParam String recipientEmail,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes, HttpServletRequest request, HttpServletResponse response) {
 
 		logger.info("In EnvelopeController.createRecipientViewUrl() recipientEmail- " + recipientEmail + " envelopeId- "
 				+ envelopeId);
@@ -189,6 +192,7 @@ public class EnvelopeController {
 		redirectAttributes.addAttribute("envelopeId", envelopeId);
 		redirectAttributes.addAttribute("recipientEmail", recipientEmail);
 
+		response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 		return "redirect:redirectToRecipientViewUrl";
 	}
 

@@ -22,15 +22,22 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, DTOptionsBuilder) 
 			$.ajax({
 				type : 'POST',
 				crossOrigin : true,
-				dataType : "json",
 				url : 'createRecipientViewUrl',
 				data : ({
 					envelopeId : envelopeId,
 					recipientEmail : recipientEmail
 				}),
 				success : function(data) {
-					console.log('success redirect- ');
-				}
+					console.log('success redirect- ' + data);
+					console.log('success redirect- ' + data.redirect);
+				},
+				complete : function(data) {
+					console.log('complete redirect- ' + data);
+					console.log('complete redirect- ' + data.redirect);
+				},
+				error: function(xhr, textStatus, errorThrown) { 
+		            console.log('Error!  Status = ' + xhr.status); 
+		         }
 			});
 		}
 
