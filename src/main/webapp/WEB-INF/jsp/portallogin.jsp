@@ -25,15 +25,15 @@
 			<a class="hiddenanchor" id="toregister"></a> <a class="hiddenanchor"
 				id="tologin"></a>
 			<div id="wrapper">
-				<div id="login" class="animate form">
+				<div id="register" class="animate form">
 					<form:form method="POST" autocomplete="on" id="customerLoginForm"
 						name="customerLoginForm" action="customerLogin">
 						<h1>Customer Login</h1>
 						<p>
 							<label for="username" class="uname" data-icon="u"> Your
-								email or username </label> <input id="username" name="username"
+								email </label> <input id="username" name="username"
 								required="required" type="text"
-								placeholder="myusername or mymail@mail.com" />
+								placeholder="mymail@mail.com" />
 						</p>
 						<p>
 							<label for="password" class="youpasswd" data-icon="p">
@@ -44,13 +44,13 @@
 							<input type="submit" value="Login" id="loginBtn" name="loginBtn" />
 						</p>
 						<p class="change_link">
-							Agent Login ? <a href="#toregister" class="to_register">Agent
+							Agent Login ? <a href="#tologin" class="to_register">Agent
 								Login</a>
 						</p>
 					</form:form>
 				</div>
 
-				<div id="register" class="animate form">
+				<div id="login" class="animate form">
 					<form:form method="POST" autocomplete="on" id="agentLoginForm"
 						name="agentLoginForm" action="agentLogin">
 						<h1>Agent Login</h1>
@@ -70,7 +70,7 @@
 								name="agentloginBtn" />
 						</p>
 						<p class="change_link">
-							Customer Login ? <a href="#tologin" class="to_register">Customer
+							Customer Login ? <a href="#toregister" class="to_register">Customer
 								Login</a>
 						</p>
 					</form:form>

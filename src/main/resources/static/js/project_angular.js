@@ -30,14 +30,17 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, DTOptionsBuilder) 
 
 					console.log('dashBoardData- ' + index + ' elementName- '
 							+ element);
+							console.log('dashBoardData- ' + index + ' elementName- '
+							+ element.envelopeDetailsPK.envelopeId);
 
-						$.each(element, function(a, b) {
+						container.custEnvelopes.push(element);
+						/*$.each(element, function(a, b) {
 
 							console.log('inner each ' + b);
 							console.log('inner each ' + b.envelopeDetailsPK.envelopeId);
 							container.custEnvelopes.push(b);
 							
-						});
+						});*/
 				});
 				
 				$scope.$broadcast('dataloaded');
