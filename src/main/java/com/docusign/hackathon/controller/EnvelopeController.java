@@ -192,8 +192,7 @@ public class EnvelopeController {
 		redirectAttributes.addAttribute("envelopeId", recipientData.getEnvelopeId());
 		redirectAttributes.addAttribute("recipientEmail", recipientData.getRecipientEmail());
 
-		response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-		return "redirect:/redirectToRecipientViewUrl";
+		return "redirectToRecipientViewUrl";
 	}
 
 	@RequestMapping(value = "/postConnect", method = RequestMethod.POST)

@@ -1,6 +1,6 @@
 var app = angular.module('angularSPF', ['ngRoute','datatables','ui.bootstrap']);
 
-app.controller('ModalCtrl', function($scope, $http, $timeout, DTOptionsBuilder) {
+app.controller('ModalCtrl', function($scope, $http, $timeout, $location, DTOptionsBuilder) {
 
 	var container = this;
 	container.showBody = false;
@@ -48,6 +48,8 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, DTOptionsBuilder) 
 			var res = $http.post('/createRecipientViewUrl', dataObj);
 			res.success(function(data, status, headers, config) {
 				console.log('success ' + data + ' status- ' + status + ' headers- ' + headers + ' config ' + config );
+				
+				$location.path('/redirectToRecipientViewUrl');
 			});
 			res.error(function(data, status, headers, config) {
 				console.log( "failure message: " + data + ' status- ' + status + ' headers- ' + headers + ' config ' + config);
