@@ -45,9 +45,9 @@
 <body>
 	<div class="container">
 		<header>
-		<div>
-			<img id="Image1" src="img/Foremost-logo.jpg">
-		</div>
+			<div>
+				<img id="Image1" src="img/Foremost-logo.jpg">
+			</div>
 		</header>
 		<section>
 		<div id="container_demo">
@@ -80,10 +80,9 @@
 						
 					</form:form>
 				</div>
-				<div id="envelopeId">
-				</div>
 			</div>
 		</div>
+		<div id="envelopeId"></div>
 		</section>
 	</div>
 </body>
