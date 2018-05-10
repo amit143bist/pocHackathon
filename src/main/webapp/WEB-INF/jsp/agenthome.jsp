@@ -36,12 +36,7 @@
 		            console.log('success login- ' + data.envelopeId);
 
 		            $('#envelopeId').html(data.envelopeId);
-		          },
-		          complete: function(data) {
-		        	    console.log('complete login- ' + data);
-			            console.log('complete login- ' + data.envelopeId);
-
-			      }
+		          }
 			});
 		  });
 	});
