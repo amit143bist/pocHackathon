@@ -85,20 +85,23 @@ public class EnvelopeController {
 
 	@RequestMapping(value = "/createWorkspaceRemoteEnvelope", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<String> createEnvelope(@RequestParam String recipientName,
-			@RequestParam String recipientEmail) {
+	public String createEnvelope(@RequestParam String recipientName, @RequestParam String recipientEmail) {
 
 		logger.info("In EnvelopeController.createEnvelope() recipientName- " + recipientName + " recipientEmail- "
 				+ recipientEmail);
 		String workspaceId = hybridService.createWorkspace();
 
+		StringBuilder envelopeBuilder = new StringBuilder();
 		String envelopeId = hybridService.createRecipientEnvelopes(recipientName, recipientEmail, workspaceId, false);
 		saveEnvelopeDetails(envelopeId, workspaceId, recipientName, recipientEmail, false);
 
+		envelopeBuilder.append(envelopeId);
 		envelopeId = hybridService.createRecipientEnvelopes(recipientName, recipientEmail, workspaceId, true);
 		saveEnvelopeDetails(envelopeId, workspaceId, recipientName, recipientEmail, true);
 
-		return new ResponseEntity<String>(envelopeId, HttpStatus.OK);
+		envelopeBuilder.append(envelopeId);
+
+		return envelopeBuilder.toString();
 	}
 
 	@RequestMapping(value = "/fetchRecipientEnvelopes", method = RequestMethod.GET)

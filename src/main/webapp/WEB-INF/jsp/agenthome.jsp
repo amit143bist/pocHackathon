@@ -31,6 +31,11 @@
 				  data: ({recipientName: recipientName, recipientEmail: recipientEmail}),
 		          success: function(data) {
 		            console.log('success login- ' + data);
+
+		            var respData = JSON.stringify(data);
+
+		            console.log('respData in success login- ' + respData);
+		            
 		            $('#envelopeId').html(data);
 		          }
 			});
@@ -69,11 +74,9 @@
 								name="loginBtn" />
 						</p>
 						
-						<p>
-							<div id="envelopeId">
-							</div>
-						</p>
 					</form:form>
+				</div>
+				<div id="envelopeId">
 				</div>
 			</div>
 		</div>

@@ -4,76 +4,78 @@
 <html ng-app="angularSPF" xmlns="http://www.w3.org/1999/xhtml"
 	xml:lang="en">
 <head>
-<title>Customer Envelopes</title>
-<link href="/css/Site.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="/css/site.css">
-<link rel="stylesheet" href="/css/normalize.css">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" type="text/css" href="/css/demo.css" />
-<link rel="stylesheet" type="text/css" href="/css/styledemo.css" />
-<link rel="stylesheet" type="text/css" href="/css/animate-custom.css" />
-
-<link rel="stylesheet" type="text/css"
-	href="https://docucdn-a.akamaihd.net/olive/17.11.0/css/olive.min.css">
-<link rel="stylesheet" type="text/css"
-	href="https://docucdn-a.akamaihd.net/olive/17.11.0/css/martini.min.css">
-<link rel="stylesheet" type="text/css"
-	href="https://docucdn-a.akamaihd.net/olive/17.11.0/css/tagger.min.css">
-
-<link href="//fonts.googleapis.com/css?family=Maven+Pro:400,500,700,900"
-	rel="stylesheet prefetch" type="text/css">
-
-<link href="/css/main.css" rel="stylesheet" />
-<link href="/css/spf.css" rel="stylesheet" />
-<link href="/css/dashboard.css" rel="stylesheet" />
-
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
-<link data-require="bootstrap-css@2.3.2" data-semver="2.3.2"
-	rel="stylesheet"
-	href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" />
-
-<link data-require="datatable-css@1.10.7" data-semver="1.10.7"
-	rel="stylesheet"
-	href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" />
-
-<script>
-	$(document).ready(
-			function() {
-
-				$("#loginBtn").click(
-						function() {
-
-							var envelopeId = $(this).data('envelopeId');
-						    var recipientEmail = $(this).data('recipientEmail');
-
-							console.log('login initiate envelopeId- '
-									+ envelopeId + ' recipientEmail- '
-									+ recipientEmail);
-							$.ajax({
-								type : 'POST',
-								crossOrigin : true,
-								dataType : "json",
-								url : 'createRecipientViewUrl',
-								data : ({
-									envelopeId : envelopeId,
-									recipientEmail : recipientEmail
-								}),
-								success : function(data) {
-									console.log('success login- ' + data);
-									$('#envelopeId').html(data);
-								}
+	<title>Customer Envelopes</title>
+	<link rel="stylesheet" href="/css/site.css">
+	<link rel="stylesheet" href="/css/normalize.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/demo.css" />
+	<link rel="stylesheet" type="text/css" href="/css/styledemo.css" />
+	<link rel="stylesheet" type="text/css" href="/css/animate-custom.css" />
+	
+	<link rel="stylesheet" type="text/css"
+		href="https://docucdn-a.akamaihd.net/olive/17.11.0/css/olive.min.css">
+	<link rel="stylesheet" type="text/css"
+		href="https://docucdn-a.akamaihd.net/olive/17.11.0/css/martini.min.css">
+	<link rel="stylesheet" type="text/css"
+		href="https://docucdn-a.akamaihd.net/olive/17.11.0/css/tagger.min.css">
+	
+	<link href="//fonts.googleapis.com/css?family=Maven+Pro:400,500,700,900"
+		rel="stylesheet prefetch" type="text/css">
+	
+	<link href="/css/main.css" rel="stylesheet" />
+	<link href="/css/spf.css" rel="stylesheet" />
+	<link href="/css/dashboard.css" rel="stylesheet" />
+	
+	<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+			
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	
+	<link data-require="bootstrap-css@2.3.2" data-semver="2.3.2"
+		rel="stylesheet"
+		href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" />
+	
+	<link data-require="datatable-css@1.10.7" data-semver="1.10.7"
+		rel="stylesheet"
+		href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" />
+	
+	<script>
+		$(document).ready(
+				function() {
+	
+					$("#loginBtn").click(
+							function() {
+	
+								var envelopeId = $(this).data('envelopeId');
+							    var recipientEmail = $(this).data('recipientEmail');
+	
+								console.log('login initiate envelopeId- '
+										+ envelopeId + ' recipientEmail- '
+										+ recipientEmail);
+								$.ajax({
+									type : 'POST',
+									crossOrigin : true,
+									dataType : "json",
+									url : 'createRecipientViewUrl',
+									data : ({
+										envelopeId : envelopeId,
+										recipientEmail : recipientEmail
+									}),
+									success : function(data) {
+										console.log('success login- ' + data);
+										$('#envelopeId').html(data);
+									}
+								});
 							});
-						});
-			});
-</script>
+				});
+	</script>
 </head>
 <body ng-app="angularSPF" ng-controller="ModalCtrl as spfController"
-	ng-init="fetchAllEnvelopesJSON(${recipientEmail})">
+	ng-init="fetchAllEnvelopesJSON('${recipientEmail}')">
 
 	<div class="container">
 		<header>
@@ -140,9 +142,6 @@
 		</div>
 		</section>
 	</div>
-
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 
 	<script data-require="jquery.js@1.11.3" data-semver="1.11.3"
 		src="//code.jquery.com/jquery-1.11.3.min.js"></script>
