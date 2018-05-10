@@ -113,6 +113,12 @@ public class EnvelopeController {
 
 		List<EnvelopeDetails> envelopeList = envelopeDetailsRepository
 				.findByEnvelopeDetailsPK_RecipientEmailAndEnvelopeStatus(recipientEmail, "sent");
+		
+		for(EnvelopeDetails envelopeDetails: envelopeList){
+			
+			logger.info("EnvelopeDetailsPK- " + envelopeDetails.getEnvelopeDetailsPK());
+			logger.info("EnvelopeId- " + envelopeDetails.getEnvelopeDetailsPK().getEnvelopeId());
+		}
 
 		return envelopeList;
 	}
