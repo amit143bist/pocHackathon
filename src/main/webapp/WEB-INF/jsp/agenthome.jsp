@@ -33,13 +33,15 @@
 			        ),
 		          success: function(data) {
 		            console.log('success login- ' + data);
+		            console.log('success login- ' + data.envelopeId);
 
-		            var respData = JSON.stringify(data);
+		            $('#envelopeId').html(data.envelopeId);
+		          },
+		          complete: function(data) {
+		        	    console.log('complete login- ' + data);
+			            console.log('complete login- ' + data.envelopeId);
 
-		            console.log('respData in success login- ' + respData);
-		            
-		            $('#envelopeId').html(data);
-		          }
+			      }
 			});
 		  });
 	});

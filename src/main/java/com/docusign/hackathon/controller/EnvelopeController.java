@@ -28,6 +28,7 @@ import com.docusign.hackathon.connect.model.EnvelopeStatusCode;
 import com.docusign.hackathon.connect.model.RecipientStatus;
 import com.docusign.hackathon.db.model.EnvelopeDetails;
 import com.docusign.hackathon.db.model.EnvelopeDetailsPK;
+import com.docusign.hackathon.domain.EnvelopeCreationResponse;
 import com.docusign.hackathon.domain.EnvelopeData;
 import com.docusign.hackathon.domain.RecipientData;
 import com.docusign.hackathon.repository.EnvelopeDetailsRepository;
@@ -89,7 +90,7 @@ public class EnvelopeController {
 	}
 
 	@RequestMapping(value = "/createWorkspaceRemoteEnvelope", method = RequestMethod.POST)
-	public @ResponseBody String createEnvelope(@RequestBody RecipientData recipientData) {
+	public @ResponseBody EnvelopeCreationResponse createEnvelope(@RequestBody RecipientData recipientData) {
 
 		String recipientName = recipientData.getRecipientName();
 		String recipientEmail = recipientData.getRecipientEmail();
@@ -106,9 +107,12 @@ public class EnvelopeController {
 		envelopeId = hybridService.createRecipientEnvelopes(recipientName, recipientEmail, workspaceId, true);
 		saveEnvelopeDetails(envelopeId, workspaceId, recipientName, recipientEmail, true);
 
+		envelopeBuilder.append(", ");
 		envelopeBuilder.append(envelopeId);
 
-		return envelopeBuilder.toString();
+		EnvelopeCreationResponse envelopeResponse = new EnvelopeCreationResponse();
+		envelopeResponse.setEnvelopeId(envelopeBuilder.toString());
+		return envelopeResponse;
 	}
 
 	@RequestMapping(value = "/fetchRecipientEnvelopes", method = RequestMethod.GET)
