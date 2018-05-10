@@ -20,7 +20,7 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 					+ envelopeId + ' recipientEmail- '
 					+ recipientEmail);
 					
-			var url = '/redirectToRecipientViewUrl?envelopeId' + envelopeId + '&recipientEmail=' + recipientEmail;
+			var url = '/redirectToRecipientViewUrl?envelopeId=' + envelopeId + '&recipientEmail=' + recipientEmail;
 			
 			console.log('url-' + url);
 			$window.location.href = url;

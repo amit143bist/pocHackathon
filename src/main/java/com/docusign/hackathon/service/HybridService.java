@@ -249,7 +249,7 @@ public class HybridService {
 			String msgBody = objectMapper.writeValueAsString(recipientTokenRequest);
 			HttpEntity<String> requestEntity = new HttpEntity<String>(msgBody, httpHeaders);
 
-			logger.debug("HybridService.recipientUrl() " + requestEntity);
+			logger.info("HybridService.recipientUrl() " + requestEntity);
 
 			ResponseEntity<EmbeddedUrlResponse> recipientUrlEntity = restTemplate
 					.exchange(
