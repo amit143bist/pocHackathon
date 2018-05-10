@@ -64,7 +64,7 @@ public class EnvelopeController {
 
 	@RequestMapping(value = "/emeddedCallback", method = RequestMethod.GET)
 	public String emeddedCallback(@RequestParam String envelopeId, @RequestParam String recipientName,
-			@RequestParam String recipientEmail, @RequestParam String event) {
+			@RequestParam String recipientEmail, @RequestParam String event, Model model) {
 
 		if ("signing_complete".equalsIgnoreCase(event)) {
 
@@ -80,12 +80,13 @@ public class EnvelopeController {
 
 		}
 
-		return null;
+		model.addAttribute("recipientEmail", recipientEmail);
+		return "customerhome";
 	}
 
 	@RequestMapping(value = "/createWorkspaceRemoteEnvelope", method = RequestMethod.POST)
-	@ResponseBody
-	public String createEnvelope(@RequestParam String recipientName, @RequestParam String recipientEmail) {
+	public @ResponseBody ResponseEntity<String> createEnvelope(@RequestParam String recipientName,
+			@RequestParam String recipientEmail) {
 
 		logger.info("In EnvelopeController.createEnvelope() recipientName- " + recipientName + " recipientEmail- "
 				+ recipientEmail);
@@ -101,12 +102,11 @@ public class EnvelopeController {
 
 		envelopeBuilder.append(envelopeId);
 
-		return envelopeBuilder.toString();
+		return ResponseEntity.ok(envelopeBuilder.toString());
 	}
 
 	@RequestMapping(value = "/fetchRecipientEnvelopes", method = RequestMethod.GET)
-	@ResponseBody
-	public List<EnvelopeDetails> fetchRecipientEnvelopes(@RequestParam String recipientEmail,
+	public @ResponseBody List<EnvelopeDetails> fetchRecipientEnvelopes(@RequestParam String recipientEmail,
 			HttpServletRequest request, HttpServletResponse response) {
 
 		logger.info("In EnvelopeController.fetchRecipientEnvelopes() recipientEmail- " + recipientEmail);

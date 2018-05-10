@@ -119,7 +119,7 @@
 
 											<tbody>
 												<tr
-													ng-repeat="envelopeDetails in spfController.custEnvelopes">
+													ng-repeat="envelopeDetails in spfController.custEnvelopes track by $index">
 													<td>{{envelopeDetails.envelopeDetailsPK.envelopeId}}</td>
 													<td>{{envelopeDetails.envelopeSubject}}</td>
 													<td><input type="button" value="Login" id="loginBtn"
@@ -137,6 +137,10 @@
 						</div>
 					</div>
 
+				</div>
+				<div class="text-center ng-hide" ng-hide="spfController.showBody">
+					<br> <br> <br>
+					<div class="spinner-circle spinner-sm"></div>
 				</div>
 			</div>
 		</div>

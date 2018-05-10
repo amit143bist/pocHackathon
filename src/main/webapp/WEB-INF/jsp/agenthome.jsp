@@ -25,7 +25,6 @@
 			  console.log('login initiate recipientName- ' + recipientName + ' recipientEmail- ' + recipientEmail);
 		      $.ajax({
 		    	  type: 'POST',
-		    	  crossOrigin: true,
 				  dataType: "json",
 				  url: 'createWorkspaceRemoteEnvelope',
 				  data: ({recipientName: recipientName, recipientEmail: recipientEmail}),

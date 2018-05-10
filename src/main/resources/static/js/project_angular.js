@@ -33,6 +33,8 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, DTOptionsBuilder) 
 
 						$.each(element, function(a, b) {
 
+							console.log('inner each ' + b);
+							console.log('inner each ' + b.envelopeDetailsPK.envelopeId);
 							container.custEnvelopes.push(b);
 							
 						});

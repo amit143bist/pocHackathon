@@ -1,12 +1,8 @@
 package com.docusign.hackathon.service;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,10 +91,6 @@ public class HybridService {
 		return workspaceId;
 	}
 	
-	public static void main(String[] args) {
-		System.out.println("HybridService.main() " + UUID.fromString("3317bc9e-f607-4a5d-acc9-d42422df9386"));
-	}
-
 	public String createRecipientEnvelopes(String signerName, String signerEmail, String workspaceId,
 			boolean isUploadEnvelope) {
 
