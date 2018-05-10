@@ -88,6 +88,7 @@ public class Tabs {
 		this.signerAttachmentTabs = signerAttachmentTabs;
 	}
 
+	@JsonProperty("signHereTabs")
 	public List<SignHereTab> getSignHereTabs() {
 		return signHereTabs;
 	}

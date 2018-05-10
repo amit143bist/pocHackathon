@@ -5,13 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "documentBase64", "documentId", "fileExtension", "name", "transformPdfFields" })
+@JsonPropertyOrder({ "documentBase64", "documentId", "remoteUrl", "fileExtension", "name", "transformPdfFields" })
 public class Document {
 
 	@JsonProperty("documentBase64")
 	private String documentBase64;
 	@JsonProperty("documentId")
 	private String documentId;
+	@JsonProperty("remoteUrl")
+	private String remoteUrl;
 	@JsonProperty("fileExtension")
 	private String fileExtension;
 	@JsonProperty("name")
@@ -37,6 +39,16 @@ public class Document {
 	@JsonProperty("documentId")
 	public void setDocumentId(String documentId) {
 		this.documentId = documentId;
+	}
+	
+	@JsonProperty("remoteUrl")
+	public String getRemoteUrl() {
+		return remoteUrl;
+	}
+
+	@JsonProperty("remoteUrl")
+	public void setRemoteUrl(String remoteUrl) {
+		this.remoteUrl = remoteUrl;
 	}
 
 	@JsonProperty("fileExtension")
