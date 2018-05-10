@@ -66,32 +66,6 @@
 			});
 		}
 		
-		$(document).ready(function() {
-	
-					$('input[type=button]').click(function() {
-	
-								var envelopeId = $(this).data('envelopeId');
-							    var recipientEmail = $(this).data('recipientEmail');
-	
-								console.log('jquery login initiate envelopeId- '
-										+ envelopeId + ' recipientEmail- '
-										+ recipientEmail);
-								$.ajax({
-									type : 'POST',
-									crossOrigin : true,
-									dataType : "json",
-									url : 'createRecipientViewUrl',
-									data : ({
-										envelopeId : envelopeId,
-										recipientEmail : recipientEmail
-									}),
-									success : function(data) {
-										console.log('success login- ' + data);
-										$('#envelopeId').html(data);
-									}
-								});
-							});
-				});
 	</script>
 </head>
 <body ng-app="angularSPF" ng-controller="ModalCtrl as spfController"
@@ -143,9 +117,7 @@
 													<td>{{envelopeData.envelopeId}}</td>
 													<td>{{envelopeData.envelopeSubject}}</td>
 													<td><input type="button" value="Sign" id="loginBtn"
-														name="loginBtn"
-														data-envelopeId="{{envelopeData.envelopeId}}"
-														data-recipientEmail="{{envelopeData.recipientEmail}}" onclick="openRecipientView('{{envelopeData.envelopeId}}', '{{envelopeData.recipientEmail}}')"/></td>
+														name="loginBtn" ng-click="openRecipientView(envelopeData.envelopeId, envelopeData.recipientEmail)"/></td>
 												</tr>
 											</tbody>
 										</table>
