@@ -1,12 +1,11 @@
 package com.docusign.hackathon.service;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +85,8 @@ public class HybridService {
 
 			WorkspaceResponse workspaceResponse = envelopeResponseEntity.getBody();
 			workspaceId = workspaceResponse.getWorkspaceId();
+
+			logger.info("workspaceId in HybridService.createWorkspace() is " + workspaceId);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
@@ -107,12 +108,14 @@ public class HybridService {
 		} else {
 
 			ClassLoader classLoader = getClass().getClassLoader();
-			File file = new File(classLoader.getResource("doc/Policy.pdf").getFile());
+			InputStream inputStream = classLoader.getResourceAsStream("doc/Policy.pdf");
 
 			try {
-				document.setDocumentBase64(Base64.encodeBase64String(FileUtils.readFileToByteArray(file)));
-			} catch (IOException e) {
-				e.printStackTrace();
+				byte[] buffer = new byte[inputStream.available()];
+				inputStream.read(buffer);
+				document.setDocumentBase64(Base64.encodeBase64String(buffer));
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
 
 			document.setName("Signature Document");
@@ -169,6 +172,7 @@ public class HybridService {
 			msgBody = objectMapper.writeValueAsString(request);
 			HttpEntity<String> requestEntity = new HttpEntity<String>(msgBody, httpHeaders);
 
+			logger.info("requestEntity in HybridService.createEnvelope()- " + requestEntity);
 			ResponseEntity<EnvelopeResponse> envelopeResponseEntity = restTemplate.exchange(
 					"https://demo.docusign.net/restapi/v2/accounts/" + herokuDSAccountId + "/envelopes",
 					HttpMethod.POST, requestEntity, EnvelopeResponse.class);
