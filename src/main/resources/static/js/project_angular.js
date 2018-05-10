@@ -50,21 +50,9 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, DTOptionsBuilder) 
 				console.log('success ' + data + ' status- ' + status + ' headers- ' + headers + ' config ' + config );
 			});
 			res.error(function(data, status, headers, config) {
-				console.log( "failure message: " + data + + ' status- ' + status + ' headers- ' + headers + ' config ' + config);
+				console.log( "failure message: " + data + ' status- ' + status + ' headers- ' + headers + ' config ' + config);
 			});
 			
-			/*$http({
-	            method : 'POST',
-	            url : 'createRecipientViewUrl',
-	            data : ({
-					envelopeId : envelopeId,
-					recipientEmail : recipientEmail
-				})
-	        }).then(function mySucces(response) {
-	            console.log('success redirect- ' + response);
-	        }, function myError(error) {
-	            console.log('error redirect- ' + error);
-	        });*/
 		}
 
 	$scope.fetchAllEnvelopesJSON = function(recipientEmail) {

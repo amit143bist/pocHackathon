@@ -179,7 +179,6 @@ public class EnvelopeController {
 		model.addAttribute("envelopeId", envelopeId);
 		model.addAttribute("recipientEmail", recipientEmail);
 
-		response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 		return "tempredirect";
 	}
 
@@ -194,7 +193,7 @@ public class EnvelopeController {
 		redirectAttributes.addAttribute("recipientEmail", recipientData.getRecipientEmail());
 
 		response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-		return "redirect:redirectToRecipientViewUrl";
+		return "redirect:/redirectToRecipientViewUrl";
 	}
 
 	@RequestMapping(value = "/postConnect", method = RequestMethod.POST)
