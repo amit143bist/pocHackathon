@@ -1,6 +1,7 @@
 package com.docusign.hackathon.controller;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -26,6 +27,7 @@ import com.docusign.hackathon.connect.model.EnvelopeStatusCode;
 import com.docusign.hackathon.connect.model.RecipientStatus;
 import com.docusign.hackathon.db.model.EnvelopeDetails;
 import com.docusign.hackathon.db.model.EnvelopeDetailsPK;
+import com.docusign.hackathon.domain.EnvelopeData;
 import com.docusign.hackathon.repository.EnvelopeDetailsRepository;
 import com.docusign.hackathon.service.HybridService;
 
@@ -106,21 +108,26 @@ public class EnvelopeController {
 	}
 
 	@RequestMapping(value = "/fetchRecipientEnvelopes", method = RequestMethod.GET)
-	public @ResponseBody List<EnvelopeDetails> fetchRecipientEnvelopes(@RequestParam String recipientEmail,
+	public @ResponseBody List<EnvelopeData> fetchRecipientEnvelopes(@RequestParam String recipientEmail,
 			HttpServletRequest request, HttpServletResponse response) {
 
 		logger.info("In EnvelopeController.fetchRecipientEnvelopes() recipientEmail- " + recipientEmail);
 
 		List<EnvelopeDetails> envelopeList = envelopeDetailsRepository
 				.findByEnvelopeDetailsPK_RecipientEmailAndEnvelopeStatus(recipientEmail, "sent");
-		
-		for(EnvelopeDetails envelopeDetails: envelopeList){
-			
-			logger.info("EnvelopeDetailsPK- " + envelopeDetails.getEnvelopeDetailsPK());
-			logger.info("EnvelopeId- " + envelopeDetails.getEnvelopeDetailsPK().getEnvelopeId());
+
+		List<EnvelopeData> envelopeDataList = new ArrayList<EnvelopeData>();
+		for (EnvelopeDetails envelopeDetails : envelopeList) {
+
+			EnvelopeData envelopeData = new EnvelopeData();
+			envelopeData.setEnvelopeId(envelopeDetails.getEnvelopeDetailsPK().getEnvelopeId().toString());
+			envelopeData.setEnvelopeSubject(envelopeDetails.getEnvelopeSubject());
+			envelopeData.setRecipientEmail(envelopeDetails.getEnvelopeDetailsPK().getRecipientEmail());
+
+			envelopeDataList.add(envelopeData);
 		}
 
-		return envelopeList;
+		return envelopeDataList;
 	}
 
 	@RequestMapping(value = "/createRecipientViewUrl", method = RequestMethod.POST)

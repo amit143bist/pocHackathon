@@ -85,7 +85,7 @@
 		</header>
 		<section>
 		<div id="container_demo">
-			<div id="wrapper">
+			<div>
 				<div class="site-content" ng-show="spfController.showBody">
 					<div class="site-container loading" ui-view="">
 						<div class="site-main ng-isolate-scope">
@@ -119,13 +119,13 @@
 
 											<tbody>
 												<tr
-													ng-repeat="envelopeDetails in spfController.custEnvelopes track by $index">
-													<td>{{envelopeDetails.envelopeDetailsPK.envelopeId}}</td>
-													<td>{{envelopeDetails.envelopeSubject}}</td>
+													ng-repeat="envelopeData in spfController.custEnvelopes track by $index">
+													<td>{{envelopeData.envelopeId}}</td>
+													<td>{{envelopeData.envelopeSubject}}</td>
 													<td><input type="button" value="Login" id="loginBtn"
 														name="loginBtn"
-														data-envelopeId="{{envelopeDetails.envelopeDetailsPK.envelopeId}}"
-														data-recipientEmail="{{envelopeDetails.envelopeDetailsPK.recipientEmail}}" /></td>
+														data-envelopeId="{{envelopeData.envelopeId}}"
+														data-recipientEmail="{{envelopeData.recipientEmail}}" /></td>
 												</tr>
 											</tbody>
 										</table>
