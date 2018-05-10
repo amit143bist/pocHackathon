@@ -19,7 +19,7 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, DTOptionsBuilder) 
 	    	console.log('openRecipientView envelopeId- '
 					+ envelopeId + ' recipientEmail- '
 					+ recipientEmail);
-			$.ajax({
+			/*$.ajax({
 				type : 'POST',
 				crossOrigin : true,
 				url : 'createRecipientViewUrl',
@@ -38,7 +38,20 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, DTOptionsBuilder) 
 				error: function(xhr, textStatus, errorThrown) { 
 		            console.log('Error!  Status = ' + xhr.status); 
 		         }
-			});
+			});*/
+			
+			$http({
+	            method : 'POST',
+	            url : 'createRecipientViewUrl',
+	            data : ({
+					envelopeId : envelopeId,
+					recipientEmail : recipientEmail
+				})
+	        }).then(function mySucces(response) {
+	            console.log('success redirect- ' + response);
+	        }, function myError(error) {
+	            console.log('error redirect- ' + error);
+	        });
 		}
 
 	$scope.fetchAllEnvelopesJSON = function(recipientEmail) {
