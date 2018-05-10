@@ -5,114 +5,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Login Screen</title>
-<link rel="stylesheet" href="/css/site.css">
-<link rel="stylesheet" href="/css/normalize.css">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" type="text/css" href="/css/demo.css" />
-<link rel="stylesheet" type="text/css" href="/css/styledemo.css" />
-<link rel="stylesheet" type="text/css" href="/css/animate-custom.css" />
-<style type="text/css">
-a#link-to-fond:hover {
-	background-color: #fff;
-	color: #4e80ff !important
-}
-
-a#link-to-fond:visited {
-	color: #fff
-}
-
-#close-fond-bar:hover {
-	cursor: pointer
-}
-
-#fond-bar {
-	display: block;
-	height: 50px;
-	max-height: 60px;
-	min-height: 10px;
-	background-color: #147bd1;
-	padding: 5px 5px 5px 10px;
-	position: fixed;
-	left: 0;
-	top: 42px;
-	margin-top: -60px;
-	width: 100%;
-	z-index: 999999;
-	text-align: center;
-	-webkit-box-sizing: initial;
-	box-sizing: initial
-}
-
-#fond-bar-container {
-	display: inline-block;
-	width: 98%;
-	margin: 0;
-	position: relative;
-	line-height: 32px;
-	max-height: 32px
-}
-
-#fond-text {
-	position: relative;
-	color: #fff !important;
-	font-size: 16px !important;
-	text-align: centecenter !important;
-	margin: 0 !important;
-	float: left !important;
-	text-shadow: none !important;
-	padding: 4px !important;
-	line-height: 60px;
-	vertical-align: middle;
-	width: 100%
-}
-
-#fond-text, #link-to-fond {
-	font-family: walsheim, Arial !important
-}
-
-#link-to-fond {
-	color: #fff;
-	font-size: 14px !important;
-	font-weight: 400 !important;
-	border: 1px solid #fff;
-	padding: 6px 20px;
-	border-radius: 2px;
-	text-decoration: none !important;
-	margin-left: 12px
-}
-
-#fond-small {
-	width: 24px;
-	height: 24px;
-	margin-right: 8px;
-	margin-top: -2px;
-	vertical-align: middle;
-	display: inline !important
-}
-
-#close-fond-bar {
-	position: absolute;
-	top: 26px;
-	right: 5px;
-	width: 14px;
-	z-index: 999999;
-	font-family: Arial;
-	font-size: 12px
-}
-</style>
-<style type="text/css">
-.c1-ui-state-hover {
-	background-color: yellow !important;
-	padding: 5px !important
-}
-</style>
+	<title>Login Screen</title>
+	<link rel="stylesheet" href="/css/site.css">
+	<link rel="stylesheet" href="/css/normalize.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/demo.css" />
+	<link rel="stylesheet" type="text/css" href="/css/styledemo.css" />
+	<link rel="stylesheet" type="text/css" href="/css/animate-custom.css" />
 </head>
 <body>
-	<!-- <div class="header">
-			<img id="Image1" src="images/Foremost-logo.jpg">
-		</div> -->
-
 	<div class="container">
 		<header>
 		<div>

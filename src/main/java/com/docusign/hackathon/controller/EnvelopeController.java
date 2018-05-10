@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,8 +55,10 @@ public class EnvelopeController {
 
 	@RequestMapping(value = "/customerLogin", method = RequestMethod.POST)
 	public String customerLogin(@RequestParam(value = "username") String username,
-			@RequestParam(value = "password") String password) {
+			@RequestParam(value = "password") String password, HttpServletRequest request,
+			HttpServletResponse response, Model model) {
 
+		model.addAttribute("recipientEmail", username);
 		return "customerhome";
 	}
 
@@ -99,7 +103,8 @@ public class EnvelopeController {
 
 	@RequestMapping(value = "/fetchRecipientEnvelopes", method = RequestMethod.GET)
 	@ResponseBody
-	public List<EnvelopeDetails> fetchRecipientEnvelopes(@RequestParam String recipientEmail) {
+	public List<EnvelopeDetails> fetchRecipientEnvelopes(@RequestParam String recipientEmail,
+			HttpServletRequest request, HttpServletResponse response) {
 
 		logger.info("In EnvelopeController.fetchRecipientEnvelopes() recipientEmail- " + recipientEmail);
 
@@ -110,7 +115,7 @@ public class EnvelopeController {
 	}
 
 	@RequestMapping(value = "/createRecipientViewUrl", method = RequestMethod.POST)
-	public String createRecipientViewUrl(@RequestParam String recipientEmail, @RequestParam String envelopeId) {
+	public String createRecipientViewUrl(@RequestParam String envelopeId, @RequestParam String recipientEmail) {
 
 		logger.info("In EnvelopeController.createRecipientViewUrl() recipientEmail- " + recipientEmail + " envelopeId- "
 				+ envelopeId);
