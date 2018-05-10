@@ -1,6 +1,6 @@
 var app = angular.module('angularSPF', ['ngRoute','datatables','ui.bootstrap']);
 
-app.controller('ModalCtrl', function($scope, $http, $timeout, $location, DTOptionsBuilder) {
+app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window, DTOptionsBuilder) {
 
 	var container = this;
 	container.showBody = false;
@@ -19,6 +19,11 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, DTOptio
 	    	console.log('openRecipientView envelopeId- '
 					+ envelopeId + ' recipientEmail- '
 					+ recipientEmail);
+					
+			var url = '/redirectToRecipientViewUrl?envelopeId' + envelopeId + '&recipientEmail=' + recipientEmail;
+			
+			console.log('url-' + url);
+			$window.location.href = url;
 			/*$.ajax({
 				type : 'POST',
 				crossOrigin : true,
@@ -40,7 +45,7 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, DTOptio
 		         }
 			});*/
 			
-			var dataObj = {
+			/*var dataObj = {
 				envelopeId : 'b84ef791-6d05-40fb-b645-5b4a4edcbd05',
 				recipientEmail : 'docusign.sso@gmail.com'
 			};
@@ -53,7 +58,7 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, DTOptio
 			});
 			res.error(function(data, status, headers, config) {
 				console.log( "failure message: " + data + ' status- ' + status + ' headers- ' + headers + ' config ' + config);
-			});
+			});*/
 			
 		}
 
