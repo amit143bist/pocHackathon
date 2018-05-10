@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -132,15 +131,13 @@ public class EnvelopeController {
 		return envelopeDataList;
 	}
 
-	@RequestMapping(value = "/redirectToRecipientViewUrl", method = RequestMethod.GET)
-	public String redirectToRecipientViewUrl(@RequestParam("envelopeId") String envelopeId,
-			@RequestParam("recipientEmail") String recipientEmail,
-			@ModelAttribute("flashEnvelopeId") String flashEnvelopeId,
-			@ModelAttribute("flashRecipientEmail") String flashRecipientEmail) {
+	@RequestMapping(value = "/redirectToDSURL", method = RequestMethod.POST)
+	public String redirectToDSURL(@RequestParam("envelopeId") String envelopeId,
+			@RequestParam("recipientEmail") String recipientEmail) {
 
-		logger.info("In EnvelopeController.redirectToRecipientViewUrl() recipientEmail- " + recipientEmail
-				+ " envelopeId- " + envelopeId + " flashEnvelopeId " + flashEnvelopeId + " flashRecipientEmail "
-				+ flashRecipientEmail);
+		logger.info("In EnvelopeController.redirectToDSURL() recipientEmail- " + recipientEmail
+				+ " envelopeId- " + envelopeId);
+		
 		EnvelopeDetailsPK envelopeDetailsPK = new EnvelopeDetailsPK();
 		envelopeDetailsPK.setEnvelopeId(UUID.fromString(envelopeId));
 		envelopeDetailsPK.setRecipientEmail(recipientEmail);
@@ -162,6 +159,18 @@ public class EnvelopeController {
 		return "redirect:" + recipientViewUrl;
 	}
 
+	@RequestMapping(value = "/redirectToRecipientViewUrl", method = RequestMethod.GET)
+	public String redirectToRecipientViewUrl(@RequestParam("envelopeId") String envelopeId,
+			@RequestParam("recipientEmail") String recipientEmail, Model model) {
+
+		logger.info("In EnvelopeController.redirectToRecipientViewUrl() recipientEmail- " + recipientEmail
+				+ " envelopeId- " + envelopeId);
+
+		model.addAttribute("envelopeId", envelopeId);
+		model.addAttribute("recipientEmail", recipientEmail);
+		return "tempredirect";
+	}
+
 	@RequestMapping(value = "/createRecipientViewUrl", method = RequestMethod.POST)
 	public String createRecipientViewUrl(@RequestParam String envelopeId, @RequestParam String recipientEmail,
 			RedirectAttributes redirectAttributes) {
@@ -170,12 +179,7 @@ public class EnvelopeController {
 				+ envelopeId);
 
 		redirectAttributes.addAttribute("envelopeId", envelopeId);
-
 		redirectAttributes.addAttribute("recipientEmail", recipientEmail);
-
-		redirectAttributes.addFlashAttribute("flashEnvelopeId", envelopeId);
-
-		redirectAttributes.addFlashAttribute("flashRecipientEmail", recipientEmail);
 
 		return "redirect:redirectToRecipientViewUrl";
 	}
