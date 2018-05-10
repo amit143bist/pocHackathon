@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "documentBase64", "documentId", "fileExtension", "name" })
+@JsonPropertyOrder({ "documentBase64", "documentId", "fileExtension", "name", "transformPdfFields" })
 public class Document {
 
 	@JsonProperty("documentBase64")
@@ -16,6 +16,8 @@ public class Document {
 	private String fileExtension;
 	@JsonProperty("name")
 	private String name;
+	@JsonProperty("transformPdfFields")
+	private String transformPdfFields;
 
 	@JsonProperty("documentBase64")
 	public String getDocumentBase64() {
@@ -55,5 +57,15 @@ public class Document {
 	@JsonProperty("name")
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@JsonProperty("transformPdfFields")
+	public String getTransformPdfFields() {
+		return transformPdfFields;
+	}
+
+	@JsonProperty("transformPdfFields")
+	public void setTransformPdfFields(String transformPdfFields) {
+		this.transformPdfFields = transformPdfFields;
 	}
 }

@@ -7,7 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "approveTabs", "declineTabs", "textTabs" })
+@JsonPropertyOrder({ "approveTabs", "declineTabs", "textTabs", "noteTabs", "signerAttachmentTabs", "signHereTabs",
+		"initialHereTabs" })
 public class Tabs {
 
 	@JsonProperty("approveTabs")
@@ -18,6 +19,14 @@ public class Tabs {
 	private List<TextTab> textTabs = null;
 	@JsonProperty("fullNameTabs")
 	private List<FullNameTab> fullNameTabs = null;
+	@JsonProperty("noteTabs")
+	private List<NoteTab> noteTabs = null;
+	@JsonProperty("signerAttachmentTabs")
+	private List<SignerAttachmentTab> signerAttachmentTabs = null;
+	@JsonProperty("signHereTabs")
+	private List<SignHereTab> signHereTabs = null;
+	@JsonProperty("initialHereTabs")
+	private List<InitialHereTab> initialHereTabs = null;
 
 	@JsonProperty("approveTabs")
 	public List<ApproveTab> getApproveTabs() {
@@ -48,7 +57,7 @@ public class Tabs {
 	public void setTextTabs(List<TextTab> textTabs) {
 		this.textTabs = textTabs;
 	}
-	
+
 	@JsonProperty("fullNameTabs")
 	public List<FullNameTab> getFullNameTabs() {
 		return fullNameTabs;
@@ -59,4 +68,42 @@ public class Tabs {
 		this.fullNameTabs = fullNameTabs;
 	}
 
+	@JsonProperty("noteTabs")
+	public List<NoteTab> getNoteTabs() {
+		return noteTabs;
+	}
+
+	@JsonProperty("noteTabs")
+	public void setNoteTabs(List<NoteTab> noteTabs) {
+		this.noteTabs = noteTabs;
+	}
+
+	@JsonProperty("signerAttachmentTabs")
+	public List<SignerAttachmentTab> getSignerAttachmentTabs() {
+		return signerAttachmentTabs;
+	}
+
+	@JsonProperty("signerAttachmentTabs")
+	public void setSignerAttachmentTabs(List<SignerAttachmentTab> signerAttachmentTabs) {
+		this.signerAttachmentTabs = signerAttachmentTabs;
+	}
+
+	public List<SignHereTab> getSignHereTabs() {
+		return signHereTabs;
+	}
+
+	@JsonProperty("signHereTabs")
+	public void setSignHereTabs(List<SignHereTab> signHereTabs) {
+		this.signHereTabs = signHereTabs;
+	}
+
+	@JsonProperty("initialHereTabs")
+	public List<InitialHereTab> getInitialHereTabs() {
+		return initialHereTabs;
+	}
+
+	@JsonProperty("initialHereTabs")
+	public void setInitialHereTabs(List<InitialHereTab> initialHereTabs) {
+		this.initialHereTabs = initialHereTabs;
+	}
 }
