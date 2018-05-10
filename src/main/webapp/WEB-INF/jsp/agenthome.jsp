@@ -27,6 +27,7 @@
 		    	  type: 'POST',
 				  dataType: "json",
 				  url: 'createWorkspaceRemoteEnvelope',
+				  contentType: "application/json; charset=utf-8",
 				  data: JSON.stringify(
 			            {recipientName: recipientName, recipientEmail: recipientEmail}
 			        ),
