@@ -30,6 +30,7 @@ import com.docusign.hackathon.connect.model.RecipientStatus;
 import com.docusign.hackathon.db.model.EnvelopeDetails;
 import com.docusign.hackathon.db.model.EnvelopeDetailsPK;
 import com.docusign.hackathon.domain.EnvelopeData;
+import com.docusign.hackathon.domain.RecipientData;
 import com.docusign.hackathon.repository.EnvelopeDetailsRepository;
 import com.docusign.hackathon.service.HybridService;
 
@@ -183,14 +184,14 @@ public class EnvelopeController {
 	}
 
 	@RequestMapping(value = "/createRecipientViewUrl", method = RequestMethod.POST)
-	public String createRecipientViewUrl(@RequestParam String envelopeId, @RequestParam String recipientEmail,
+	public String createRecipientViewUrl(@RequestBody RecipientData recipientData,
 			RedirectAttributes redirectAttributes, HttpServletRequest request, HttpServletResponse response) {
 
-		logger.info("In EnvelopeController.createRecipientViewUrl() recipientEmail- " + recipientEmail + " envelopeId- "
-				+ envelopeId);
+		logger.info("In EnvelopeController.createRecipientViewUrl() recipientEmail- "
+				+ recipientData.getRecipientEmail() + " envelopeId- " + recipientData.getEnvelopeId());
 
-		redirectAttributes.addAttribute("envelopeId", envelopeId);
-		redirectAttributes.addAttribute("recipientEmail", recipientEmail);
+		redirectAttributes.addAttribute("envelopeId", recipientData.getEnvelopeId());
+		redirectAttributes.addAttribute("recipientEmail", recipientData.getRecipientEmail());
 
 		response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 		return "redirect:redirectToRecipientViewUrl";
