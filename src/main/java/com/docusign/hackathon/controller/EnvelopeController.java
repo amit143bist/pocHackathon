@@ -138,41 +138,6 @@ public class EnvelopeController {
 		return envelopeDataList;
 	}
 
-	@RequestMapping(value = "/redirectToDSURL", method = RequestMethod.POST)
-	public String redirectToDSURL(@RequestParam("envelopeId") String envelopeId,
-			@RequestParam("recipientEmail") String recipientEmail) {
-
-		logger.info("In EnvelopeController.redirectToDSURL() recipientEmail- " + recipientEmail + " envelopeId- "
-				+ envelopeId);
-
-		EnvelopeDetailsPK envelopeDetailsPK = new EnvelopeDetailsPK();
-		envelopeDetailsPK.setEnvelopeId(UUID.fromString(envelopeId));
-		envelopeDetailsPK.setRecipientEmail(recipientEmail);
-		envelopeDetailsPK.setRecipientId(BigInteger.ONE);
-
-		EnvelopeDetails envelopeDetails = envelopeDetailsRepository.findOne(envelopeDetailsPK);
-
-		String clientUserId = null;
-		UUID clientUserUUID = envelopeDetails.getClientUserId();
-		if (StringUtils.isEmpty(clientUserUUID)) {
-
-			clientUserUUID = UUID.randomUUID();
-
-			envelopeDetails.setClientUserId(clientUserUUID);
-
-			clientUserId = clientUserUUID.toString();
-			hybridService.changeToEmbeddedRecipient(envelopeId, recipientEmail, clientUserId);
-			envelopeDetailsRepository.save(envelopeDetails);
-		} else {
-			clientUserId = clientUserUUID.toString();
-		}
-
-		String recipientViewUrl = hybridService.recipientViewUrl(envelopeId, envelopeDetails.getRecipientName(),
-				recipientEmail, clientUserId);
-
-		return "redirect:" + recipientViewUrl;
-	}
-
 	@RequestMapping(value = "/redirectToRecipientViewUrl", method = RequestMethod.GET)
 	public String redirectToRecipientViewUrl(@RequestParam("envelopeId") String envelopeId,
 			@RequestParam("recipientEmail") String recipientEmail, Model model, HttpServletRequest request,
@@ -181,9 +146,6 @@ public class EnvelopeController {
 		logger.info("In EnvelopeController.redirectToRecipientViewUrl() recipientEmail- " + recipientEmail
 				+ " envelopeId- " + envelopeId);
 
-		/*model.addAttribute("envelopeId", envelopeId);
-		model.addAttribute("recipientEmail", recipientEmail);*/
-		
 		EnvelopeDetailsPK envelopeDetailsPK = new EnvelopeDetailsPK();
 		envelopeDetailsPK.setEnvelopeId(UUID.fromString(envelopeId));
 		envelopeDetailsPK.setRecipientEmail(recipientEmail);
