@@ -181,10 +181,35 @@ public class EnvelopeController {
 		logger.info("In EnvelopeController.redirectToRecipientViewUrl() recipientEmail- " + recipientEmail
 				+ " envelopeId- " + envelopeId);
 
-		model.addAttribute("envelopeId", envelopeId);
-		model.addAttribute("recipientEmail", recipientEmail);
+		/*model.addAttribute("envelopeId", envelopeId);
+		model.addAttribute("recipientEmail", recipientEmail);*/
+		
+		EnvelopeDetailsPK envelopeDetailsPK = new EnvelopeDetailsPK();
+		envelopeDetailsPK.setEnvelopeId(UUID.fromString(envelopeId));
+		envelopeDetailsPK.setRecipientEmail(recipientEmail);
+		envelopeDetailsPK.setRecipientId(BigInteger.ONE);
 
-		return "tempredirect";
+		EnvelopeDetails envelopeDetails = envelopeDetailsRepository.findOne(envelopeDetailsPK);
+
+		String clientUserId = null;
+		UUID clientUserUUID = envelopeDetails.getClientUserId();
+		if (StringUtils.isEmpty(clientUserUUID)) {
+
+			clientUserUUID = UUID.randomUUID();
+
+			envelopeDetails.setClientUserId(clientUserUUID);
+
+			clientUserId = clientUserUUID.toString();
+			hybridService.changeToEmbeddedRecipient(envelopeId, recipientEmail, clientUserId);
+			envelopeDetailsRepository.save(envelopeDetails);
+		} else {
+			clientUserId = clientUserUUID.toString();
+		}
+
+		String recipientViewUrl = hybridService.recipientViewUrl(envelopeId, envelopeDetails.getRecipientName(),
+				recipientEmail, clientUserId);
+
+		return "redirect:" + recipientViewUrl;
 	}
 
 	@RequestMapping(value = "/postConnect", method = RequestMethod.POST)
