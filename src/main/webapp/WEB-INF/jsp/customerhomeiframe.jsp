@@ -152,6 +152,10 @@
 									</div>
 
 								</div>
+								<div class="overview-section" style="height: 640px;" ng-show="spfController.showIframe">
+									<br/><br/><br/>
+									<iframe id="myIframe" ng-src="{{spfController.iFrameURL}}" width="600" height="600"></iframe>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -160,10 +164,6 @@
 				<div class="text-center ng-hide" ng-hide="spfController.showBody">
 					<br/> <br/> <br/>
 					<div class="spinner-circle spinner-sm"></div>
-				</div>
-				<div class="site-content" ng-show="spfController.showIframe">
-					<br/><br/><br/>
-					<iframe id="myIframe" ng-src="{{spfController.iFrameURL}}"></iframe>
 				</div>
 			</div>
 		</div>
