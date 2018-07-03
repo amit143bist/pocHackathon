@@ -6,8 +6,7 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 	container.showBody = false;
 	container.showIframe = false;
 	container.custEnvelopes = [];
-	
-	$scope.url = $sce.trustAsResourceUrl('https://www.google.com');
+	container.iFrameURL = $sce.trustAsResourceUrl('https://www.google.com');
 	
 	// DataTables configurable options
     $scope.dtOptions = DTOptionsBuilder.newOptions()
@@ -44,10 +43,9 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 			data: ({envelopeId:envelopeId, recipientEmail: recipientEmail}),
 			success : function(url) {
 
-				console.log('url in openRecipientViewAsIframe- ' + url + 
-				' stringify- ' + JSON.stringify(url));
+				console.log('url in openRecipientViewAsIframe- ' + url);
 				container.showIframe = true;
-				$scope.url = $sce.trustAsResourceUrl(url);
+				container.iFrameURL = $sce.trustAsResourceUrl(url);
 				
 			},
 			error : function(respData) {
@@ -59,7 +57,7 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 		
 	$scope.openRecipientViewAsPopUpIframe = function(envelopeId, recipientEmail){
 
-    	console.log('openRecipientViewAsIframe envelopeId- '
+    	console.log('openRecipientViewAsPopUpIframe envelopeId- '
 				+ envelopeId + ' recipientEmail- '
 				+ recipientEmail);
 				
@@ -72,10 +70,9 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 			data: ({envelopeId:envelopeId, recipientEmail: recipientEmail}),
 			success : function(url) {
 
-				console.log('url in openRecipientViewAsPopUpIframe- ' + url + 
-				' stringify- ' + JSON.stringify(url));
+				console.log('url in openRecipientViewAsPopUpIframe- ' + url);
 
-				$window.open(url, 'width=500,height=400');
+				$window.open(url);
 				
 			},
 			error : function(respData) {

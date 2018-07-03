@@ -2,9 +2,10 @@
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html ng-app="angularSPF" xmlns="http://www.w3.org/1999/xhtml"
-	xml:lang="en">
+	xml:lang="en" id="ng-app">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=8"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Customer Envelopes</title>
 	<link rel="stylesheet" href="/css/site.css">
 	<link rel="stylesheet" href="/css/normalize.css">
@@ -162,7 +163,7 @@
 				</div>
 				<div class="site-content" ng-show="spfController.showIframe">
 					<br/><br/><br/>
-					<iframe id="myIframe" ng-src="{{url}}"></iframe>
+					<iframe id="myIframe" ng-src="{{spfController.iFrameURL}}"></iframe>
 				</div>
 			</div>
 		</div>
