@@ -36,12 +36,24 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 				+ envelopeId + ' recipientEmail- '
 				+ recipientEmail);
 				
-		var url = '/redirectToRecipientViewUrlIframe?envelopeId=' + envelopeId + '&recipientEmail=' + encodeURIComponent(recipientEmail);
-		
-		console.log('url in openRecipientViewAsIframe-' + url);
-		container.showIframe = true;
-		$scope.url = $sce.trustAsResourceUrl(url);
-		$scope.$apply();
+				
+		$.ajax({
+			type : 'GET',
+			url : 'redirectToRecipientViewUrlIframe',
+			dataType : 'json',
+			data: ({envelopeId:envelopeId, recipientEmail: recipientEmail}),
+			success : function(url) {
+
+				console.log('url in openRecipientViewAsIframe- ' + url + 
+				' stringify- ' + JSON.stringify(url));
+				container.showIframe = true;
+				$scope.url = $sce.trustAsResourceUrl(url);
+				
+			},
+			error : function(respData) {
+				$scope.$apply();
+			}
+		});
 		
 	}
 		
@@ -51,11 +63,25 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 				+ envelopeId + ' recipientEmail- '
 				+ recipientEmail);
 				
-		container.showIframe = false;
-		var url = '/redirectToRecipientViewUrlIframe?envelopeId=' + envelopeId + '&recipientEmail=' + encodeURIComponent(recipientEmail);
-		
-		console.log('url in openRecipientViewAsPopUpIframe-' + url);
-		$window.open(url, 'width=500,height=400');
+	    container.showIframe = false;
+				
+		$.ajax({
+			type : 'GET',
+			url : 'redirectToRecipientViewUrlIframe',
+			dataType : 'json',
+			data: ({envelopeId:envelopeId, recipientEmail: recipientEmail}),
+			success : function(url) {
+
+				console.log('url in openRecipientViewAsPopUpIframe- ' + url + 
+				' stringify- ' + JSON.stringify(url));
+
+				$window.open(url, 'width=500,height=400');
+				
+			},
+			error : function(respData) {
+				$scope.$apply();
+			}
+		});
 		
 	}
 

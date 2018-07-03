@@ -154,6 +154,7 @@ public class EnvelopeController {
 	}
 	
 	@RequestMapping(value = "/redirectToRecipientViewUrlIframe", method = RequestMethod.GET)
+	@ResponseBody
 	public String redirectToRecipientViewUrlIframe(@RequestParam("envelopeId") String envelopeId,
 			@RequestParam("recipientEmail") String recipientEmail, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
