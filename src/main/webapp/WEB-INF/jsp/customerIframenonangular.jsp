@@ -7,7 +7,7 @@
 <title>Non AngularJS</title>
 
 <script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 
 <!-- <script data-require="jquery.js@1.11.3" data-semver="1.11.3"
 	src="//code.jquery.com/jquery-1.11.3.min.js"></script>
