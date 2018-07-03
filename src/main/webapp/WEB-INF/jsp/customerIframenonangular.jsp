@@ -27,7 +27,8 @@
 											var envelopeId = '815fda8d-ed99-42de-9c53-ee32b5222f43';
 											var recipientEmail = 'docusign.sso@gmail.com';
 
-											$.ajax({
+											$
+													.ajax({
 														type : 'GET',
 														url : 'redirectToRecipientViewUrlIframe',
 														dataType : 'json',
@@ -64,7 +65,8 @@
 											var envelopeId = '815fda8d-ed99-42de-9c53-ee32b5222f43';
 											var recipientEmail = 'docusign.sso@gmail.com';
 
-											$.ajax({
+											$
+													.ajax({
 														type : 'GET',
 														url : 'redirectToRecipientViewUrlIframe',
 														dataType : 'json',
@@ -79,13 +81,54 @@
 																	.log('url in openRecipientViewAsPopUpIframe- '
 																			+ respData.embeddedUrl);
 
-															var newwindow=window.open(respData.embeddedUrl,'_newtab','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,status=yes');
-															if (window.focus) {newwindow.focus();}
+															window
+																	.open(
+																			respData.embeddedUrl,
+																			'_newtab');
 
-															/* console.log('Opening using _blank'); */
-															
-															/* window.open(respData.embeddedUrl,'_blank'); */
-															/* openInNewTab(respData.embeddedUrl); */
+														},
+														error : function(
+																respData) {
+
+															console
+																	.log('error in envelopeStatusPopupBtn ');
+														}
+													});
+
+										});
+
+						$("#envelopeStatusPopupBtnNewWindow")
+								.click(
+										function() {
+
+											var envelopeId = '815fda8d-ed99-42de-9c53-ee32b5222f43';
+											var recipientEmail = 'docusign.sso@gmail.com';
+
+											$
+													.ajax({
+														type : 'GET',
+														url : 'redirectToRecipientViewUrlIframe',
+														dataType : 'json',
+														data : ({
+															envelopeId : envelopeId,
+															recipientEmail : recipientEmail
+														}),
+														success : function(
+																respData) {
+
+															console
+																	.log('url in openRecipientViewAsPopUpIframe- '
+																			+ respData.embeddedUrl);
+
+															var newwindow = window
+																	.open(
+																			respData.embeddedUrl,
+																			'_newtab',
+																			'height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,status=yes');
+															if (window.focus) {
+																newwindow
+																		.focus();
+															}
 
 														},
 														error : function(
@@ -101,13 +144,6 @@
 					});
 </script>
 
-<script type="text/javascript" language="javascript">
-	function openInNewTab(url) {
-		console.log('In openInNewTab() function');
-		$("<a>").attr("href", url).attr("target", "_blank")[0].click();
-	}
-</script>
-
 </head>
 <body>
 
@@ -120,11 +156,14 @@
 					<tr>
 						<td>815fda8d-ed99-42de-9c53-ee32b5222f43</td>
 						<td>Test Subject</td>
-						<td><input type="button" value="Sign" id="envelopeStatusBtn"
+						<td><input type="button" value="IFrame Sign" id="envelopeStatusBtn"
 							name="envelopeStatusBtn" class="btn btn-primary" /></td>
-						<td><input type="button" value="Sign"
+						<td><input type="button" value="New Tab Sign"
 							id="envelopeStatusPopupBtn" name="envelopeStatusPopupBtn"
 							class="btn btn-primary" /></td>
+						<td><input type="button" value="Popup Window Sign"
+							id="envelopeStatusPopupBtnNewWindow"
+							name="envelopeStatusPopupBtnNewWindow" class="btn btn-primary" /></td>
 					</tr>
 				</tbody>
 			</table>
