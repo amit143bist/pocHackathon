@@ -175,12 +175,12 @@
 	<script data-require="datatable.js@1.10.7" data-semver="1.10.7"
 		src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 
-	<script data-require="angular.js@1.1.5" data-semver="1.4.5"
-		src="https://code.angularjs.org/1.4.5/angular.min.js"></script>
-	<script data-require="angular.js@1.1.5" data-semver="1.4.5"
-		src="https://code.angularjs.org/1.4.5/angular-route.js"></script>
-	<script data-require="angular.js@1.1.5" data-semver="1.4.5"
-		src="https://code.angularjs.org/1.4.5/angular-resource.js"></script>
+	<script data-require="angular.js@1.2.9" data-semver="1.2.9"
+		src="https://code.angularjs.org/1.2.9/angular.min.js"></script>
+	<script data-require="angular.js@1.2.9" data-semver="1.2.9"
+		src="https://code.angularjs.org/1.2.9/angular-route.js"></script>
+	<script data-require="angular.js@1.2.9" data-semver="1.2.9"
+		src="https://code.angularjs.org/1.2.9/angular-resource.js"></script>
 
 
 	<script data-require="angular-datatable.js@1.1.5" data-semver="1.1.5"
