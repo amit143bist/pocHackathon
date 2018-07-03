@@ -83,8 +83,8 @@
 
 															console.log('Opening using _blank');
 															
-															window.open(respData.embeddedUrl,'_blank');
-															openInNewTab(respData.embeddedUrl);
+															/* window.open(respData.embeddedUrl,'_blank'); */
+															/* openInNewTab(respData.embeddedUrl); */
 
 														},
 														error : function(
