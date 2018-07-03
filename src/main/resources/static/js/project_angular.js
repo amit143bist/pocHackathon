@@ -6,7 +6,7 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 	container.showBody = false;
 	container.showIframe = false;
 	container.custEnvelopes = [];
-	container.iFrameURL = $sce.trustAsResourceUrl('https://www.google.com');
+	container.iFrameURL = $sce.trustAsResourceUrl('https://agile-sands-24492.herokuapp.com/portalLanding');
 	
 	// DataTables configurable options
     $scope.dtOptions = DTOptionsBuilder.newOptions()
@@ -41,11 +41,11 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 			url : 'redirectToRecipientViewUrlIframe',
 			dataType : 'json',
 			data: ({envelopeId:envelopeId, recipientEmail: recipientEmail}),
-			success : function(url) {
+			success : function(respData) {
 
-				console.log('url in openRecipientViewAsIframe- ' + url);
+				console.log('url in openRecipientViewAsIframe- ' + respData.embeddedUrl);
 				container.showIframe = true;
-				container.iFrameURL = $sce.trustAsResourceUrl(url);
+				container.iFrameURL = $sce.trustAsResourceUrl(respData.embeddedUrl);
 				
 			},
 			error : function(respData) {
@@ -68,11 +68,11 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 			url : 'redirectToRecipientViewUrlIframe',
 			dataType : 'json',
 			data: ({envelopeId:envelopeId, recipientEmail: recipientEmail}),
-			success : function(url) {
+			success : function(respData) {
 
-				console.log('url in openRecipientViewAsPopUpIframe- ' + url);
+				console.log('url in openRecipientViewAsPopUpIframe- ' + respData.embeddedUrl);
 
-				$window.open(url);
+				$window.open(respData.embeddedUrl);
 				
 			},
 			error : function(respData) {

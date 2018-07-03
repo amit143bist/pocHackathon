@@ -28,6 +28,7 @@ import com.docusign.hackathon.connect.model.EnvelopeStatusCode;
 import com.docusign.hackathon.connect.model.RecipientStatus;
 import com.docusign.hackathon.db.model.EnvelopeDetails;
 import com.docusign.hackathon.db.model.EnvelopeDetailsPK;
+import com.docusign.hackathon.domain.EmbeddedURLResponse;
 import com.docusign.hackathon.domain.EnvelopeCreationResponse;
 import com.docusign.hackathon.domain.EnvelopeData;
 import com.docusign.hackathon.domain.RecipientData;
@@ -50,7 +51,7 @@ public class EnvelopeController {
 
 		return "portallogin";
 	}
-	
+
 	@RequestMapping(value = "/portalLandingTest", method = RequestMethod.GET)
 	public String portalLandingTest() {
 
@@ -72,7 +73,7 @@ public class EnvelopeController {
 		model.addAttribute("recipientEmail", username);
 		return "customerhome";
 	}
-	
+
 	@RequestMapping(value = "/customerLoginIframe", method = RequestMethod.POST)
 	public String customerLoginIframe(@RequestParam(value = "username") String username,
 			@RequestParam(value = "password") String password, HttpServletRequest request, HttpServletResponse response,
@@ -152,21 +153,25 @@ public class EnvelopeController {
 
 		return envelopeDataList;
 	}
-	
+
 	@RequestMapping(value = "/redirectToRecipientViewUrlIframe", method = RequestMethod.GET)
 	@ResponseBody
-	public String redirectToRecipientViewUrlIframe(@RequestParam("envelopeId") String envelopeId,
+	public EmbeddedURLResponse redirectToRecipientViewUrlIframe(@RequestParam("envelopeId") String envelopeId,
 			@RequestParam("recipientEmail") String recipientEmail, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-		
-		System.out.println("EnvelopeController.redirectToRecipientViewUrlIframe()");
-		return createRecipientViewUrl(envelopeId, recipientEmail);
+
+		logger.info("EnvelopeController.redirectToRecipientViewUrlIframe()");
+
+		EmbeddedURLResponse embeddedURLResponse = new EmbeddedURLResponse();
+		String embeddedUrl = createRecipientViewUrl(envelopeId, recipientEmail);
+		embeddedURLResponse.setEmbeddedUrl(embeddedUrl);
+		return embeddedURLResponse;
 	}
-	
-	private String createRecipientViewUrl(String envelopeId, String recipientEmail){
-		
+
+	private String createRecipientViewUrl(String envelopeId, String recipientEmail) {
+
 		logger.info("In EnvelopeController.createRecipientViewUrl()");
-		
+
 		EnvelopeDetailsPK envelopeDetailsPK = new EnvelopeDetailsPK();
 		envelopeDetailsPK.setEnvelopeId(UUID.fromString(envelopeId));
 		envelopeDetailsPK.setRecipientEmail(recipientEmail);
@@ -191,7 +196,8 @@ public class EnvelopeController {
 
 		String recipientViewUrl = hybridService.recipientViewUrl(envelopeId, envelopeDetails.getRecipientName(),
 				recipientEmail, clientUserId);
-		
+
+		logger.info("URL created in EnvelopeController.createRecipientViewUrl() is " + recipientViewUrl);
 		return recipientViewUrl;
 	}
 
