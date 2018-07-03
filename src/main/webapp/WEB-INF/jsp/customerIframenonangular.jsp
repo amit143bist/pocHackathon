@@ -6,10 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=8">
 <title>Non AngularJS</title>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js">
+<script
+	src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<!-- <script type="text/javascript"
+	src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js">
+	
 </script>
-
+ -->
 
 <script type="text/javascript" language="javascript">
 	$(document)
@@ -24,8 +27,7 @@
 											var envelopeId = '815fda8d-ed99-42de-9c53-ee32b5222f43';
 											var recipientEmail = 'docusign.sso@gmail.com';
 
-											$
-													.ajax({
+											$.ajax({
 														type : 'GET',
 														url : 'redirectToRecipientViewUrlIframe',
 														dataType : 'json',
@@ -42,7 +44,7 @@
 															$('#myIframe')
 																	.attr(
 																			'src',
-																			respData.embeddedUrl)
+																			respData.embeddedUrl);
 
 														},
 														error : function(
@@ -62,8 +64,7 @@
 											var envelopeId = '815fda8d-ed99-42de-9c53-ee32b5222f43';
 											var recipientEmail = 'docusign.sso@gmail.com';
 
-											$
-													.ajax({
+											$.ajax({
 														type : 'GET',
 														url : 'redirectToRecipientViewUrlIframe',
 														dataType : 'json',
@@ -91,12 +92,14 @@
 
 										});
 
-						function openInNewTab(url) {
-							$("<a>").attr("href", url).attr("target", "_blank")[0]
-									.click();
-						}
-
 					});
+</script>
+
+<script type="text/javascript" language="javascript">
+	function openInNewTab(url) {
+		console.log('In openInNewTab() function');
+		$("<a>").attr("href", url).attr("target", "_blank")[0].click();
+	}
 </script>
 
 </head>
@@ -123,9 +126,7 @@
 		</div>
 
 		<div style="height: 640px; width: 640px">
-			<br />
-			<br />
-			<br />
+			<br /> <br /> <br />
 			<iframe id="myIframe" src="" width="640" height="640"></iframe>
 		</div>
 	</div>
