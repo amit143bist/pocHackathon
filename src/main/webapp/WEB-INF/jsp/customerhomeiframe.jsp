@@ -107,7 +107,7 @@
 									<br> <br> <br>
 									<div class="spinner-circle spinner-sm"></div>
 								</div>
-								<div class="overview-section" style="height: 640px;">
+								<div class="overview-section" style="height:400px;">
 
 									<div class="table-responsive">
 										<table id="projectTable" datatable="ng" dt-options="dtOptions"
@@ -152,9 +152,9 @@
 									</div>
 
 								</div>
-								<div class="overview-section" style="height: 640px;" ng-show="spfController.showIframe">
+								<div class="overview-section" style="height: 640px; width:640px" ng-show="spfController.showIframe">
 									<br/><br/><br/>
-									<iframe id="myIframe" ng-src="{{spfController.iFrameURL}}" width="600" height="600"></iframe>
+									<iframe id="myIframe" ng-src="{{spfController.iFrameURL}}" width="640" height="640"></iframe>
 								</div>
 							</div>
 						</div>
