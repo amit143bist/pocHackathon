@@ -82,6 +82,15 @@ public class EnvelopeController {
 		model.addAttribute("recipientEmail", username);
 		return "customerhomeiframe";
 	}
+	
+	@RequestMapping(value = "/customerLoginIframeNonAngular", method = RequestMethod.POST)
+	public String customerLoginIframeNonAngular(@RequestParam(value = "username") String username,
+			@RequestParam(value = "password") String password, HttpServletRequest request, HttpServletResponse response,
+			Model model) {
+
+		model.addAttribute("recipientEmail", username);
+		return "customerIframenonangular";
+	}
 
 	@RequestMapping(value = "/emeddedCallback", method = RequestMethod.GET)
 	public String emeddedCallback(@RequestParam String envelopeId, @RequestParam String recipientName,

@@ -27,7 +27,7 @@
 			<div id="wrapper">
 				<div id="login" class="animate form">
 					<form:form method="POST" autocomplete="on" id="customerLoginForm"
-						name="customerLoginForm" action="customerLoginIframe">
+						name="customerLoginForm" action="customerLoginIframeNonAngular">
 						<h1>Customer Login</h1>
 						<p>
 							<label for="username" class="uname" data-icon="u"> Your
