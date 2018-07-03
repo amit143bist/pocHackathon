@@ -50,6 +50,12 @@ public class EnvelopeController {
 
 		return "portallogin";
 	}
+	
+	@RequestMapping(value = "/portalLandingTest", method = RequestMethod.GET)
+	public String portalLandingTest() {
+
+		return "portallogintest";
+	}
 
 	@RequestMapping(value = "/agentLogin", method = RequestMethod.POST)
 	public String agentLogin(@RequestParam(value = "agentusername") String username,
@@ -65,6 +71,15 @@ public class EnvelopeController {
 
 		model.addAttribute("recipientEmail", username);
 		return "customerhome";
+	}
+	
+	@RequestMapping(value = "/customerLoginIframe", method = RequestMethod.POST)
+	public String customerLoginIframe(@RequestParam(value = "username") String username,
+			@RequestParam(value = "password") String password, HttpServletRequest request, HttpServletResponse response,
+			Model model) {
+
+		model.addAttribute("recipientEmail", username);
+		return "customerhomeiframe";
 	}
 
 	@RequestMapping(value = "/emeddedCallback", method = RequestMethod.GET)
@@ -137,15 +152,20 @@ public class EnvelopeController {
 
 		return envelopeDataList;
 	}
-
-	@RequestMapping(value = "/redirectToRecipientViewUrl", method = RequestMethod.GET)
-	public String redirectToRecipientViewUrl(@RequestParam("envelopeId") String envelopeId,
+	
+	@RequestMapping(value = "/redirectToRecipientViewUrlIframe", method = RequestMethod.GET)
+	public String redirectToRecipientViewUrlIframe(@RequestParam("envelopeId") String envelopeId,
 			@RequestParam("recipientEmail") String recipientEmail, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-
-		logger.info("In EnvelopeController.redirectToRecipientViewUrl() recipientEmail- " + recipientEmail
-				+ " envelopeId- " + envelopeId);
-
+		
+		System.out.println("EnvelopeController.redirectToRecipientViewUrlIframe()");
+		return createRecipientViewUrl(envelopeId, recipientEmail);
+	}
+	
+	private String createRecipientViewUrl(String envelopeId, String recipientEmail){
+		
+		logger.info("In EnvelopeController.createRecipientViewUrl()");
+		
 		EnvelopeDetailsPK envelopeDetailsPK = new EnvelopeDetailsPK();
 		envelopeDetailsPK.setEnvelopeId(UUID.fromString(envelopeId));
 		envelopeDetailsPK.setRecipientEmail(recipientEmail);
@@ -170,8 +190,19 @@ public class EnvelopeController {
 
 		String recipientViewUrl = hybridService.recipientViewUrl(envelopeId, envelopeDetails.getRecipientName(),
 				recipientEmail, clientUserId);
+		
+		return recipientViewUrl;
+	}
 
-		return "redirect:" + recipientViewUrl;
+	@RequestMapping(value = "/redirectToRecipientViewUrl", method = RequestMethod.GET)
+	public String redirectToRecipientViewUrl(@RequestParam("envelopeId") String envelopeId,
+			@RequestParam("recipientEmail") String recipientEmail, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		logger.info("In EnvelopeController.redirectToRecipientViewUrl() recipientEmail- " + recipientEmail
+				+ " envelopeId- " + envelopeId);
+
+		return "redirect:" + createRecipientViewUrl(envelopeId, recipientEmail);
 	}
 
 	@RequestMapping(value = "/postConnect", method = RequestMethod.POST)

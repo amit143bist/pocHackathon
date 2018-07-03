@@ -1,10 +1,13 @@
 var app = angular.module('angularSPF', ['ngRoute','datatables','ui.bootstrap']);
 
-app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window, DTOptionsBuilder) {
+app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window, $sce, DTOptionsBuilder) {
 
 	var container = this;
 	container.showBody = false;
+	container.showIframe = false;
 	container.custEnvelopes = [];
+	
+	$scope.url = $sce.trustAsResourceUrl('https://www.google.com');
 	
 	// DataTables configurable options
     $scope.dtOptions = DTOptionsBuilder.newOptions()
@@ -16,16 +19,45 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 	
 	$scope.openRecipientView = function(envelopeId, recipientEmail){
 
-	    	console.log('openRecipientView envelopeId- '
-					+ envelopeId + ' recipientEmail- '
-					+ recipientEmail);
-					
-			var url = '/redirectToRecipientViewUrl?envelopeId=' + envelopeId + '&recipientEmail=' + recipientEmail;
+    	console.log('openRecipientView envelopeId- '
+				+ envelopeId + ' recipientEmail- '
+				+ recipientEmail);
+				
+		var url = '/redirectToRecipientViewUrl?envelopeId=' + envelopeId + '&recipientEmail=' + recipientEmail;
+		
+		console.log('url-' + url);
+		$window.location.href = url;
 			
-			console.log('url-' + url);
-			$window.location.href = url;
-			
-		}
+	}
+		
+	$scope.openRecipientViewAsIframe = function(envelopeId, recipientEmail){
+
+    	console.log('openRecipientViewAsIframe envelopeId- '
+				+ envelopeId + ' recipientEmail- '
+				+ recipientEmail);
+				
+		var url = '/redirectToRecipientViewUrlIframe?envelopeId=' + envelopeId + '&recipientEmail=' + encodeURIComponent(recipientEmail);
+		
+		console.log('url in openRecipientViewAsIframe-' + url);
+		container.showIframe = true;
+		$scope.url = $sce.trustAsResourceUrl(url);
+		$scope.$apply();
+		
+	}
+		
+	$scope.openRecipientViewAsPopUpIframe = function(envelopeId, recipientEmail){
+
+    	console.log('openRecipientViewAsIframe envelopeId- '
+				+ envelopeId + ' recipientEmail- '
+				+ recipientEmail);
+				
+		container.showIframe = false;
+		var url = '/redirectToRecipientViewUrlIframe?envelopeId=' + envelopeId + '&recipientEmail=' + encodeURIComponent(recipientEmail);
+		
+		console.log('url in openRecipientViewAsPopUpIframe-' + url);
+		$window.open(url, 'width=500,height=400');
+		
+	}
 
 	$scope.fetchAllEnvelopesJSON = function(recipientEmail) {
 
