@@ -1,12 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=8">
 <title>Non AngularJS</title>
 
- <script>
+<script data-require="jquery.js@1.11.3" data-semver="1.11.3"
+	src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script data-require="datatable.js@1.10.7" data-semver="1.10.7"
+	src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.4/holder.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
 			$(document).ready(function(){
 
 				$("#envelopeStatusBtn").click(function(){
@@ -125,14 +135,5 @@
 		</section>
 	</div>
 
-	<script data-require="jquery.js@1.11.3" data-semver="1.11.3"
-		src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script data-require="datatable.js@1.10.7" data-semver="1.10.7"
-		src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.4/holder.min.js"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>
 </html>
