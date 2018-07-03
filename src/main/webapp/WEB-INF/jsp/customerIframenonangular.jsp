@@ -79,9 +79,10 @@
 																	.log('url in openRecipientViewAsPopUpIframe- '
 																			+ respData.embeddedUrl);
 
-															window.open(respData.embeddedUrl,'_newtab');
+															var newwindow=window.open(respData.embeddedUrl,'_newtab','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,status=yes');
+															if (window.focus) {newwindow.focus();}
 
-															console.log('Opening using _blank');
+															/* console.log('Opening using _blank'); */
 															
 															/* window.open(respData.embeddedUrl,'_blank'); */
 															/* openInNewTab(respData.embeddedUrl); */
