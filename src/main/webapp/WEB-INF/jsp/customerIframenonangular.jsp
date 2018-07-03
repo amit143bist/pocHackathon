@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page session="false"%>
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=8">
+<!-- <meta http-equiv="X-UA-Compatible" content="IE=8"> -->
 <title>Non AngularJS</title>
 
 <script
@@ -79,45 +80,29 @@
 </head>
 <body>
 
-	Test 123
+	<h1>IFrame Test</h1>
 	<div>
 		<div>
-			<div>
-				<div>
-					<div>
-						<div>
-							<div>
-								<div>
-									<div>
-										<table id="projectTable" width="100%">
-
-											<tbody>
-												<tr>
-													<td>815fda8d-ed99-42de-9c53-ee32b5222f43</td>
-													<td>Test Subject</td>
-													<td><input type="button" value="Sign" id="envelopeStatusBtn" name="envelopeStatusBtn"
-														class="btn btn-primary" /></td>
-													<td><input type="button" value="Sign" id="envelopeStatusPopupBtn" name="envelopeStatusPopupBtn"
-														class="btn btn-primary" /></td>
-												</tr>
-											</tbody>
-										</table>
-
-									</div>
-
-								</div>
-								<div style="height: 640px; width:640px">
-									<br/><br/><br/>
-									<iframe id="myIframe" src="" width="640" height="640"></iframe>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
+			<table id="projectTable" width="100%">
+	
+				<tbody>
+					<tr>
+						<td>815fda8d-ed99-42de-9c53-ee32b5222f43</td>
+						<td>Test Subject</td>
+						<td><input type="button" value="Sign" id="envelopeStatusBtn" name="envelopeStatusBtn"
+							class="btn btn-primary" /></td>
+						<td><input type="button" value="Sign" id="envelopeStatusPopupBtn" name="envelopeStatusPopupBtn"
+							class="btn btn-primary" /></td>
+					</tr>
+				</tbody>
+			</table>
+	
+		</div>
+		
+		<div style="height: 640px; width:640px">
+			<br/><br/><br/>
+			<iframe id="myIframe" src="" width="640" height="640"></iframe>
 		</div>
 	</div>
-
 </body>
 </html>
