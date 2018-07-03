@@ -87,7 +87,7 @@ public class EnvelopeController {
 	public String emeddedCallback(@RequestParam String envelopeId, @RequestParam String recipientName,
 			@RequestParam String recipientEmail, @RequestParam String event, Model model) {
 
-		if ("signing_complete".equalsIgnoreCase(event)) {
+		if ("signing_complete".equalsIgnoreCase(event) || "decline".equalsIgnoreCase(event)) {
 
 			EnvelopeDetailsPK envelopeDetailsPK = new EnvelopeDetailsPK();
 			envelopeDetailsPK.setEnvelopeId(UUID.fromString(envelopeId));
@@ -96,7 +96,12 @@ public class EnvelopeController {
 
 			EnvelopeDetails envelopeDetails = envelopeDetailsRepository.findOne(envelopeDetailsPK);
 
-			envelopeDetails.setEnvelopeStatus(EnvelopeStatusCode.COMPLETED.value());
+			if ("signing_complete".equalsIgnoreCase(event)) {
+				envelopeDetails.setEnvelopeStatus(EnvelopeStatusCode.COMPLETED.value());
+			} else {
+				envelopeDetails.setEnvelopeStatus(EnvelopeStatusCode.DECLINED.value());
+			}
+
 			envelopeDetailsRepository.save(envelopeDetails);
 
 		}

@@ -35,7 +35,6 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 				+ envelopeId + ' recipientEmail- '
 				+ recipientEmail);
 				
-				
 		$.ajax({
 			type : 'GET',
 			url : 'redirectToRecipientViewUrlIframe',
@@ -46,6 +45,7 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 				console.log('url in openRecipientViewAsIframe- ' + respData.embeddedUrl);
 				container.showIframe = true;
 				container.iFrameURL = $sce.trustAsResourceUrl(respData.embeddedUrl);
+				$scope.$apply();
 				
 			},
 			error : function(respData) {
