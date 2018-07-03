@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- <meta http-equiv="X-UA-Compatible" content="IE=8"> -->
+<meta http-equiv="X-UA-Compatible" content="IE=8">
 <title>Non AngularJS</title>
 
 <script
@@ -76,7 +76,8 @@
 				}
 				
 			});
-			
+</script>	
+	
 </head>
 <body>
 
