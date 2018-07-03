@@ -79,20 +79,17 @@
 </head>
 <body>
 
-	<div class="container">
-		<header>
-		</header>
-		<section>
-		<div id="container_demo">
+	Test 123
+	<div>
+		<div>
 			<div>
-				<div class="site-content">
-					<div class="site-container loading" ui-view="">
-						<div class="site-main">
+				<div>
+					<div>
+						<div>
 							<div>
 								<div>
-									<div class="table-responsive">
-										<table id="projectTable" class="table table-condensed table-hover table-bordered"
-											width="100%">
+									<div>
+										<table id="projectTable" width="100%">
 
 											<tbody>
 												<tr>
@@ -109,7 +106,7 @@
 									</div>
 
 								</div>
-								<div class="overview-section" style="height: 640px; width:640px">
+								<div style="height: 640px; width:640px">
 									<br/><br/><br/>
 									<iframe id="myIframe" src="" width="640" height="640"></iframe>
 								</div>
@@ -120,7 +117,6 @@
 				</div>
 			</div>
 		</div>
-		</section>
 	</div>
 
 </body>
