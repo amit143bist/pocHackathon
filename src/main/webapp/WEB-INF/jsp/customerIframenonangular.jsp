@@ -6,11 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=8">
 <title>Non AngularJS</title>
 
-<script data-require="jquery.js@1.11.3" data-semver="1.11.3"
-	src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script data-require="datatable.js@1.10.7" data-semver="1.10.7"
-	src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 
+<!-- <script data-require="jquery.js@1.11.3" data-semver="1.11.3"
+	src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+ -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.4/holder.min.js"></script>
 <script
@@ -19,8 +20,8 @@
 <script>
 			$(document).ready(function(){
 
+				console.log('Jquery loaded');
 				$("#envelopeStatusBtn").click(function(){
-
 
 					var envelopeId = '815fda8d-ed99-42de-9c53-ee32b5222f43';
 					var recipientEmail = 'docusign.sso@gmail.com';
@@ -80,9 +81,6 @@
 
 	<div class="container">
 		<header>
-		<div>
-			<img id="Image1" src="img/Foremost-logo.jpg">
-		</div>
 		</header>
 		<section>
 		<div id="container_demo">
@@ -91,15 +89,9 @@
 					<div class="site-container loading" ui-view="">
 						<div class="site-main">
 							<div>
-								<div class="text-center">
-									<br> <br> <br>
-									<div class="spinner-circle spinner-sm"></div>
-								</div>
-								<div class="overview-section" style="height:400px;">
-
+								<div>
 									<div class="table-responsive">
-										<table id="projectTable" datatable="ng"
-											class="table table-condensed table-hover table-bordered"
+										<table id="projectTable" class="table table-condensed table-hover table-bordered"
 											width="100%">
 
 											<tbody>
@@ -125,10 +117,6 @@
 						</div>
 					</div>
 
-				</div>
-				<div class="text-center">
-					<br/> <br/> <br/>
-					<div class="spinner-circle spinner-sm"></div>
 				</div>
 			</div>
 		</div>
