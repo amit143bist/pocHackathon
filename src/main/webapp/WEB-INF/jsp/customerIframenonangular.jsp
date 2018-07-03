@@ -6,12 +6,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=8">
 <title>Non AngularJS</title>
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"
-	type="text/javascript"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"
-	type="text/javascript"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js">
+</script>
+
 
 <script type="text/javascript" language="javascript">
 	$(document)
