@@ -38,16 +38,8 @@
 
 		            $('#envelopeId').html(data.envelopeId);
 
-
-			            $.ajax({
-					    	  type: 'GET',
-							  dataType: "json",
-							  url: 'generateSenderView?envelopeId=' + data.envelopeId,
-							  contentType: "application/json; charset=utf-8",
-							  success: function(data) {
-					            console.log('success in generateSenderView');
-					          }
-						});
+		            var url = '/generateSenderView?envelopeId=' + data.envelopeId;
+		            window.location = url;
 		          }
 			});
 		  });
@@ -67,15 +59,9 @@
 
 		            $('#envelopeId').html(data.envelopeId);
 
-			            $.ajax({
-					    	  type: 'GET',
-							  dataType: "json",
-							  url: 'generateRecipientView?envelopeId=' + data.envelopeId,
-							  contentType: "application/json; charset=utf-8",
-							  success: function(data) {
-								  console.log('success in generateRecipientView');  
-					          }
-						});
+
+		            var url = '/generateRecipientView?envelopeId=' + data.envelopeId;
+		            window.location = url;
 		          }
 			});
 		  });
