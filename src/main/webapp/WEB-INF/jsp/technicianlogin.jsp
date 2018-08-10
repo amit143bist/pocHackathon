@@ -31,10 +31,9 @@
 		      $.ajax({
 		    	  type: 'POST',
 				  dataType: "json",
-				  url: 'createEnvelopeAsSenderView',
+				  url: 'createEnvelopeAsSenderView?medicineName=' + medicineName ,
 				  contentType: "application/json; charset=utf-8",
-				  data: ({medicineName: medicineName}),
-		          success: function(data) {
+				  success: function(data) {
 		            console.log('success login- ' + data.envelopeId);
 
 		            $('#envelopeId').html(data.envelopeId);
@@ -64,9 +63,8 @@
 		      $.ajax({
 		    	  type: 'POST',
 				  dataType: "json",
-				  url: 'createEnvelopeAsRecipientView',
+				  url: 'createEnvelopeAsRecipientView?medicineName=' + medicineName,
 				  contentType: "application/json; charset=utf-8",
-				  data: ({medicineName: medicineName}),
 		          success: function(data) {
 		            console.log('success login- ' + data.envelopeId);
 
@@ -96,9 +94,8 @@
 		      $.ajax({
 		    	  type: 'POST',
 				  dataType: "json",
-				  url: 'createEnvelopeAsSystem',
+				  url: 'createEnvelopeAsSystem?medicineName=' + medicineName,
 				  contentType: "application/json; charset=utf-8",
-				  data: ({medicineName: medicineName}),
 		          success: function(data) {
 		            console.log('success login- ' + data.envelopeId);
 
@@ -115,9 +112,8 @@
 		      $.ajax({
 		    	  type: 'POST',
 				  dataType: "json",
-				  url: 'createWorkspaceRemoteEnvelope',
+				  url: 'createWorkspaceRemoteEnvelope?medicineName=' + medicineName,
 				  contentType: "application/json; charset=utf-8",
-				  data: ({medicineName: medicineName}),
 		          success: function(data) {
 		            console.log('success login- ' + data);
 		            console.log('success login- ' + data.envelopeId);

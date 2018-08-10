@@ -55,6 +55,12 @@ public class UnitedPOCService {
 
 	@Value("${heroku.ds.api.united.accesstoken}")
 	private String herokuDSAccessToken;
+	
+	@Value("${heroku.ds.united.entresto.pdf}")
+	private String entrestoPDF;
+	
+	@Value("${heroku.ds.united.metaxalone.pdf}")
+	private String metaxalonePDF;
 
 	private static final Logger logger = LogManager.getLogger(UnitedPOCService.class);
 
@@ -65,10 +71,10 @@ public class UnitedPOCService {
 
 		if ("Entresto".equalsIgnoreCase(medicineName)) {
 
-			document.setRemoteUrl("333603:1Aae0veGiUCGH7FXvVkAb_6V0np-CHGon");
+			document.setRemoteUrl(entrestoPDF);
 		} else if ("Metaxalone".equalsIgnoreCase(medicineName)) {
 
-			document.setRemoteUrl("333603:1N3m8QOCU4IyTAJWMBUodpmlofJiDi2Ru");
+			document.setRemoteUrl(metaxalonePDF);
 		}
 
 		document.setName("Provider OR Document");
