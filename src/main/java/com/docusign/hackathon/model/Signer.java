@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "tabs", "creationReason", "isBulkRecipient", "name", "email", "recipientId", "recipientIdGuid",
 		"accessCode", "requireIdLookup", "userId", "clientUserId", "routingOrder", "note", "roleName", "status",
-		"deliveryMethod", "totalTabCount", "embeddedRecipientStartURL" })
+		"deliveryMethod", "totalTabCount", "embeddedRecipientStartURL", "defaultRecipient" })
 public class Signer {
 
 	@JsonProperty("tabs")
@@ -46,6 +46,8 @@ public class Signer {
 	private String totalTabCount;
 	@JsonProperty("embeddedRecipientStartURL")
 	private String embeddedRecipientStartURL;
+	@JsonProperty("defaultRecipient")
+	private String defaultRecipient;
 
 	@JsonProperty("tabs")
 	public Tabs getTabs() {
@@ -227,4 +229,13 @@ public class Signer {
 		this.embeddedRecipientStartURL = embeddedRecipientStartURL;
 	}
 
+	@JsonProperty("defaultRecipient")
+	public String getDefaultRecipient() {
+		return defaultRecipient;
+	}
+
+	@JsonProperty("defaultRecipient")
+	public void setDefaultRecipient(String defaultRecipient) {
+		this.defaultRecipient = defaultRecipient;
+	}
 }
