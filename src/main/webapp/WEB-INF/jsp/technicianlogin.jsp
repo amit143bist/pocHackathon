@@ -44,11 +44,8 @@
 							  dataType: "json",
 							  url: 'generateSenderView?envelopeId=' + data.envelopeId,
 							  contentType: "application/json; charset=utf-8",
-							  data: JSON.stringify(
-						            {medicineName: medicineName}
-						        ),
-					          success: function(data) {
-					            
+							  success: function(data) {
+					            console.log('success in generateSenderView');
 					          }
 						});
 		          }
@@ -75,11 +72,8 @@
 							  dataType: "json",
 							  url: 'generateRecipientView?envelopeId=' + data.envelopeId,
 							  contentType: "application/json; charset=utf-8",
-							  data: JSON.stringify(
-						            {medicineName: medicineName}
-						        ),
-					          success: function(data) {
-					            
+							  success: function(data) {
+								  console.log('success in generateRecipientView');  
 					          }
 						});
 		          }
