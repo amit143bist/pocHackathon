@@ -42,7 +42,7 @@
 			            $.ajax({
 					    	  type: 'GET',
 							  dataType: "json",
-							  url: 'generateSenderView',
+							  url: 'generateSenderView?envelopeId=' + data.envelopeId,
 							  contentType: "application/json; charset=utf-8",
 							  data: JSON.stringify(
 						            {medicineName: medicineName}
@@ -73,7 +73,7 @@
 			            $.ajax({
 					    	  type: 'GET',
 							  dataType: "json",
-							  url: 'generateRecipientView',
+							  url: 'generateRecipientView?envelopeId=' + data.envelopeId,
 							  contentType: "application/json; charset=utf-8",
 							  data: JSON.stringify(
 						            {medicineName: medicineName}
@@ -168,23 +168,10 @@
 								name="SystemViewBtn"
 								class="btn btn-success" />
 								
-								<input type="button" value="Send with DocuSign As Fillable Form" id="FillableFormViewBtn"
+								<!-- <input type="button" value="Send with DocuSign As Fillable Form" id="FillableFormViewBtn"
 								name="FillableFormViewBtn"
-								class="btn btn-success" />
+								class="btn btn-success" /> -->
 														
-								<!-- <button class="btn btn-success" id="SenderViewBtn"
-									name="SenderViewBtn">Send with DocuSign As Sender View</button>
-								<br />
-								<button class="btn btn-success" id="RecipientViewBtn"
-									name="RecipientViewBtn">Send with DocuSign As
-									RecipientView</button>
-								<br />
-								<button class="btn btn-success" id="SystemViewBtn"
-									name="SystemViewBtn">Send with DocuSign As System</button>
-								<br />
-								<button class="btn btn-success" id="FillableFormViewBtn"
-									name="FillableFormViewBtn">Send with DocuSign As
-									Fillable Form</button> -->
 							</div>
 						</div>
 
