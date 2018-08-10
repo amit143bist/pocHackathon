@@ -147,7 +147,7 @@
 		<section>
 		<div class="container">
 			<div class="row-fluid">
-				<form class="form-horizontal">
+				<div class="form-horizontal">
 					<fieldset>
 						<div id="legend">
 							<legend class="">Envelope Generation</legend>
@@ -167,7 +167,24 @@
 						<!-- Submit -->
 						<div class="control-group">
 							<div class="controls">
-								<button class="btn btn-success" id="SenderViewBtn"
+							
+								<input type="button" value="Send with DocuSign As Sender View" id="SenderViewBtn"
+														name="SenderViewBtn"
+														class="btn btn-success" />
+														
+								<input type="button" value="Send with DocuSign As RecipientView" id="RecipientViewBtn"
+								name="RecipientViewBtn"
+								class="btn btn-success" />
+								
+								<input type="button" value="Send with DocuSign As System" id="SystemViewBtn"
+								name="SystemViewBtn"
+								class="btn btn-success" />
+								
+								<input type="button" value="Send with DocuSign As Fillable Form" id="FillableFormViewBtn"
+								name="FillableFormViewBtn"
+								class="btn btn-success" />
+														
+								<!-- <button class="btn btn-success" id="SenderViewBtn"
 									name="SenderViewBtn">Send with DocuSign As Sender View</button>
 								<br />
 								<button class="btn btn-success" id="RecipientViewBtn"
@@ -179,12 +196,12 @@
 								<br />
 								<button class="btn btn-success" id="FillableFormViewBtn"
 									name="FillableFormViewBtn">Send with DocuSign As
-									Fillable Form</button>
+									Fillable Form</button> -->
 							</div>
 						</div>
 
 					</fieldset>
-				</form>
+				</div>
 			</div>
 		</div>
 		<div id="envelopeId"></div>
