@@ -259,7 +259,10 @@ public class UnitedPOCService {
 		signer.setEmail(patientDetails.getProviderEmail());
 		signer.setRoleName("Provider");
 
-		signer.setTabs(createSignerTabs(patientDetails, medicineName));
+		if (!isEmbeddedTechnician) {
+
+			signer.setTabs(createSignerTabs(patientDetails, medicineName));
+		}
 
 		List<Signer> signerList = new ArrayList<Signer>();
 		signerList.add(signer);
@@ -273,6 +276,8 @@ public class UnitedPOCService {
 			signer.setRoleName("Technician");
 			signer.setClientUserId("12345");
 			signerList.add(signer);
+
+			signer.setTabs(createSignerTabs(patientDetails, medicineName));
 		}
 
 		Recipients recipients = new Recipients();
