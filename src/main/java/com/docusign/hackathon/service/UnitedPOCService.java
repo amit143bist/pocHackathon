@@ -55,10 +55,10 @@ public class UnitedPOCService {
 
 	@Value("${heroku.ds.api.united.accesstoken}")
 	private String herokuDSAccessToken;
-	
+
 	@Value("${heroku.ds.united.entresto.pdf}")
 	private String entrestoPDF;
-	
+
 	@Value("${heroku.ds.united.metaxalone.pdf}")
 	private String metaxalonePDF;
 
@@ -300,7 +300,7 @@ public class UnitedPOCService {
 		textTab.setTabLabel("MemName");
 		textTab.setValue(patientDetails.getMemName());
 		textTabList.add(textTab);
-		
+
 		textTab = new TextTab();
 
 		textTab.setTabLabel("MemNameHeader");
@@ -318,7 +318,7 @@ public class UnitedPOCService {
 		textTab.setTabLabel("MemDOB");
 		textTab.setValue(patientDetails.getMemDOB());
 		textTabList.add(textTab);
-		
+
 		textTab = new TextTab();
 
 		textTab.setTabLabel("MemDOBHeader");
@@ -361,6 +361,12 @@ public class UnitedPOCService {
 		cal.add(Calendar.DATE, 1);
 
 		textTab.setValue(simpleDateFormat.format(cal.getTime()));
+		textTabList.add(textTab);
+
+		textTab = new TextTab();
+
+		textTab.setTabLabel("TechnicianName");
+		textTab.setValue(patientDetails.getTechnicianName());
 		textTabList.add(textTab);
 
 		return textTabList;
