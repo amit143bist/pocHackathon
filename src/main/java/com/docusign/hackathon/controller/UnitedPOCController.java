@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.docusign.hackathon.domain.EnvelopeCreationResponse;
 import com.docusign.hackathon.service.UnitedPOCService;
@@ -31,6 +32,7 @@ public class UnitedPOCController {
 	}
 
 	@RequestMapping(value = "/createEnvelopeAsSenderView", method = RequestMethod.POST)
+	@ResponseBody
 	public EnvelopeCreationResponse createEnvelopeAsSenderView(
 			@RequestParam(value = "medicineName") String medicineName, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
@@ -54,6 +56,7 @@ public class UnitedPOCController {
 	}
 
 	@RequestMapping(value = "/createEnvelopeAsRecipientView", method = RequestMethod.POST)
+	@ResponseBody
 	public EnvelopeCreationResponse createEnvelopeAsRecipientView(
 			@RequestParam(value = "medicineName") String medicineName, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
@@ -78,6 +81,7 @@ public class UnitedPOCController {
 	}
 
 	@RequestMapping(value = "/createEnvelopeAsSystem", method = RequestMethod.POST)
+	@ResponseBody
 	public EnvelopeCreationResponse createEnvelopeAsSystem(@RequestParam(value = "medicineName") String medicineName,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
 

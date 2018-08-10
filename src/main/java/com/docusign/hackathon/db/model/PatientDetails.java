@@ -12,7 +12,7 @@ public class PatientDetails {
 	
 	private String memCaseNo = "CS995566";
 	
-	private String providerName = "Dr Tim,";
+	private String providerName = "Tim,";
 	
 	private String providerEmail = "docusign.sso+provider@gmail.com";
 	

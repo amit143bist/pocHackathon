@@ -300,6 +300,12 @@ public class UnitedPOCService {
 		textTab.setTabLabel("MemName");
 		textTab.setValue(patientDetails.getMemName());
 		textTabList.add(textTab);
+		
+		textTab = new TextTab();
+
+		textTab.setTabLabel("MemNameHeader");
+		textTab.setValue(patientDetails.getMemName());
+		textTabList.add(textTab);
 
 		textTab = new TextTab();
 
@@ -310,6 +316,12 @@ public class UnitedPOCService {
 		textTab = new TextTab();
 
 		textTab.setTabLabel("MemDOB");
+		textTab.setValue(patientDetails.getMemDOB());
+		textTabList.add(textTab);
+		
+		textTab = new TextTab();
+
+		textTab.setTabLabel("MemDOBHeader");
 		textTab.setValue(patientDetails.getMemDOB());
 		textTabList.add(textTab);
 
