@@ -33,9 +33,7 @@
 				  dataType: "json",
 				  url: 'createEnvelopeAsSenderView',
 				  contentType: "application/json; charset=utf-8",
-				  data: JSON.stringify(
-			            {medicineName: medicineName}
-			        ),
+				  data: ({medicineName: medicineName}),
 		          success: function(data) {
 		            console.log('success login- ' + data.envelopeId);
 
@@ -68,9 +66,7 @@
 				  dataType: "json",
 				  url: 'createEnvelopeAsRecipientView',
 				  contentType: "application/json; charset=utf-8",
-				  data: JSON.stringify(
-			            {medicineName: medicineName}
-			        ),
+				  data: ({medicineName: medicineName}),
 		          success: function(data) {
 		            console.log('success login- ' + data.envelopeId);
 
@@ -102,9 +98,7 @@
 				  dataType: "json",
 				  url: 'createEnvelopeAsSystem',
 				  contentType: "application/json; charset=utf-8",
-				  data: JSON.stringify(
-			            {medicineName: medicineName}
-			        ),
+				  data: ({medicineName: medicineName}),
 		          success: function(data) {
 		            console.log('success login- ' + data.envelopeId);
 
@@ -123,9 +117,7 @@
 				  dataType: "json",
 				  url: 'createWorkspaceRemoteEnvelope',
 				  contentType: "application/json; charset=utf-8",
-				  data: JSON.stringify(
-			            {medicineName: medicineName}
-			        ),
+				  data: ({medicineName: medicineName}),
 		          success: function(data) {
 		            console.log('success login- ' + data);
 		            console.log('success login- ' + data.envelopeId);
