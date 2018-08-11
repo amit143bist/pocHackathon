@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "compositeTemplates", "status", "emailBlurb", "emailSubject" })
+@JsonPropertyOrder({ "compositeTemplates", "status", "emailBlurb", "emailSubject", "brandId" })
 public class CompositeTemplateRequest {
 
 	@JsonProperty("compositeTemplates")
@@ -18,6 +18,8 @@ public class CompositeTemplateRequest {
 	private String emailBlurb;
 	@JsonProperty("emailSubject")
 	private String emailSubject;
+	@JsonProperty("brandId")
+	private String brandId;
 
 	@JsonProperty("compositeTemplates")
 	public List<CompositeTemplate> getCompositeTemplates() {
@@ -57,6 +59,16 @@ public class CompositeTemplateRequest {
 	@JsonProperty("emailSubject")
 	public void setEmailSubject(String emailSubject) {
 		this.emailSubject = emailSubject;
+	}
+	
+	@JsonProperty("brandId")
+	public String getBrandId() {
+		return brandId;
+	}
+
+	@JsonProperty("brandId")
+	public void setBrandId(String brandId) {
+		this.brandId = brandId;
 	}
 
 }

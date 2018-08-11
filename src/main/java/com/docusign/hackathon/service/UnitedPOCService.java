@@ -131,6 +131,7 @@ public class UnitedPOCService {
 
 		request.setEmailSubject("Please fill and sign the required documents");
 		request.setEmailBlurb("Please fill and sign the required documents");
+		request.setBrandId("87431165-78f6-4ad8-b516-557963f741f7");
 
 		HttpHeaders httpHeaders = getHttpHeaders();
 
