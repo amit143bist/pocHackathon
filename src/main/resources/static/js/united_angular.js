@@ -25,7 +25,7 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 				console.log('success login- ' + respData);
 				console.log('success login- ' + respData.envelopeDataAvailable);
 
-				$.each(respData, function(index, element) {
+				$.each(respData.recipientEnvelopeDataList, function(index, element) {
 
 							console.log('dashBoardData- ' + index + ' elementName- '
 							+ JSON.stringify(element));

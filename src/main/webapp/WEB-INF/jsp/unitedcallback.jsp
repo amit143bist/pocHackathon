@@ -23,7 +23,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 
 </head>
-<body onload="onLoad()">
+<body>
 	<div class="container">
 		<header>
 		<div>
