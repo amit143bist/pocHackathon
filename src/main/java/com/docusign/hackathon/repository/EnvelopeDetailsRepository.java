@@ -11,4 +11,6 @@ public interface EnvelopeDetailsRepository extends CrudRepository<EnvelopeDetail
 
 	List<EnvelopeDetails> findByEnvelopeDetailsPK_RecipientEmailAndEnvelopeStatus(String recipientEmail,
 			String envelopeStatus);
+	
+	List<EnvelopeDetails> findByEnvelopeDetailsPK_EnvelopeId(String envelopeId);
 }

@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 import com.docusign.hackathon.db.model.PatientDetails;
 import com.docusign.hackathon.model.CompositeTemplate;
 import com.docusign.hackathon.model.CompositeTemplateRequest;
+import com.docusign.hackathon.model.CustomFields;
 import com.docusign.hackathon.model.Document;
 import com.docusign.hackathon.model.EmbeddedUrlResponse;
 import com.docusign.hackathon.model.EnvelopeResponse;
@@ -32,6 +33,7 @@ import com.docusign.hackathon.model.SenderViewRequest;
 import com.docusign.hackathon.model.ServerTemplate;
 import com.docusign.hackathon.model.Signer;
 import com.docusign.hackathon.model.Tabs;
+import com.docusign.hackathon.model.TextCustomField;
 import com.docusign.hackathon.model.TextTab;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -88,6 +90,9 @@ public class UnitedPOCService {
 		Recipients recipients = createRecipients(isEmbeddedTechnician, medicineName);
 
 		InlineTemplate inlineTemplate = new InlineTemplate();
+
+		CustomFields customFields = createCustomFields();
+		inlineTemplate.setCustomFields(customFields);
 
 		inlineTemplate.setRecipients(recipients);
 		inlineTemplate.setSequence("1");
@@ -159,17 +164,37 @@ public class UnitedPOCService {
 		return envelopeId;
 	}
 
+	private CustomFields createCustomFields() {
+
+		CustomFields customFields = new CustomFields();
+
+		TextCustomField textCustomField = new TextCustomField();
+		textCustomField.setName("UseCaseName");
+		textCustomField.setValue("PDATUsecase");
+		textCustomField.setRequired("false");
+		textCustomField.setShow("false");
+
+		List<TextCustomField> textCustomFieldList = new ArrayList<TextCustomField>();
+		textCustomFieldList.add(textCustomField);
+
+		customFields.setTextCustomFields(textCustomFieldList);
+
+		return customFields;
+	}
+
 	public String recipientViewUrl(String envelopeId) {
 
 		String embeddedSigningUrl = null;
 
 		HttpHeaders httpHeaders = getHttpHeaders();
 
+		PatientDetails patientDetails = new PatientDetails();
+
 		RecipientTokenRequest recipientTokenRequest = new RecipientTokenRequest();
 		recipientTokenRequest.setAuthenticationMethod("Password");
-		recipientTokenRequest.setClientUserId("12345");
-		recipientTokenRequest.setEmail("docusign.sso@gmail.com");
-		recipientTokenRequest.setUserName("John Cena");
+		recipientTokenRequest.setClientUserId(patientDetails.getTechnicianClientUserId());
+		recipientTokenRequest.setEmail(patientDetails.getTechnicianEmail());
+		recipientTokenRequest.setUserName(patientDetails.getTechnicianName());
 		recipientTokenRequest.setReturnUrl(herokuServerUrl
 				+ "/emeddedUnitedCallback?envelopeId=[[envelopeId]]&recipientEmail=[[recipientEmail]]&recipientName=[[recipientName]]");
 
@@ -271,10 +296,10 @@ public class UnitedPOCService {
 
 			signer = new Signer();
 			signer.setRecipientId("1");
-			signer.setName("John Cena");
-			signer.setEmail("docusign.sso@gmail.com");
+			signer.setName(patientDetails.getTechnicianName());
+			signer.setEmail(patientDetails.getTechnicianEmail());
 			signer.setRoleName("Technician");
-			signer.setClientUserId("12345");
+			signer.setClientUserId(patientDetails.getTechnicianClientUserId());
 			signerList.add(signer);
 
 			signer.setTabs(createSignerTabs(patientDetails, medicineName));

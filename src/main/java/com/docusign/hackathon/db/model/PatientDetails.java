@@ -12,11 +12,15 @@ public class PatientDetails {
 	
 	private String memCaseNo = "CS995566";
 	
-	private String providerName = "Tim,";
+	private String providerName = "Tim";
 	
 	private String providerEmail = "docusign.sso+provider@gmail.com";
 	
 	private String technicianName = "Charles Smith";
+	
+	private String technicianEmail = "docusign.sso@gmail.com";
+	
+	private String technicianClientUserId = "12345";
 
 	public String getMemName() {
 		return memName;
@@ -80,5 +84,21 @@ public class PatientDetails {
 
 	public void setTechnicianName(String technicianName) {
 		this.technicianName = technicianName;
+	}
+	
+	public String getTechnicianEmail() {
+		return technicianEmail;
+	}
+
+	public void setTechnicianEmail(String technicianEmail) {
+		this.technicianEmail = technicianEmail;
+	}
+	
+	public String getTechnicianClientUserId() {
+		return technicianClientUserId;
+	}
+
+	public void setTechnicianClientUserId(String technicianClientUserId) {
+		this.technicianClientUserId = technicianClientUserId;
 	}
 }

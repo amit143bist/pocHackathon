@@ -25,9 +25,15 @@ public class EnvelopeDetails {
 
 	@Column(name = "clientuserid")
 	private UUID clientUserId;
-	
+
 	@Column(name = "envelopesubject")
 	private String envelopeSubject;
+
+	@Column(name = "usecasename")
+	private String usecaseName;
+
+	@Column(name = "recipientuuid")
+	private UUID recipientUUID;
 
 	public EnvelopeDetailsPK getEnvelopeDetailsPK() {
 		return envelopeDetailsPK;
@@ -36,7 +42,7 @@ public class EnvelopeDetails {
 	public void setEnvelopeDetailsPK(EnvelopeDetailsPK envelopeDetailsPK) {
 		this.envelopeDetailsPK = envelopeDetailsPK;
 	}
-	
+
 	public String getEnvelopeStatus() {
 		return envelopeStatus;
 	}
@@ -68,7 +74,7 @@ public class EnvelopeDetails {
 	public void setClientUserId(UUID clientUserId) {
 		this.clientUserId = clientUserId;
 	}
-	
+
 	public String getEnvelopeSubject() {
 		return envelopeSubject;
 	}
@@ -76,4 +82,21 @@ public class EnvelopeDetails {
 	public void setEnvelopeSubject(String envelopeSubject) {
 		this.envelopeSubject = envelopeSubject;
 	}
+
+	public String getUsecaseName() {
+		return usecaseName;
+	}
+
+	public void setUsecaseName(String usecaseName) {
+		this.usecaseName = usecaseName;
+	}
+
+	public UUID getRecipientUUID() {
+		return recipientUUID;
+	}
+
+	public void setRecipientUUID(UUID recipientUUID) {
+		this.recipientUUID = recipientUUID;
+	}
+
 }
