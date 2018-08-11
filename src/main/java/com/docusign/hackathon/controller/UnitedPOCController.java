@@ -188,6 +188,7 @@ public class UnitedPOCController {
 				recipientEnvelopeData.setRecipientEmail(envelopeDetails.getEnvelopeDetailsPK().getRecipientEmail());
 				recipientEnvelopeData.setRecipientName(envelopeDetails.getRecipientName());
 				recipientEnvelopeData.setRecipientId(envelopeDetails.getRecipientUUID().toString());
+				recipientEnvelopeData.setUsecaseName(envelopeDetails.getUsecaseName());
 
 				List<RecipientTabData> recipientTabDataList = new ArrayList<RecipientTabData>();
 				for (RecipientTabDetails recipientTabDetails : recipientTabDetailsList) {
