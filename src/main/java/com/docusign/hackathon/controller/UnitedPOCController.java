@@ -172,7 +172,7 @@ public class UnitedPOCController {
 		logger.info("In UnitedPOCController.fetchSignedFormData()");
 
 		List<EnvelopeDetails> envelopeDetailsList = envelopeDetailsRepository
-				.findByEnvelopeDetailsPK_EnvelopeId(envelopeId);
+				.findByEnvelopeDetailsPK_EnvelopeId(UUID.fromString(envelopeId));
 
 		EnvelopeInformationData envelopeInformationData = new EnvelopeInformationData();
 		List<RecipientEnvelopeData> recipientEnvelopeDataList = new ArrayList<RecipientEnvelopeData>();

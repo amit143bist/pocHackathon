@@ -1,6 +1,7 @@
 package com.docusign.hackathon.repository;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -12,5 +13,5 @@ public interface EnvelopeDetailsRepository extends CrudRepository<EnvelopeDetail
 	List<EnvelopeDetails> findByEnvelopeDetailsPK_RecipientEmailAndEnvelopeStatus(String recipientEmail,
 			String envelopeStatus);
 	
-	List<EnvelopeDetails> findByEnvelopeDetailsPK_EnvelopeId(String envelopeId);
+	List<EnvelopeDetails> findByEnvelopeDetailsPK_EnvelopeId(UUID envelopeId);
 }
