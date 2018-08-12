@@ -74,7 +74,7 @@ public class UnitedPOCController {
 			HttpServletResponse response, Model model) {
 
 		logger.info("In UnitedPOCController.createEnvelopeAsSenderView()");
-		String envelopeId = unitedPOCService.createRecipientEnvelopes(false, medicineName, true);
+		String envelopeId = unitedPOCService.createRecipientEnvelopes(false, medicineName, true, false);
 
 		EnvelopeCreationResponse envelopeResponse = new EnvelopeCreationResponse();
 		envelopeResponse.setEnvelopeId(envelopeId);
@@ -99,7 +99,7 @@ public class UnitedPOCController {
 
 		logger.info("In UnitedPOCController.createEnvelopeAsRecipientView()");
 
-		String envelopeId = unitedPOCService.createRecipientEnvelopes(true, medicineName, false);
+		String envelopeId = unitedPOCService.createRecipientEnvelopes(true, medicineName, false, false);
 
 		EnvelopeCreationResponse envelopeResponse = new EnvelopeCreationResponse();
 		envelopeResponse.setEnvelopeId(envelopeId);
@@ -144,13 +144,30 @@ public class UnitedPOCController {
 
 		logger.info("In UnitedPOCController.createEnvelopeAsSystem()");
 
-		String envelopeId = unitedPOCService.createRecipientEnvelopes(false, medicineName, false);
+		String envelopeId = unitedPOCService.createRecipientEnvelopes(false, medicineName, false, false);
 
 		EnvelopeCreationResponse envelopeResponse = new EnvelopeCreationResponse();
 		envelopeResponse.setEnvelopeId(envelopeId);
 
 		return envelopeResponse;
 	}
+	
+	@RequestMapping(value = "/createEnvelopeAsFillableForm", method = RequestMethod.POST)
+	@ResponseBody
+	public EnvelopeCreationResponse createEnvelopeAsFillableForm(@RequestParam(value = "medicineName") String medicineName,
+			HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		logger.info("In UnitedPOCController.createEnvelopeAsFillableForm()");
+
+		String envelopeId = unitedPOCService.createRecipientEnvelopes(false, medicineName, false, true);
+
+		EnvelopeCreationResponse envelopeResponse = new EnvelopeCreationResponse();
+		envelopeResponse.setEnvelopeId(envelopeId);
+
+		return envelopeResponse;
+	}
+	
+	
 
 	@RequestMapping(value = "/emeddedUnitedCallback", method = RequestMethod.GET)
 	public String emeddedUnitedCallback(@RequestParam String envelopeId, @RequestParam String recipientName,

@@ -27,14 +27,14 @@
 	    	
 			  var medicineName = $('#medicineName').val();
 
-			  console.log('SenderView initiate medicineName- ' + medicineName);
+			  console.log('createEnvelopeAsSenderView SenderView initiate medicineName- ' + medicineName);
 		      $.ajax({
 		    	  type: 'POST',
 				  dataType: "json",
 				  url: 'createEnvelopeAsSenderView?medicineName=' + medicineName ,
 				  contentType: "application/json; charset=utf-8",
 				  success: function(data) {
-		            console.log('success login- ' + data.envelopeId);
+		            console.log('createEnvelopeAsSenderView success login- ' + data.envelopeId);
 
 		            $('#envelopeId').html(data.envelopeId);
 
@@ -48,14 +48,14 @@
 	    	
 			  var medicineName = $('#medicineName').val();
 
-			  console.log('login initiate medicineName- ' + medicineName);
+			  console.log('createEnvelopeAsRecipientView login initiate medicineName- ' + medicineName);
 		      $.ajax({
 		    	  type: 'POST',
 				  dataType: "json",
 				  url: 'createEnvelopeAsRecipientView?medicineName=' + medicineName,
 				  contentType: "application/json; charset=utf-8",
 		          success: function(data) {
-		            console.log('success login- ' + data.envelopeId);
+		            console.log('createEnvelopeAsRecipientView success login- ' + data.envelopeId);
 
 		            $('#envelopeId').html(data.envelopeId);
 
@@ -70,14 +70,14 @@
 	    	
 			  var medicineName = $('#medicineName').val();
 
-			  console.log('login initiate medicineName- ' + medicineName);
+			  console.log('createEnvelopeAsSystem login initiate medicineName- ' + medicineName);
 		      $.ajax({
 		    	  type: 'POST',
 				  dataType: "json",
 				  url: 'createEnvelopeAsSystem?medicineName=' + medicineName,
 				  contentType: "application/json; charset=utf-8",
 		          success: function(data) {
-		            console.log('success login- ' + data.envelopeId);
+		            console.log('createEnvelopeAsSystem success login- ' + data.envelopeId);
 
 		            $('#envelopeId').html(data.envelopeId);
 		          }
@@ -88,15 +88,14 @@
 	    	
 			  var medicineName = $('#medicineName').val();
 
-			  console.log('login initiate medicineName- ' + medicineName);
+			  console.log('createEnvelopeAsFillableForm login initiate medicineName- ' + medicineName);
 		      $.ajax({
 		    	  type: 'POST',
 				  dataType: "json",
-				  url: 'createWorkspaceRemoteEnvelope?medicineName=' + medicineName,
+				  url: 'createEnvelopeAsFillableForm?medicineName=' + medicineName,
 				  contentType: "application/json; charset=utf-8",
 		          success: function(data) {
-		            console.log('success login- ' + data);
-		            console.log('success login- ' + data.envelopeId);
+		            console.log('createEnvelopeAsFillableForm success login- ' + data.envelopeId);
 
 		            $('#envelopeId').html(data.envelopeId);
 		          }
@@ -117,15 +116,15 @@
 			<div class="row-fluid">
 				<div class="form-horizontal">
 						<fieldset>
-							<div id="legend">
-								<legend class="">Envelope Generation</legend>
+							<div id="legend" style="margin-top: 50px">
+								<legend class="">PDAT Envelope Generation</legend>
 							</div>
 	
 							<div class="control-group">
-								<label class="control-label" for="password">Medicine Name</label>
+								<label class="control-label" for="password">Select Medicine Name</label>
 								<div class="controls">
 									<select class="span3" name="medicineName" id="medicineName">
-										<option></option>
+										<option>--Select--</option>
 										<option value="Entresto">Entresto</option>
 										<option value="Metaxalone">Metaxalone</option>
 									</select>
@@ -148,9 +147,9 @@
 									name="SystemViewBtn"
 									class="btn btn-success" />
 									
-									<!-- <input type="button" value="Send with DocuSign As Fillable Form" id="FillableFormViewBtn"
+									<input type="button" value="Send with DocuSign As Fillable Form" id="FillableFormViewBtn"
 									name="FillableFormViewBtn"
-									class="btn btn-success" /> -->
+									class="btn btn-success" />
 															
 								</div>
 							</div>
@@ -169,6 +168,9 @@
 					</fieldset>
 				</div>
 			</div>
+		</div>
+		<div id="legend" style="margin-top: 50px">
+			 <legend class="">Generated EnvelopeId is</legend>
 		</div>
 		<div id="envelopeId"></div>
 		</section>

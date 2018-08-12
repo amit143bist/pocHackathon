@@ -64,22 +64,44 @@ public class UnitedPOCService {
 	@Value("${heroku.ds.united.metaxalone.pdf}")
 	private String metaxalonePDF;
 
+	@Value("${heroku.ds.united.entresto.fillableform.pdf}")
+	private String entrestoFillableFormPDF;
+
+	@Value("${heroku.ds.united.metaxalone.fillableform.pdf}")
+	private String metaxaloneFillableFormPDF;
+
 	private static final Logger logger = LogManager.getLogger(UnitedPOCService.class);
 
-	public String createRecipientEnvelopes(boolean isEmbeddedTechnician, String medicineName, boolean isSenderView) {
+	public String createRecipientEnvelopes(boolean isEmbeddedTechnician, String medicineName, boolean isSenderView,
+			boolean isFillableForm) {
 
 		Document document = new Document();
 		document.setDocumentId("1");
 
-		if ("Entresto".equalsIgnoreCase(medicineName)) {
+		if (isFillableForm) {
 
-			document.setRemoteUrl(entrestoPDF);
-		} else if ("Metaxalone".equalsIgnoreCase(medicineName)) {
+			if ("Entresto".equalsIgnoreCase(medicineName)) {
 
-			document.setRemoteUrl(metaxalonePDF);
+				document.setRemoteUrl(entrestoFillableFormPDF);
+			} else if ("Metaxalone".equalsIgnoreCase(medicineName)) {
+
+				document.setRemoteUrl(metaxaloneFillableFormPDF);
+			}
+
+			document.setTransformPdfFields("true");
+
+		} else {
+
+			if ("Entresto".equalsIgnoreCase(medicineName)) {
+
+				document.setRemoteUrl(entrestoPDF);
+			} else if ("Metaxalone".equalsIgnoreCase(medicineName)) {
+
+				document.setRemoteUrl(metaxalonePDF);
+			}
 		}
 
-		document.setName("Provider OR Document");
+		document.setName("Provider OutReach Form");
 		document.setFileExtension("pdf");
 
 		CompositeTemplate compositeTemplate = new CompositeTemplate();
@@ -87,7 +109,7 @@ public class UnitedPOCService {
 		compositeTemplate.setCompositeTemplateId("1");
 		compositeTemplate.setDocument(document);
 
-		Recipients recipients = createRecipients(isEmbeddedTechnician, medicineName);
+		Recipients recipients = createRecipients(isEmbeddedTechnician, medicineName, isFillableForm);
 
 		InlineTemplate inlineTemplate = new InlineTemplate();
 
@@ -275,7 +297,7 @@ public class UnitedPOCService {
 		return embeddedSigningUrl;
 	}
 
-	private Recipients createRecipients(boolean isEmbeddedTechnician, String medicineName) {
+	private Recipients createRecipients(boolean isEmbeddedTechnician, String medicineName, boolean isFillableForm) {
 
 		PatientDetails patientDetails = new PatientDetails();
 
@@ -284,6 +306,11 @@ public class UnitedPOCService {
 		signer.setName(patientDetails.getProviderName());
 		signer.setEmail(patientDetails.getProviderEmail());
 		signer.setRoleName("Provider");
+
+		if (isFillableForm) {
+
+			signer.setDefaultRecipient("true");
+		}
 
 		if (!isEmbeddedTechnician) {
 
