@@ -34,6 +34,7 @@ import com.docusign.hackathon.connect.model.FormData;
 import com.docusign.hackathon.connect.model.FormDataXfdf;
 import com.docusign.hackathon.connect.model.FormDataXfdfField;
 import com.docusign.hackathon.connect.model.RecipientStatus;
+import com.docusign.hackathon.connect.model.RecipientTypeCode;
 import com.docusign.hackathon.db.model.EnvelopeDetails;
 import com.docusign.hackathon.db.model.EnvelopeDetailsPK;
 import com.docusign.hackathon.db.model.RecipientTabDetails;
@@ -243,12 +244,15 @@ public class UnitedPOCController {
 
 			for (RecipientStatus recipient : recipientStatusList) {
 
-				UUID recipientUUID = UUID.fromString(recipient.getRecipientId());
+				if (RecipientTypeCode.SIGNER == recipient.getType()) {
 
-				saveRecipientTabDetails(recipient, recipientUUID);
+					UUID recipientUUID = UUID.fromString(recipient.getRecipientId());
 
-				saveEnvelopeDetails(usecaseNameValue, envelopeId, envelopeSubject, recipientUUID, recipient.getEmail(),
-						recipient.getUserName());
+					saveRecipientTabDetails(recipient, recipientUUID);
+
+					saveEnvelopeDetails(usecaseNameValue, envelopeId, envelopeSubject, recipientUUID,
+							recipient.getEmail(), recipient.getUserName());
+				}
 
 			}
 
