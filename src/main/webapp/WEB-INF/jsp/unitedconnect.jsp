@@ -6,7 +6,7 @@
 <html ng-app="angularSPF" xmlns="http://www.w3.org/1999/xhtml"
 	xml:lang="en">
 <head>
-<title>PDAT Portal</title>
+<title>Connect Portal</title>
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/normalize.css">
 <link rel="stylesheet" href="/css/style.css">
