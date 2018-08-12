@@ -6,6 +6,7 @@
 <html ng-app="angularSPF" xmlns="http://www.w3.org/1999/xhtml"
 	xml:lang="en">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Connect Portal</title>
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/normalize.css">
@@ -43,6 +44,29 @@
 <link data-require="datatable-css@1.10.7" data-semver="1.10.7"
 	rel="stylesheet"
 	href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" />
+	
+<style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
 
 </head>
 <body ng-app="angularSPF" ng-controller="ModalCtrl as spfController"
@@ -119,7 +143,7 @@ ng-init="fetchAllEnvelopesJSON('${envelopeId}')">
 				</div>
 				<div class="text-center ng-hide" ng-hide="spfController.showBody">
 					<br> <br> <br>
-					<div class="spinner-circle spinner-sm"></div>
+					<div class="loader"></div>
 				</div>
 			</div>
 		</div>

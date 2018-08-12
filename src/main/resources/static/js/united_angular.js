@@ -31,7 +31,7 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 						console.log('dashBoardData- ' + index + ' elementName- '
 						+ JSON.stringify(element));
 
-					container.custEnvelopes.push(element);
+						container.custEnvelopes.push(element);
 					});
 					
 					$scope.$broadcast('dataloaded');
