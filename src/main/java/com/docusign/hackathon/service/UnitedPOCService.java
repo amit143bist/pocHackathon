@@ -75,6 +75,8 @@ public class UnitedPOCService {
 	public String createRecipientEnvelopes(boolean isEmbeddedTechnician, String medicineName, boolean isSenderView,
 			boolean isFillableForm) {
 
+		CompositeTemplate compositeTemplate = new CompositeTemplate();
+		
 		Document document = new Document();
 		document.setDocumentId("1");
 
@@ -99,12 +101,24 @@ public class UnitedPOCService {
 
 				document.setRemoteUrl(metaxalonePDF);
 			}
+			
+			ServerTemplate serverTemplate = new ServerTemplate();
+			if (isEmbeddedTechnician) {
+
+				serverTemplate.setTemplateId("ebe5dea8-2aaa-4e5f-a64a-79d0921328b8");
+			} else {
+				serverTemplate.setTemplateId("2830de1d-813b-467f-94e3-164a9c3c4235");
+			}
+			serverTemplate.setSequence("1");
+
+			List<ServerTemplate> serverTemplateList = new ArrayList<ServerTemplate>();
+			serverTemplateList.add(serverTemplate);
+
+			compositeTemplate.setServerTemplates(serverTemplateList);
 		}
 
 		document.setName("Provider OutReach Form");
 		document.setFileExtension("pdf");
-
-		CompositeTemplate compositeTemplate = new CompositeTemplate();
 
 		compositeTemplate.setCompositeTemplateId("1");
 		compositeTemplate.setDocument(document);
@@ -123,20 +137,6 @@ public class UnitedPOCService {
 		inlineTemplateList.add(inlineTemplate);
 
 		compositeTemplate.setInlineTemplates(inlineTemplateList);
-
-		ServerTemplate serverTemplate = new ServerTemplate();
-		if (isEmbeddedTechnician) {
-
-			serverTemplate.setTemplateId("ebe5dea8-2aaa-4e5f-a64a-79d0921328b8");
-		} else {
-			serverTemplate.setTemplateId("2830de1d-813b-467f-94e3-164a9c3c4235");
-		}
-		serverTemplate.setSequence("1");
-
-		List<ServerTemplate> serverTemplateList = new ArrayList<ServerTemplate>();
-		serverTemplateList.add(serverTemplate);
-
-		compositeTemplate.setServerTemplates(serverTemplateList);
 
 		List<CompositeTemplate> compositeTemplateList = new ArrayList<CompositeTemplate>();
 		compositeTemplateList.add(compositeTemplate);
@@ -192,7 +192,7 @@ public class UnitedPOCService {
 		CustomFields customFields = new CustomFields();
 
 		TextCustomField textCustomField = new TextCustomField();
-		textCustomField.setName("UseCaseName");
+		textCustomField.setName("Use Case ID");
 		textCustomField.setValue("PDATUsecase");
 		textCustomField.setRequired("false");
 		textCustomField.setShow("false");

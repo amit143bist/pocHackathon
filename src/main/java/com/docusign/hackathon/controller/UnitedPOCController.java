@@ -250,7 +250,7 @@ public class UnitedPOCController {
 			List<CustomField> customFieldList = arrayOfCustomField.getCustomField();
 			for (CustomField customField : customFieldList) {
 
-				if ("UseCaseName".equalsIgnoreCase(customField.getName())) {
+				if ("Use Case ID".equalsIgnoreCase(customField.getName())) {
 					usecaseNameValue = customField.getValue();
 					break;
 				}
