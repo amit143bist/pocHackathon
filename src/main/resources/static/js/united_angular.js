@@ -22,20 +22,27 @@ app.controller('ModalCtrl', function($scope, $http, $timeout, $location, $window
 			data: ({envelopeId: envelopeId}),
 			success : function(respData) {
 				
-				console.log('success login- ' + respData);
 				console.log('success login- ' + respData.envelopeDataAvailable);
 
-				$.each(respData.recipientEnvelopeDataList, function(index, element) {
+				if("Yes" === respData.envelopeDataAvailable){
+					
+					$.each(respData.recipientEnvelopeDataList, function(index, element) {
 
-							console.log('dashBoardData- ' + index + ' elementName- '
-							+ JSON.stringify(element));
+						console.log('dashBoardData- ' + index + ' elementName- '
+						+ JSON.stringify(element));
 
-						container.custEnvelopes.push(element);
-				});
+					container.custEnvelopes.push(element);
+					});
+					
+					$scope.$broadcast('dataloaded');
+					container.showBody = true;
+					$scope.$apply();
+				}else{
+					
+					console.log('else login- ' + respData.envelopeDataAvailable);
+					$timeout(function(){ $scope.fetchAllEnvelopesJSON(envelopeId); }, 3000);
+				}
 				
-				$scope.$broadcast('dataloaded');
-				container.showBody = true;
-				$scope.$apply();
 			},
 			error : function(respData) {
 				$scope.$apply();
