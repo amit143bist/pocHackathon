@@ -274,8 +274,16 @@ public class UnitedPOCController {
 			RecipientTabDetails recipientTabDetails = new RecipientTabDetails();
 			recipientTabDetails.setRecipientId(recipientUUID);
 			recipientTabDetails.setTabId(UUID.randomUUID());
-			recipientTabDetails.setTabName(formDataXfdfField.getName());
-			recipientTabDetails.setTabValue(formDataXfdfField.getValue());
+
+			if (formDataXfdfField.getName().contains("Radio Group")) {
+
+				recipientTabDetails.setTabName(formDataXfdfField.getValue());
+				recipientTabDetails.setTabValue("Selected");
+			} else {
+
+				recipientTabDetails.setTabName(formDataXfdfField.getName());
+				recipientTabDetails.setTabValue(formDataXfdfField.getValue());
+			}
 
 			recipientTabDetailsList.add(recipientTabDetails);
 		}
