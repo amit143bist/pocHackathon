@@ -135,21 +135,28 @@
 							<div class="control-group">
 								<div class="controls">
 								
-									<input type="button" value="Send with DocuSign As Sender View" id="SenderViewBtn"
+									<ul class="mappingFieldsInside">
+										<li class="list-group-item">
+											<input type="button" value="Send with DocuSign As Sender View" id="SenderViewBtn"
 															name="SenderViewBtn"
 															class="btn btn-success" />
-															
-									<input type="button" value="Send with DocuSign As RecipientView" id="RecipientViewBtn"
-									name="RecipientViewBtn"
-									class="btn btn-success" />
-									
-									<input type="button" value="Send with DocuSign As System" id="SystemViewBtn"
-									name="SystemViewBtn"
-									class="btn btn-success" />
-									
-									<input type="button" value="Send with DocuSign As Fillable Form" id="FillableFormViewBtn"
-									name="FillableFormViewBtn"
-									class="btn btn-success" />
+										</li>
+										<li class="list-group-item">
+											<input type="button" value="Send with DocuSign As RecipientView" id="RecipientViewBtn"
+												name="RecipientViewBtn"
+												class="btn btn-success" />
+										</li>
+										<li class="list-group-item">
+											<input type="button" value="Send with DocuSign As System" id="SystemViewBtn"
+												name="SystemViewBtn"
+												class="btn btn-success" />
+										</li>
+										<li class="list-group-item">
+											<input type="button" value="Send with DocuSign As Fillable Form" id="FillableFormViewBtn"
+												name="FillableFormViewBtn"
+												class="btn btn-success" />
+										</li>
+									</ul>
 															
 								</div>
 							</div>
