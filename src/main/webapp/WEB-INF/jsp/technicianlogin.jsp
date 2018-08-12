@@ -116,49 +116,49 @@
 		<div class="container">
 			<div class="row-fluid">
 				<div class="form-horizontal">
-					<fieldset>
-						<div id="legend">
-							<legend class="">Envelope Generation</legend>
-						</div>
-
-						<div class="control-group">
-							<label class="control-label" for="password">Medicine Name</label>
-							<div class="controls">
-								<select class="span3" name="medicineName" id="medicineName">
-									<option></option>
-									<option value="Entresto">Entresto</option>
-									<option value="Metaxalone">Metaxalone</option>
-								</select>
+						<fieldset>
+							<div id="legend">
+								<legend class="">Envelope Generation</legend>
 							</div>
-						</div>
-
-						<!-- Submit -->
-						<div class="control-group">
-							<div class="controls">
-							
-								<input type="button" value="Send with DocuSign As Sender View" id="SenderViewBtn"
-														name="SenderViewBtn"
-														class="btn btn-success" />
-														
-								<input type="button" value="Send with DocuSign As RecipientView" id="RecipientViewBtn"
-								name="RecipientViewBtn"
-								class="btn btn-success" />
-								
-								<input type="button" value="Send with DocuSign As System" id="SystemViewBtn"
-								name="SystemViewBtn"
-								class="btn btn-success" />
-								
-								<!-- <input type="button" value="Send with DocuSign As Fillable Form" id="FillableFormViewBtn"
-								name="FillableFormViewBtn"
-								class="btn btn-success" /> -->
-														
+	
+							<div class="control-group">
+								<label class="control-label" for="password">Medicine Name</label>
+								<div class="controls">
+									<select class="span3" name="medicineName" id="medicineName">
+										<option></option>
+										<option value="Entresto">Entresto</option>
+										<option value="Metaxalone">Metaxalone</option>
+									</select>
+								</div>
 							</div>
-						</div>
+	
+							<!-- Submit -->
+							<div class="control-group">
+								<div class="controls">
+								
+									<input type="button" value="Send with DocuSign As Sender View" id="SenderViewBtn"
+															name="SenderViewBtn"
+															class="btn btn-success" />
+															
+									<input type="button" value="Send with DocuSign As RecipientView" id="RecipientViewBtn"
+									name="RecipientViewBtn"
+									class="btn btn-success" />
+									
+									<input type="button" value="Send with DocuSign As System" id="SystemViewBtn"
+									name="SystemViewBtn"
+									class="btn btn-success" />
+									
+									<!-- <input type="button" value="Send with DocuSign As Fillable Form" id="FillableFormViewBtn"
+									name="FillableFormViewBtn"
+									class="btn btn-success" /> -->
+															
+								</div>
+							</div>
 
 					</fieldset>
 					
 					<fieldset>
-						<div id="legend">
+						<div id="legend" style="margin-top: 150px">
 							<legend class="">Powerform Test</legend>
 						</div>
 						<div class="control-group">
