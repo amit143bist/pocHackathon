@@ -164,7 +164,7 @@
 					</fieldset>
 					
 					<fieldset>
-						<div id="legend" style="margin-top: 150px">
+						<div id="legend" style="margin-top:50px">
 							<legend class="">Powerform Test</legend>
 						</div>
 						<div class="control-group">
