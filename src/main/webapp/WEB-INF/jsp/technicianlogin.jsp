@@ -36,7 +36,7 @@
 				  success: function(data) {
 		            console.log('createEnvelopeAsSenderView success login- ' + data.envelopeId);
 
-		            $('#envelopeId').html(data.envelopeId);
+		            $('#envelopeId').html('Generated EnvelopeId is ' +  data.envelopeId);
 
 		            var url = '/generateSenderView?envelopeId=' + data.envelopeId;
 		            window.location = url;
@@ -57,7 +57,7 @@
 		          success: function(data) {
 		            console.log('createEnvelopeAsRecipientView success login- ' + data.envelopeId);
 
-		            $('#envelopeId').html(data.envelopeId);
+		            $('#envelopeId').html('Generated EnvelopeId is ' +  data.envelopeId);
 
 
 		            var url = '/generateRecipientView?envelopeId=' + data.envelopeId;
@@ -79,7 +79,7 @@
 		          success: function(data) {
 		            console.log('createEnvelopeAsSystem success login- ' + data.envelopeId);
 
-		            $('#envelopeId').html(data.envelopeId);
+		            $('#envelopeId').html('Generated EnvelopeId is ' +  data.envelopeId);
 		          }
 			});
 		  });
@@ -97,7 +97,7 @@
 		          success: function(data) {
 		            console.log('createEnvelopeAsFillableForm success login- ' + data.envelopeId);
 
-		            $('#envelopeId').html(data.envelopeId);
+		            $('#envelopeId').html('Generated EnvelopeId is ' +  data.envelopeId);
 		          }
 			});
 		  });
@@ -132,26 +132,26 @@
 							</div>
 	
 							<!-- Submit -->
-							<div class="control-group">
+							<div class="control-group" style="margin-top: 50px">
 								<div class="controls">
 								
 									<ul class="mappingFieldsInside">
-										<li class="list-group-item">
+										<li class="list-group-item" style="margin-top: 10px">
 											<input type="button" value="Send with DocuSign As Sender View" id="SenderViewBtn"
 															name="SenderViewBtn"
 															class="btn btn-success" />
 										</li>
-										<li class="list-group-item">
+										<li class="list-group-item" style="margin-top: 10px">
 											<input type="button" value="Send with DocuSign As RecipientView" id="RecipientViewBtn"
 												name="RecipientViewBtn"
 												class="btn btn-success" />
 										</li>
-										<li class="list-group-item">
+										<li class="list-group-item" style="margin-top: 10px">
 											<input type="button" value="Send with DocuSign As System" id="SystemViewBtn"
 												name="SystemViewBtn"
 												class="btn btn-success" />
 										</li>
-										<li class="list-group-item">
+										<li class="list-group-item" style="margin-top: 10px">
 											<input type="button" value="Send with DocuSign As Fillable Form" id="FillableFormViewBtn"
 												name="FillableFormViewBtn"
 												class="btn btn-success" />
@@ -176,10 +176,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="legend" style="margin-top: 50px">
-			 <legend class="">Generated EnvelopeId is</legend>
-		</div>
-		<div id="envelopeId"></div>
+		<div id="envelopeId" style="margin-top: 50px"></div>
 		</section>
 	</div>
 
